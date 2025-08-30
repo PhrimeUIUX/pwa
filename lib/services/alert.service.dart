@@ -271,39 +271,64 @@ class AlertService {
     );
   }
 
-  showLoading({Color? bg}) {
+  showLoading({
+    Color? bg,
+    bool dismissible = false,
+  }) {
     FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
       context: Get.overlayContext!,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          icon: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: Stack(
+        return PopScope(
+          canPop: dismissible,
+          onPopInvokedWithResult: (
+            didPop,
+            result,
+          ) async {
+            if (didPop) {
+              return;
+            }
+            if (dismissible) {
+              Get.back(result: true);
+            }
+          },
+          child: GestureDetector(
+            onTap: () {
+              if (dismissible) {
+                Get.back(result: true);
+              }
+            },
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Lottie.asset(
-                      AppLotties.loading,
-                      fit: BoxFit.cover,
-                    ),
-                    Center(
-                      child: Image.asset(
-                        AppImages.icon,
-                        height: 50,
-                        width: 50,
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Stack(
+                        children: [
+                          Lottie.asset(
+                            AppLotties.loading,
+                            fit: BoxFit.cover,
+                          ),
+                          Center(
+                            child: Image.asset(
+                              AppImages.icon,
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-            ],
+            ),
           ),
         );
       },

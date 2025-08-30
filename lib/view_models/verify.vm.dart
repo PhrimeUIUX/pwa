@@ -128,59 +128,53 @@ class VerifyViewModel extends BaseViewModel {
         if (apiResponse.allGood) {
           try {
             if (purpose == "register") {
-              myLatLng = await getMyLatLng();
-              notifyListeners();
-              if (myLatLng != null) {
-                ApiResponse apiResponse = await authRequest.registerRequest(
-                  countryCode: "PH",
-                  email: emailTEC.text,
-                  password: passwordTEC.text,
-                  phone: "+63${phoneTEC.text}",
-                  name: capitalizeWords(nameTEC.text),
-                  lat: double.parse("${myLatLng?.lat ?? 9.7638}"),
-                  lng: double.parse("${myLatLng?.lng ?? 118.7473}"),
-                );
-                if (apiResponse.hasError()) {
-                  AlertService().stopLoading();
-                  AlertService().showAppAlert(
-                    asset: AppLotties.error,
-                    title: "Registration Failed",
-                    content: apiResponse.message,
-                  );
-                } else {
-                  final fbToken = apiResponse.body?["fb_token"];
-                  try {
-                    await FirebaseAuth.instance.signInWithCustomToken(fbToken);
-                  } catch (e) {
-                    throw e.toString();
-                  }
-                  await AuthService().saveUserToStorage(
-                    jsonEncode(
-                      apiResponse.body?["user"],
-                    ),
-                  );
-                  await AuthService.saveTokenToStorage(
-                    apiResponse.body?["token"],
-                  );
-                  await AuthService.getUserFromStorage();
-                  await AuthService.getTokenFromStorage();
-                  Navigator.pushAndRemoveUntil(
-                    Get.overlayContext!,
-                    PageRouteBuilder(
-                      reverseTransitionDuration: Duration.zero,
-                      transitionDuration: Duration.zero,
-                      pageBuilder: (
-                        context,
-                        a,
-                        b,
-                      ) =>
-                          const HomeView(),
-                    ),
-                    (route) => false,
-                  );
-                }
-              } else {
+              ApiResponse apiResponse = await authRequest.registerRequest(
+                countryCode: "PH",
+                email: emailTEC.text,
+                password: passwordTEC.text,
+                phone: "+63${phoneTEC.text}",
+                name: capitalizeWords(nameTEC.text),
+                lat: double.parse("${initLatLng?.lat ?? 9.7638}"),
+                lng: double.parse("${initLatLng?.lng ?? 118.7473}"),
+              );
+              if (apiResponse.hasError()) {
                 AlertService().stopLoading();
+                AlertService().showAppAlert(
+                  asset: AppLotties.error,
+                  title: "Registration Failed",
+                  content: apiResponse.message,
+                );
+              } else {
+                final fbToken = apiResponse.body?["fb_token"];
+                try {
+                  await FirebaseAuth.instance.signInWithCustomToken(fbToken);
+                } catch (e) {
+                  throw e.toString();
+                }
+                await AuthService().saveUserToStorage(
+                  jsonEncode(
+                    apiResponse.body?["user"],
+                  ),
+                );
+                await AuthService.saveTokenToStorage(
+                  apiResponse.body?["token"],
+                );
+                await AuthService.getUserFromStorage();
+                await AuthService.getTokenFromStorage();
+                Navigator.pushAndRemoveUntil(
+                  Get.overlayContext!,
+                  PageRouteBuilder(
+                    reverseTransitionDuration: Duration.zero,
+                    transitionDuration: Duration.zero,
+                    pageBuilder: (
+                      context,
+                      a,
+                      b,
+                    ) =>
+                        const HomeView(),
+                  ),
+                  (route) => false,
+                );
               }
             } else if (purpose == "forgot_password") {
               AlertService().stopLoading();

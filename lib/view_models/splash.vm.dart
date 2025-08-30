@@ -6,7 +6,6 @@ import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:georange/georange.dart';
 import 'package:pwa/views/home.view.dart';
-import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/intro.view.dart';
 import 'package:pwa/constants/strings.dart';
 import 'package:pwa/services/auth.service.dart';
@@ -25,7 +24,8 @@ class SplashViewModel extends BaseViewModel {
     await getVehicles();
     await getBanners();
     startListeningToConfigs();
-    isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ?? !AuthService.isLoggedIn();
+    isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ??
+        !AuthService.isLoggedIn();
     await goToNextPage();
   }
 
@@ -33,7 +33,7 @@ class SplashViewModel extends BaseViewModel {
     await AuthService.getUserFromStorage();
     await AuthService.getTokenFromStorage();
     try {
-      version = "1.0.0";
+      version = "1.0.10";
       versionCode = "30";
     } catch (e) {
       debugPrint(
@@ -55,34 +55,31 @@ class SplashViewModel extends BaseViewModel {
       );
       await AppStrings.getAppSettingsFromStorage();
       try {
-        myLatLng = await getMyLatLng();
         notifyListeners();
         if (AuthService.isLoggedIn()) {
-          if (myLatLng != null) {
-            Point earthCenterLocation = Point(
-              latitude: 0.00,
-              longitude: 0.00,
+          Point earthCenterLocation = Point(
+            latitude: 0.00,
+            longitude: 0.00,
+          );
+          double earthDistance = GeoRange().distance(
+            earthCenterLocation,
+            Point(
+              latitude: double.parse("${initLatLng?.lat ?? 9.7638}"),
+              longitude: double.parse("${initLatLng?.lng ?? 118.7473}"),
+            ),
+          );
+          ApiResponse apiResponse = await taxiRequest.syncLocationRequest(
+            earthDistance: earthDistance,
+            lat: double.parse("${initLatLng?.lat ?? 9.7638}"),
+            lng: double.parse("${initLatLng?.lng ?? 118.7473}"),
+            isMocked: false,
+          );
+          if (apiResponse.allGood) {
+            debugPrint(
+              "splash getSettings success",
             );
-            double earthDistance = GeoRange().distance(
-              earthCenterLocation,
-              Point(
-                latitude: double.parse("${myLatLng?.lat ?? 9.7638}"),
-                longitude: double.parse("${myLatLng?.lng ?? 118.7473}"),
-              ),
-            );
-            ApiResponse apiResponse = await taxiRequest.syncLocationRequest(
-              earthDistance: earthDistance,
-              lat: double.parse("${myLatLng?.lat ?? 9.7638}"),
-              lng: double.parse("${myLatLng?.lng ?? 118.7473}"),
-              isMocked: false,
-            );
-            if (apiResponse.allGood) {
-              debugPrint(
-                "splash getSettings success",
-              );
-            } else {
-              throw apiResponse.message;
-            }
+          } else {
+            throw apiResponse.message;
           }
         }
       } catch (e) {
@@ -171,7 +168,7 @@ class SplashViewModel extends BaseViewModel {
     }
   }
 
-   startListeningToConfigs() {
+  startListeningToConfigs() {
     if (configStream != null && !configStream!.isPaused) {
       return;
     }

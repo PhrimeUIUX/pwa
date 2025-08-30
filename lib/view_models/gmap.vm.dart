@@ -51,6 +51,16 @@ class GMapViewModel extends BaseViewModel {
     }
   }
 
+  zoomToLocation(
+    gmaps.LatLng target, {
+    double zoom = 16,
+  }) async {
+    if (_map != null) {
+      _map!.panTo(target);
+      _map!.zoom = zoom;
+    }
+  }
+
   zoomIn() async {
     if (_map != null) {
       final currentZoom = _map!.zoom.toDouble();
@@ -102,8 +112,8 @@ class GMapViewModel extends BaseViewModel {
           isInitializing = false;
           selectedAddress.value = Address(
             coordinates: Coordinates(
-              double.parse("${myLatLng?.lat ?? 9.7638}"),
-              double.parse("${myLatLng?.lng ?? 118.7473}"),
+              double.parse("${initLatLng?.lat ?? 9.7638}"),
+              double.parse("${initLatLng?.lng ?? 118.7473}"),
             ),
           );
           ApiResponse apiResponse = await taxiRequest.locationAvailableRequest(

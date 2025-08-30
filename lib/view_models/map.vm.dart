@@ -48,7 +48,7 @@ class MapViewModel extends BaseViewModel {
     required gmaps.Map map,
   }) async {
     _map = map;
-    debugPrint("Map set");
+    debugPrint("Map set - MapViewModel");
     try {
       selectedAddress.value = isPickup
           ? pickupAddress ??

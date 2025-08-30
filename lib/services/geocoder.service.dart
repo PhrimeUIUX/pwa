@@ -75,7 +75,7 @@ class GeocoderService extends HttpService {
       }
       return [];
     } else {
-      String latLng = "${myLatLng?.lat},${myLatLng?.lat}";
+      String latLng = "${initLatLng?.lat},${initLatLng?.lat}";
       final apiResult = await get(
         Api.geoAddresses,
         queryParameters: {

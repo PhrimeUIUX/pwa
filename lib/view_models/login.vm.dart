@@ -4,7 +4,6 @@ import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:georange/georange.dart';
-import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/constants/lotties.dart';
 import 'package:pwa/requests/auth.request.dart';
@@ -132,34 +131,31 @@ class LoginViewModel extends BaseViewModel {
       );
       await AuthService.getUserFromStorage();
       await AuthService.getTokenFromStorage();
+      notifyListeners();
       try {
-        myLatLng = await getMyLatLng();
-        notifyListeners();
-        if (myLatLng != null) {
-          Point earthCenterLocation = Point(
-            latitude: 0.00,
-            longitude: 0.00,
+        Point earthCenterLocation = Point(
+          latitude: 0.00,
+          longitude: 0.00,
+        );
+        double earthDistance = GeoRange().distance(
+          earthCenterLocation,
+          Point(
+            latitude: double.parse("${initLatLng?.lat ?? 9.7638}"),
+            longitude: double.parse("${initLatLng?.lng ?? 118.7473}"),
+          ),
+        );
+        ApiResponse apiResponse = await taxiRequest.syncLocationRequest(
+          earthDistance: earthDistance,
+          lat: double.parse("${initLatLng?.lat ?? 9.7638}"),
+          lng: double.parse("${initLatLng?.lng ?? 118.7473}"),
+          isMocked: false,
+        );
+        if (apiResponse.allGood) {
+          debugPrint(
+            "login syncLocationRequest success",
           );
-          double earthDistance = GeoRange().distance(
-            earthCenterLocation,
-            Point(
-              latitude: double.parse("${myLatLng?.lat ?? 9.7638}"),
-              longitude: double.parse("${myLatLng?.lng ?? 118.7473}"),
-            ),
-          );
-          ApiResponse apiResponse = await taxiRequest.syncLocationRequest(
-            earthDistance: earthDistance,
-            lat: double.parse("${myLatLng?.lat ?? 9.7638}"),
-            lng: double.parse("${myLatLng?.lng ?? 118.7473}"),
-            isMocked: false,
-          );
-          if (apiResponse.allGood) {
-            debugPrint(
-              "login syncLocationRequest success",
-            );
-          } else {
-            throw apiResponse.message;
-          }
+        } else {
+          throw apiResponse.message;
         }
       } catch (e) {
         debugPrint(

@@ -31,9 +31,10 @@ class HomeViewModel extends GMapViewModel {
   int vehicleIndex = 0;
   Timer? debounceTimer;
   int paymentMethodId = 1;
-  bool showReport = false;
   bool snackShown = true;
+  bool showReport = false;
   bool isPreparing = false;
+  bool blockCamera = false;
   VehicleType? selectedVehicle;
   Map<String, dynamic>? cHeaders;
   double driverPositionRotation = 0;

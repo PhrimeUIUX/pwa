@@ -1,10 +1,10 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/views/map.view.dart';
 import 'package:pwa/views/load.view.dart';
@@ -359,13 +359,14 @@ class _HomeViewState extends State<HomeView> {
                                       final b = vm.markers;
                                       if (vm.ongoingOrder == null) {
                                         if (center != vm.lastCenter?.value) {
-                                          vm.lastCenter?.value = center;
-                                          if (!a && b.isEmpty) {
-                                            vm.mapCameraMove(
-                                              "onCameraMove",
-                                              center,
-                                            );
-                                            debugPrint("HomeView - Map move");
+                                          if (!vm.blockCamera) {
+                                            vm.lastCenter?.value = center;
+                                            if (!a && b.isEmpty) {
+                                              vm.mapCameraMove(
+                                                "onCameraMove",
+                                                center,
+                                              );
+                                            }
                                           }
                                         }
                                       }
@@ -439,7 +440,6 @@ class _HomeViewState extends State<HomeView> {
                                           "myLocation",
                                           vm.map?.center,
                                         );
-                                        debugPrint("HomeView - Map move");
                                       }
                                     },
                                   ),
@@ -537,7 +537,6 @@ class _HomeViewState extends State<HomeView> {
                                               "zoomIn",
                                               vm.map?.center,
                                             );
-                                            debugPrint("HomeView - Map move");
                                           }
                                         },
                                       ),
@@ -556,7 +555,6 @@ class _HomeViewState extends State<HomeView> {
                                               "zoomOut",
                                               vm.map?.center,
                                             );
-                                            debugPrint("HomeView - Map move");
                                           }
                                         },
                                       ),
@@ -1579,11 +1577,18 @@ class _HomeViewState extends State<HomeView> {
                                                               false;
                                                         });
                                                       } else {
-                                                        setState(() {
-                                                          vm.map!.center =
-                                                              pickupAddress!
-                                                                  .latLng;
-                                                        });
+                                                        vm.blockCamera = true;
+                                                        vm.notifyListeners();
+                                                        vm.map?.center =
+                                                            pickupAddress!
+                                                                .latLng;
+                                                        await Future.delayed(
+                                                          const Duration(
+                                                            milliseconds: 500,
+                                                          ),
+                                                        );
+                                                        vm.blockCamera = false;
+                                                        vm.notifyListeners();
                                                       }
                                                     }
                                                   }
