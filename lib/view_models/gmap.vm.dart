@@ -83,6 +83,7 @@ class GMapViewModel extends BaseViewModel {
     debugPrint("Map move - $function");
     if (!skipSelectedAddress) {
       selectedAddress.value = null;
+      notifyListeners();
     }
     locUnavailable = false;
     _debounce?.cancel();
@@ -92,6 +93,7 @@ class GMapViewModel extends BaseViewModel {
         if (!skipSelectedAddress) {
           selectedAddress.value = null;
           isLoading = true;
+          notifyListeners();
         }
         setBusyForObject(selectedAddress, true);
         try {

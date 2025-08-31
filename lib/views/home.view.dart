@@ -353,8 +353,7 @@ class _HomeViewState extends State<HomeView> {
                                   },
                                   onCameraMove: (center) {
                                     try {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       final a = vm.disposed;
                                       final b = vm.markers;
                                       if (vm.ongoingOrder == null) {
