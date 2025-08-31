@@ -112,6 +112,7 @@ class MapViewModel extends BaseViewModel {
   }) async {
     if (!skipSelectedAddress) {
       selectedAddress.value = null;
+      notifyListeners();
     }
     mapUnavailable = false;
     _debounce?.cancel();
@@ -121,6 +122,7 @@ class MapViewModel extends BaseViewModel {
         if (!skipSelectedAddress) {
           selectedAddress.value = null;
           isLoading = true;
+          notifyListeners();
         }
         setBusyForObject(selectedAddress.value, true);
         try {
@@ -138,6 +140,7 @@ class MapViewModel extends BaseViewModel {
             animate: true,
             isPickup: isPickup,
           );
+          notifyListeners();
         } catch (e) {
           isLoading = false;
           selectedAddress.value = Address(
@@ -165,6 +168,7 @@ class MapViewModel extends BaseViewModel {
               ),
             ),
           );
+          notifyListeners();
         }
 
         if (gVehicleTypes.isEmpty) {

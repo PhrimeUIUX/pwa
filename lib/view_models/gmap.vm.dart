@@ -108,6 +108,7 @@ class GMapViewModel extends BaseViewModel {
           isLoading = false;
           isInitializing = false;
           await addressSelected(address, animate: true);
+          notifyListeners();
         } catch (e) {
           clearGMapDetails();
           isLoading = false;
@@ -147,6 +148,7 @@ class GMapViewModel extends BaseViewModel {
               ),
             ),
           );
+          notifyListeners();
         }
         if (gVehicleTypes.isEmpty) {
           try {
