@@ -8,19 +8,16 @@ import 'package:pwa/models/chat_entity.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatViewModel extends BaseViewModel {
-  ChatViewModel(this.chatEntity) {
-    initialise();
-  }
-
-  final ChatEntity chatEntity;
+  late ChatEntity chatEntity;
   CollectionReference? chatRef;
   final List<String> messageKeys = [];
   final List<ChatMessage> messages = [];
-
   StreamSubscription<QuerySnapshot>? chatStreamListener;
 
-  void initialise() async {
+  void initialise(ChatEntity entity) async {
     setBusy(true);
+    chatEntity = entity;
+
     try {
       chatRef = fbStore.collection("${chatEntity.path}/Activity");
       await loadAllMessages();
@@ -56,7 +53,7 @@ class ChatViewModel extends BaseViewModel {
     }
   }
 
-   listenToNewMessages() {
+  listenToNewMessages() {
     chatStreamListener?.cancel();
     chatStreamListener = chatRef!
         .orderBy("timestamp")

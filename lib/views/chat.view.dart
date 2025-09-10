@@ -57,6 +57,7 @@ class _ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
+    ChatViewModel chatViewModel = ChatViewModel();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {});
     });
@@ -79,8 +80,10 @@ class _ChatViewState extends State<ChatView> {
         Get.back();
       },
       child: ViewModelBuilder<ChatViewModel>.reactive(
-        viewModelBuilder: () => ChatViewModel(widget.chatEntity),
-        onViewModelReady: (model) => model.initialise(),
+        viewModelBuilder: () => chatViewModel,
+        onViewModelReady: (model) {
+          model.initialise(widget.chatEntity);
+        },
         builder: (context, vm, child) {
           return GestureDetector(
             onTap: () {
