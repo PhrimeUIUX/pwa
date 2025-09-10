@@ -32552,7 +32552,7 @@ return A.q($async$aVT,r)},
 bb_(a,b){var s,r,q=A.b7z(b)
 q=q==null?null:q.gmX(q)
 s=A.a_T()
-if(q!==s.gmX(s)){r=window.open("https://api.allorigins.win/raw?url="+b,"_blank")
+if(q!==s.gmX(s)){r=window.open(b,"_blank")
 A.bp3(r)
 return}q=A.Z($.U())
 q.toString
@@ -115354,7 +115354,7 @@ while(true)switch(s){case 0:s=2
 return A.l(A.DR(),$async$wh)
 case 2:s=3
 return A.l(A.Rs(),$async$wh)
-case 3:try{$.b0S="1.0.4"
+case 3:try{$.b0S="1.0.10"
 $.abj="30"}catch(o){q=A.Q(o)
 A.cg().$1("getAppInfo error: "+A.d(q))}return A.p(null,r)}})
 return A.q($async$wh,r)},
