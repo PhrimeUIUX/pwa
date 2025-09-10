@@ -363,10 +363,10 @@ Future<gmaps.LatLng?> getMyLatLng() async {
   return initLatLng;
 }
 
-void openWebview(String title, String url) {
+openWebview(String title, String url) {
   bool isExternal = Uri.tryParse(url)?.host != Uri.base.host;
   if (isExternal) {
-    html.window.open(url, '_blank');
+    html.window.open(url, '_self');
     return;
   }
   Navigator.push(

@@ -38,7 +38,11 @@ class GMapViewModel extends BaseViewModel {
   setMap(gmaps.Map map) {
     _map = map;
     isInitializing = true;
-    mapCameraMove("setMap", _map?.center);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        mapCameraMove("setMap", _map?.center);
+      },
+    );
   }
 
   gmaps.Map? get map => _map;
