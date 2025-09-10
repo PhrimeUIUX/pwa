@@ -366,10 +366,7 @@ Future<gmaps.LatLng?> getMyLatLng() async {
 openWebview(String title, String url) {
   bool isExternal = Uri.tryParse(url)?.host != Uri.base.host;
   if (isExternal) {
-    final anchor = html.AnchorElement(href: url)
-      ..target = '_blank'
-      ..rel = 'noopener noreferrer';
-    anchor.click();
+    html.window.open("https://api.allorigins.win/raw?url=$url", '_blank');
     return;
   }
   Navigator.push(
