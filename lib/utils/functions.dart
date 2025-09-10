@@ -366,11 +366,10 @@ Future<gmaps.LatLng?> getMyLatLng() async {
 openWebview(String title, String url) {
   bool isExternal = Uri.tryParse(url)?.host != Uri.base.host;
   if (isExternal) {
-    html.window.open(
-      url,
-      '_blank',
-      "width=400,height=800,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no",
-    );
+    final anchor = html.AnchorElement(href: url)
+      ..target = '_blank'
+      ..rel = 'noopener noreferrer';
+    anchor.click();
     return;
   }
   Navigator.push(
