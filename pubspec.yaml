@@ -1,7 +1,7 @@
 name: pwa
 description: "PPC TODA PWA"
 publish_to: 'none'
-version: 1.0.10+30
+version: 1.0.0+30
 environment:
   sdk: ^3.5.0
 
@@ -32,10 +32,17 @@ dependencies:
   rx_shared_preferences: ^4.0.0
   pull_to_refresh_flutter3: ^2.0.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_native_splash: ^2.4.4
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/images/splash.png"
+  web: true
 
 flutter:
   uses-material-design: true
