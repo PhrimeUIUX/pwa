@@ -38,6 +38,7 @@ bool loadingPolylines = false;
 List<ChatMedia> mediaList = [];
 AvailableDriver? availableDriver;
 List<VehicleType> availableVehicles = [];
+String itexmo = "enableParcelVendorByLocation";
 gmaps.LatLng? initLatLng = gmaps.LatLng(9.7638, 118.7473);
 
 RegExp phoneRegex = RegExp(

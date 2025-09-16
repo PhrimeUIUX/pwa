@@ -33,7 +33,7 @@ class VerifyViewModel extends BaseViewModel {
     emailTEC.text = email ?? "";
     phoneTEC.text = phone ?? "";
     passwordTEC.text = password ?? "";
-    if (isBool(AppStrings.homeSettingsObject?["use_itexmo"] ?? false)) {
+    if (isBool(AppStrings.appSettingsObject?["strings"][itexmo] ?? false)) {
       codeTEC.text = "";
     } else {
       codeTEC.text = "${100000 + Random().nextInt(900000)}";
@@ -114,7 +114,7 @@ class VerifyViewModel extends BaseViewModel {
       try {
         ApiResponse apiResponse;
         AlertService().showLoading();
-        if (isBool(AppStrings.homeSettingsObject?["use_itexmo"] ?? false)) {
+        if (isBool(AppStrings.appSettingsObject?["strings"][itexmo] ?? false)) {
           apiResponse = await authRequest.verifyOTP(
             code: codeTEC.text.trim(),
             phone: "+63${phoneTEC.text}",

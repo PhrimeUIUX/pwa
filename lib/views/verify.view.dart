@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/view_models/verify.vm.dart';
 import 'package:pwa/services/alert.service.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class VerifyView extends StatefulWidget {
   final String? name;
@@ -157,29 +160,31 @@ class _VerifyViewState extends State<VerifyView> {
                         ),
                         child: SizedBox(
                           width: double.infinity.clamp(0, 800),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text: "We have sent a 6-digit code to ",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: "Inter",
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xFF030744),
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "We have sent a 6-digit code to ",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: "Inter",
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF030744),
+                                    ),
                                   ),
-                                ),
-                                TextSpan(
-                                  text: "0${widget.phone}",
-                                  style: const TextStyle(
-                                    height: 1,
-                                    fontSize: 14,
-                                    fontFamily: "Inter",
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF007BFF),
+                                  TextSpan(
+                                    text: "0${widget.phone}",
+                                    style: const TextStyle(
+                                      height: 1,
+                                      fontSize: 14,
+                                      fontFamily: "Inter",
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF007BFF),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -296,6 +301,69 @@ class _VerifyViewState extends State<VerifyView> {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: "Need help? ",
+                                style: TextStyle(
+                                  height: 1.15,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF030744),
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Contact",
+                                style: const TextStyle(
+                                  height: 1.15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF007BFF),
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launchUrlString("sms://+639122078420");
+                                  },
+                              ),
+                              const TextSpan(
+                                text: " or ",
+                                style: TextStyle(
+                                  height: 1.15,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF030744),
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Message",
+                                style: const TextStyle(
+                                  height: 1.15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF007BFF),
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launchUrlString(
+                                      "https://www.facebook.com/ppctodaofficial",
+                                      mode: AuthService.device() == "android"
+                                          ? LaunchMode
+                                              .externalNonBrowserApplication
+                                          : LaunchMode.externalApplication,
+                                    );
+                                  },
+                              ),
+                              const TextSpan(
+                                text: " us!",
+                                style: TextStyle(
+                                  height: 1.15,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF030744),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const Expanded(
                         flex: 1,
