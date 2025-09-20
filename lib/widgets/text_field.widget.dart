@@ -210,11 +210,11 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
                   ? Icon(
                       widget.prefixIcon,
                       size: widget.prefixIconSize,
-                      color: !isFocused
-                          ? widget.readOnly
-                              ? Colors.grey
-                              : const Color(0xFF030744)
-                          : const Color(0xFF007BFF),
+                      color: widget.readOnly
+                          ? Colors.grey
+                          : !isFocused
+                              ? const Color(0xFF030744)
+                              : const Color(0xFF007BFF),
                     )
                   : null,
               suffixIcon: !widget.suffixVisibility &&
@@ -225,12 +225,14 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
                           (widget.showSuffix && widget.suffixIcon != null)
                       ? GestureDetector(
                           onTap: () {
-                            if (widget.obscureText) {
-                              setState(() {
-                                isVisible = !isVisible;
-                              });
-                            } else {
-                              widget.onSuffixTap?.call();
+                            if (!widget.readOnly) {
+                              if (widget.obscureText) {
+                                setState(() {
+                                  isVisible = !isVisible;
+                                });
+                              } else {
+                                widget.onSuffixTap?.call();
+                              }
                             }
                           },
                           child: Icon(
@@ -240,11 +242,11 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
                                     ? Icons.visibility_outlined
                                     : Icons.visibility_off_outlined,
                             size: widget.suffixIconSize,
-                            color: !isFocused
-                                ? widget.readOnly
-                                    ? Colors.grey
-                                    : const Color(0xFF030744)
-                                : const Color(0xFF007BFF),
+                            color: widget.readOnly
+                                ? Colors.grey
+                                : !isFocused
+                                    ? const Color(0xFF030744)
+                                    : const Color(0xFF007BFF),
                           ),
                         )
                       : null,

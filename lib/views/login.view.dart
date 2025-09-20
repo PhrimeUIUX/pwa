@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:pwa/constants/images.dart';
+import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
@@ -126,6 +128,7 @@ class _LoginViewState extends State<LoginView> {
                         child: SizedBox(
                           width: double.infinity.clamp(0, 800),
                           child: TextFieldWidget(
+                            readOnly: isTourist,
                             controller: vm.phoneTEC,
                             hintText: "XXXXXXXXX",
                             labelText: "Phone Number",
@@ -135,7 +138,7 @@ class _LoginViewState extends State<LoginView> {
                             obscureText: false,
                             showPrefix: true,
                             showSuffix: false,
-                            prefixText: "+63",
+                            prefixText: isTourist ? null : "+63",
                             suffixIcon: null,
                             onSuffixTap: null,
                             autoFocus: false,
@@ -152,6 +155,7 @@ class _LoginViewState extends State<LoginView> {
                         child: SizedBox(
                           width: double.infinity.clamp(0, 800),
                           child: TextFieldWidget(
+                            readOnly: isTourist,
                             controller: vm.passwordTEC,
                             hintText: "Enter your password",
                             labelText: "Password",
@@ -180,29 +184,76 @@ class _LoginViewState extends State<LoginView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      reverseTransitionDuration: Duration.zero,
-                                      transitionDuration: Duration.zero,
-                                      pageBuilder: (
-                                        context,
-                                        a,
-                                        b,
-                                      ) =>
-                                          const SendView(
-                                        purpose: "forgot_password",
+                              AuthService.inReviewMode()
+                                  ? const SizedBox.shrink()
+                                  : SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Checkbox(
+                                        side: const BorderSide(
+                                          color: Color(0xFF030744),
+                                          width: 2,
+                                        ),
+                                        activeColor: const Color(0xFF007BFF),
+                                        checkColor: Colors.white,
+                                        value: !isTourist,
+                                        onChanged: (value) {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          vm.passwordTEC.clear();
+                                          vm.phoneTEC.clear();
+                                          setState(
+                                            () {
+                                              isTourist = !isTourist;
+                                            },
+                                          );
+                                        },
                                       ),
                                     ),
-                                  );
+                              AuthService.inReviewMode()
+                                  ? const SizedBox.shrink()
+                                  : const SizedBox(width: 8),
+                              AuthService.inReviewMode()
+                                  ? const SizedBox.shrink()
+                                  : const Text(
+                                      "Use 🇵🇭 Phone",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        height: 1,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF030744),
+                                      ),
+                                    ),
+                              const Expanded(child: SizedBox.shrink()),
+                              GestureDetector(
+                                onTap: () {
+                                  if (!isTourist) {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        reverseTransitionDuration:
+                                            Duration.zero,
+                                        transitionDuration: Duration.zero,
+                                        pageBuilder: (
+                                          context,
+                                          a,
+                                          b,
+                                        ) =>
+                                            const SendView(
+                                          purpose: "forgot_password",
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 },
-                                child: const Text(
+                                child: Text(
                                   "Forgot password?",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Color(0xFF007BFF),
+                                    color: isTourist
+                                        ? Colors.grey
+                                        : const Color(0xFF007BFF),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -212,18 +263,64 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: ActionButton(
-                          text: "Login account",
-                          onTap: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            vm.processPhoneLogin();
-                          },
-                        ),
-                      ),
+                      !isTourist
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: ActionButton(
+                                text: "Login with phone",
+                                onTap: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  vm.processPhoneLogin();
+                                },
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: Container(
+                                height: 50,
+                                width: double.infinity.clamp(0, 800),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: const Color(0xFF030744),
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                child: WidgetButton(
+                                  borderRadius: 8,
+                                  onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    vm.processGoogleLogin();
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        AppImages.google,
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      const Text(
+                                        "Sign in with Google",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF030744),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                       const SizedBox(height: 12),
                       const Text(
                         "or",
@@ -245,6 +342,7 @@ class _LoginViewState extends State<LoginView> {
                             FocusManager.instance.primaryFocus?.unfocus();
                             setState(() {
                               agreed = false;
+                              isTourist = false;
                               selfieFile = null;
                             });
                             Navigator.push(

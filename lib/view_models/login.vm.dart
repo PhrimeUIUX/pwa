@@ -1,9 +1,12 @@
+import 'dart:io';
+import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:georange/georange.dart';
+import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/constants/lotties.dart';
 import 'package:pwa/requests/auth.request.dart';
@@ -12,6 +15,7 @@ import 'package:pwa/requests/taxi.request.dart';
 import 'package:pwa/services/alert.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pwa/models/api_response.model.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginViewModel extends BaseViewModel {
   TaxiRequest taxiRequest = TaxiRequest();
@@ -19,7 +23,10 @@ class LoginViewModel extends BaseViewModel {
   var phoneTEC = TextEditingController();
   var passwordTEC = TextEditingController();
 
-  initialise() async {}
+  initialise() async {
+    isTourist = false;
+    notifyListeners();
+  }
 
   processPhoneLogin() async {
     if (phoneTEC.text.isEmpty) {
@@ -107,6 +114,56 @@ class LoginViewModel extends BaseViewModel {
           ),
         );
       }
+    }
+  }
+
+  processGoogleLogin() async {
+    try {
+      String? emailAddress;
+      GoogleSignInAccount? gsiAccount;
+      GoogleSignInAuthentication? auth;
+      AlertService().showLoading();
+      final gsi = GoogleSignIn(
+        clientId:
+            "462080229186-560vcpm1uqvlc0pt5tl1qk5158lpd51h.apps.googleusercontent.com",
+        scopes: ['email', 'profile', 'openid'],
+      );
+      gsiAccount = await gsi.signInSilently();
+      gsiAccount ??= await gsi.signIn();
+      auth = await gsiAccount?.authentication;
+      if (auth?.idToken != null) {
+        final payload = parseJwt(auth!.idToken!);
+        emailAddress = payload['email'];
+      } else {
+        emailAddress = gsiAccount?.email;
+      }
+      if (emailAddress == null) {
+        throw Exception("An error occurred, please try again!");
+      }
+      final credential = GoogleAuthProvider.credential(
+        idToken: auth?.idToken,
+        accessToken: auth?.accessToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      final apiResponse = await authRequest.googleLoginRequest(
+        email: emailAddress,
+        idToken: auth!.idToken!,
+      );
+      if (apiResponse.allGood) {
+        await handleDeviceLogin(apiResponse);
+      } else {
+        throw Exception(apiResponse.message);
+      }
+    } on FirebaseAuthException catch (e) {
+      showError(e.message ?? e.code);
+    } on SocketException {
+      showError("No internet connection. Please try again.");
+    } on TimeoutException {
+      showError("Request timed out. Please try again later.");
+    } catch (e) {
+      showError(e.toString());
+    } finally {
+      AlertService().stopLoading();
     }
   }
 

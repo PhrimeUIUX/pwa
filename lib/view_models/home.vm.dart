@@ -577,42 +577,41 @@ class HomeViewModel extends GMapViewModel {
             try {
               ApiResponse apiResponse = await taxiRequest.cancelOrderRequest(
                 id: ongoingOrder!.id!,
-                reason: "cancelled by passenger",
+                reason: "initiated by passenger",
                 rebook: false,
               );
               Get.until((route) => route.isFirst);
               if (apiResponse.allGood) {
                 cHeaders = null;
+                snackShown = true;
                 notifyListeners();
                 clearGMapDetails();
                 ongoingOrder = null;
-                if (!snackShown) {
-                  clearGMapDetails();
-                  AlertService().showAppAlert(
-                    dismissible: false,
-                    asset: AppLotties.error,
-                    title: "Booking Cancelled",
-                    content: "Your booking has been cancelled",
-                    confirmAction: () async {
-                      Get.until((route) => route.isFirst);
-                      if (pickupAddress != null &&
-                              dropoffAddress != null &&
-                              ongoingOrder == null ||
-                          ongoingOrder?.status == "cancelled") {
-                        isPreparing = true;
-                        await drawDropPolyLines(
-                          "pickup-dropoff",
-                          pickupAddress!.latLng,
-                          dropoffAddress!.latLng,
-                          null,
-                        );
-                        await fetchVehicleTypesPricing();
-                        isPreparing = false;
-                      }
-                    },
-                  );
-                  snackShown = true;
-                }
+
+                clearGMapDetails();
+                AlertService().showAppAlert(
+                  dismissible: false,
+                  asset: AppLotties.error,
+                  title: "Booking Cancelled",
+                  content: "Your booking has been cancelled",
+                  confirmAction: () async {
+                    Get.until((route) => route.isFirst);
+                    if (pickupAddress != null &&
+                            dropoffAddress != null &&
+                            ongoingOrder == null ||
+                        ongoingOrder?.status == "cancelled") {
+                      isPreparing = true;
+                      await drawDropPolyLines(
+                        "pickup-dropoff",
+                        pickupAddress!.latLng,
+                        dropoffAddress!.latLng,
+                        null,
+                      );
+                      await fetchVehicleTypesPricing();
+                      isPreparing = false;
+                    }
+                  },
+                );
               } else {
                 if (apiResponse.message.contains("cancel")) {
                   clearGMapDetails();
@@ -835,12 +834,14 @@ class HomeViewModel extends GMapViewModel {
         }
         if (lastOrder?.id == bookingId && lastOrder?.status == "cancelled") {
           bookingId = 0;
+          snackShown = true;
           notifyListeners();
           clearGMapDetails();
           stopAllListeners();
           if (lastOrder?.reason != "rebook") {
             Get.until((route) => route.isFirst);
             clearGMapDetails();
+
             AlertService().showAppAlert(
               dismissible: false,
               title:

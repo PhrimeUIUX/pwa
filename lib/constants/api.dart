@@ -31,6 +31,7 @@ class Api {
   static const authSignIn = "/auth/signin";
   static const authUpdate = "/auth/update";
   static const authDelete = "/auth/delete";
+  static const googleLogin = "/social/login";
   static const authSignOut = "/auth/signout";
   static const authForgot = "/auth/password/forgot";
   static const authChange = "/auth/password/change";

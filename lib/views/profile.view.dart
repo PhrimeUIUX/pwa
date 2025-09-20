@@ -302,7 +302,7 @@ class _ProfileViewState extends State<ProfileView> {
                           child: Row(
                             children: [
                               Text(
-                                "Full Name",
+                                "Name",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color:
@@ -344,7 +344,7 @@ class _ProfileViewState extends State<ProfileView> {
                           child: Row(
                             children: [
                               Text(
-                                "Email Address",
+                                "Email",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color:
@@ -375,46 +375,58 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity.clamp(0, 800),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Phone Number",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color:
-                                      const Color(0xFF030744).withOpacity(0.5),
+                      "${AuthService.currentUser?.phone}".contains(
+                        "+639000000000",
+                      )
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Phone",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: const Color(0xFF030744)
+                                            .withOpacity(0.5),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity.clamp(0, 800),
-                          child: Row(
-                            children: [
-                              Text(
-                                "${AuthService.currentUser!.phone}",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF030744),
+                            ),
+                      "${AuthService.currentUser?.phone}".contains(
+                        "+639000000000",
+                      )
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "${AuthService.currentUser!.phone}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF030744),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
+                            ),
+                      "${AuthService.currentUser?.phone}".contains(
+                        "+639000000000",
+                      )
+                          ? const SizedBox.shrink()
+                          : const SizedBox(height: 16),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
@@ -424,7 +436,7 @@ class _ProfileViewState extends State<ProfileView> {
                           child: Row(
                             children: [
                               Text(
-                                "Current Area",
+                                "Area",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color:
@@ -445,7 +457,7 @@ class _ProfileViewState extends State<ProfileView> {
                             children: [
                               Text(
                                 capitalizeWords(
-                                  "${AuthService.currentUser!.branchName} - ${AuthService.currentUser!.branchID}",
+                                  "${AuthService.currentUser!.branchName} (${AuthService.currentUser!.branchID})",
                                 ),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -466,7 +478,7 @@ class _ProfileViewState extends State<ProfileView> {
                           child: Row(
                             children: [
                               Text(
-                                "User ID",
+                                "UID",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color:

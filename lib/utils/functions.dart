@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
+import 'dart:convert';
 import 'dart:html' as html;
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
@@ -491,4 +492,34 @@ share(String text) async {
       ),
     );
   }
+}
+
+showError(Object error) {
+  final context = Get.overlayContext;
+  if (context == null) return;
+  String message = error.toString();
+  if (message.startsWith("Exception: ")) {
+    message = message.replaceFirst("Exception: ", "");
+  }
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.red.shade700,
+      content: Text(
+        message,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    ),
+  );
+}
+
+Map<String, dynamic> parseJwt(String token) {
+  final parts = token.split('.');
+  if (parts.length != 3) throw Exception('Invalid token');
+  final payload = base64Url.normalize(parts[1]);
+  final payloadMap = json.decode(utf8.decode(base64Url.decode(payload)));
+  return payloadMap;
 }

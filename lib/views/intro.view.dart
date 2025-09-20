@@ -196,7 +196,7 @@ class _IntroViewState extends State<IntroView> {
                         horizontal: 24,
                       ),
                       child: ActionButton(
-                        text: "Login with phone",
+                        text: "Login account",
                         onTap: () {
                           Navigator.push(
                             context,

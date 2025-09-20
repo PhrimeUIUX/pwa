@@ -1,4 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pwa/constants/lotties.dart';
+import 'package:pwa/utils/functions.dart';
+import 'package:pwa/views/home.view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/utils/data.dart';
@@ -18,7 +27,9 @@ class RegisterViewModel extends BaseViewModel {
 
   initialise() async {}
 
-  processRegister() async {
+  processRegister({
+    String provider = "custom",
+  }) async {
     if (selfieFile == null && !AuthService.inReviewMode()) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
@@ -34,7 +45,7 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (nameTEC.text.trim().isEmpty) {
+    } else if (nameTEC.text.isEmpty) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -64,7 +75,7 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (emailTEC.text.trim().isEmpty) {
+    } else if (provider == "custom" && emailTEC.text.isEmpty) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -79,7 +90,8 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (!emailRegex.hasMatch(emailTEC.text.trim())) {
+    } else if (provider == "custom" &&
+        !emailRegex.hasMatch(emailTEC.text.trim())) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -94,7 +106,7 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (phoneTEC.text.trim().isEmpty) {
+    } else if (provider == "custom" && phoneTEC.text.isEmpty) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -109,7 +121,8 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (!phoneRegex.hasMatch(phoneTEC.text.trim())) {
+    } else if (provider == "custom" &&
+        !phoneRegex.hasMatch(phoneTEC.text.trim())) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -124,7 +137,7 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (passwordTEC.text.trim().isEmpty) {
+    } else if (provider == "custom" && passwordTEC.text.isEmpty) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -139,7 +152,7 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (passwordTEC.text.trim().length < 6) {
+    } else if (provider == "custom" && passwordTEC.text.trim().length < 6) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -154,7 +167,7 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (cPasswordTEC.text.trim().isEmpty) {
+    } else if (provider == "custom" && cPasswordTEC.text.isEmpty) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -169,7 +182,8 @@ class RegisterViewModel extends BaseViewModel {
           ),
         ),
       );
-    } else if (cPasswordTEC.text.trim() != passwordTEC.text.trim()) {
+    } else if (provider == "custom" &&
+        cPasswordTEC.text.trim() != passwordTEC.text.trim()) {
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.overlayContext!,
@@ -201,46 +215,55 @@ class RegisterViewModel extends BaseViewModel {
       );
     } else {
       AlertService().showLoading();
+      late ApiResponse apiResponse;
       try {
-        ApiResponse apiResponse = await authRequest.checkCredentialsExist(
-          email: emailTEC.text.trim(),
-          phone: "+63${phoneTEC.text.trim()}",
-        );
-        if (apiResponse.allGood) {
-          processOTPVerification();
+        String? emailAddress;
+        GoogleSignInAccount? gsiAccount;
+        GoogleSignInAuthentication? auth;
+        if (provider == "custom") {
+          apiResponse = await authRequest.checkCredentialsExist(
+            email: emailTEC.text.trim(),
+            phone: "+63${phoneTEC.text.trim()}",
+          );
         } else {
-          AlertService().stopLoading();
-          ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-          ScaffoldMessenger.of(
-            Get.overlayContext!,
-          ).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(
-                apiResponse.message,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+          final gsi = GoogleSignIn(
+            clientId:
+                "462080229186-560vcpm1uqvlc0pt5tl1qk5158lpd51h.apps.googleusercontent.com",
+            scopes: ['email', 'profile', 'openid'],
+          );
+          gsiAccount = await gsi.signInSilently();
+          gsiAccount ??= await gsi.signIn();
+          auth = await gsiAccount?.authentication;
+          if (auth?.idToken != null) {
+            final payload = parseJwt(auth!.idToken!);
+            emailAddress = payload['email'];
+          } else {
+            emailAddress = gsiAccount?.email;
+          }
+          if (emailAddress == null) {
+            throw Exception("An error occurred, please try again!");
+          }
+          apiResponse = await authRequest.checkCredentialsExist(
+            email: emailAddress,
+            phone: "+63008891",
           );
         }
+        if (apiResponse.allGood) {
+          if (provider == "custom") {
+            processOTPVerification();
+          } else {
+            processGoogleRegister(
+              auth?.accessToken,
+              auth?.idToken,
+              emailAddress,
+            );
+          }
+        } else {
+          showError(apiResponse.message);
+        }
       } catch (e) {
-        AlertService().stopLoading();
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-        ScaffoldMessenger.of(
-          Get.overlayContext!,
-        ).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              "There was an error while processing"
-              " your request. Please try again later",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
+        showError(
+          "There was an error while processing your request. Please try again later",
         );
       }
     }
@@ -301,6 +324,110 @@ class RegisterViewModel extends BaseViewModel {
       } else {
         throw apiResponse.message;
       }
+    } catch (e) {
+      AlertService().stopLoading();
+      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(
+        Get.overlayContext!,
+      ).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            e.toString(),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  processGoogleRegister(
+    String? accessToken,
+    String? idToken,
+    String? email,
+  ) async {
+    try {
+      final credential = GoogleAuthProvider.credential(
+        accessToken: accessToken,
+        idToken: idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      await finishGoogleRegistration(
+        idToken,
+        email,
+      );
+      AlertService().stopLoading();
+    } on FirebaseAuthException catch (e) {
+      showError(e.message ?? e.code);
+    } on SocketException {
+      showError("No internet connection. Please try again.");
+    } on TimeoutException {
+      showError("Request timed out. Please try again later.");
+    } catch (e) {
+      showError(e.toString());
+    } finally {
+      AlertService().stopLoading();
+    }
+  }
+
+  finishGoogleRegistration(
+    String? idToken,
+    String? email,
+  ) async {
+    try {
+      ApiResponse apiResponse = await authRequest.gRegisterRequest(
+        email: "$email",
+        countryCode: "PH",
+        phone: "+63008891",
+        password: "password",
+        firebaseIdToken: "$idToken",
+        name: capitalizeWords(nameTEC.text.trim()),
+        lat: double.parse("${initLatLng?.lat ?? 9.7638}"),
+        lng: double.parse("${initLatLng?.lng ?? 118.7473}"),
+      );
+      if (apiResponse.hasError()) {
+        AlertService().stopLoading();
+        AlertService().showAppAlert(
+          asset: AppLotties.error,
+          title: "Registration Failed",
+          content: apiResponse.message,
+        );
+      } else {
+        final fbToken = apiResponse.body?["fb_token"];
+        try {
+          await FirebaseAuth.instance.signInWithCustomToken(fbToken);
+        } catch (e) {
+          throw e.toString();
+        }
+        await AuthService().saveUserToStorage(
+          jsonEncode(
+            apiResponse.body?["user"],
+          ),
+        );
+        await AuthService.saveTokenToStorage(
+          apiResponse.body?["token"],
+        );
+        await AuthService.getUserFromStorage();
+        await AuthService.getTokenFromStorage();
+        Navigator.pushAndRemoveUntil(
+          Get.overlayContext!,
+          PageRouteBuilder(
+            reverseTransitionDuration: Duration.zero,
+            transitionDuration: Duration.zero,
+            pageBuilder: (
+              context,
+              a,
+              b,
+            ) =>
+                const HomeView(),
+          ),
+          (route) => false,
+        );
+      }
+      isTourist = false;
+      notifyListeners();
     } catch (e) {
       AlertService().stopLoading();
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();

@@ -26,6 +26,7 @@ Uint8List? selfieFile;
 bool isAdSeen = false;
 bool isSharing = false;
 Address? pickupAddress;
+bool isTourist = false;
 bool showBranch = false;
 Address? dropoffAddress;
 bool showParseText = false;

@@ -5,6 +5,7 @@ class AppImages {
   static const icon = "assets/images/icon.png";
   static const logo = "assets/images/logo.png";
   static const trike = "assets/images/trike.png";
+  static const google = "assets/images/google.png";
   static const camera = "assets/images/camera.png";
   static const driver = "assets/images/driver.png";
   static const selfie = "assets/images/selfie.png";

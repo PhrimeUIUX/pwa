@@ -49,6 +49,25 @@ class AuthRequest extends HttpService {
     }
   }
 
+  Future<ApiResponse> googleLoginRequest({
+    required String email,
+    required String idToken,
+  }) async {
+    try {
+      final apiResult = await post(
+        Api.googleLogin,
+        {
+          "email": email,
+          "provider": "google",
+          "firebase_id_token": idToken,
+        },
+      );
+      return ApiResponse.fromResponse(apiResult);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<ApiResponse> logoutRequest() async {
     try {
       final apiResult = await get(Api.authSignOut).timeout(
@@ -149,6 +168,78 @@ class AuthRequest extends HttpService {
         "role": "client",
         "password": password,
         "country_code": countryCode,
+      };
+      List<File> files = [];
+      FormData formData = FormData.fromMap(body);
+      if (selfieFile != null) {
+        formData.files.add(
+          MapEntry(
+            "profile",
+            MultipartFile.fromBytes(
+              selfieFile!,
+              filename: "image_${Random().nextInt(900000)}.jpg",
+            ),
+          ),
+        );
+        formData.files.add(
+          MapEntry(
+            "customizable_photo",
+            MultipartFile.fromBytes(
+              selfieFile!,
+              filename: "image_${Random().nextInt(900000)}.jpg",
+            ),
+          ),
+        );
+      }
+      if (files.isNotEmpty) {
+        for (File file in files) {
+          formData.files.addAll(
+            [
+              MapEntry(
+                "documents[]",
+                await MultipartFile.fromFile(
+                  file.path,
+                ),
+              ),
+            ],
+          );
+        }
+      }
+      final apiResult = await postCustomFiles(
+        Api.authSignUp,
+        null,
+        formData: formData,
+      );
+      return ApiResponse.fromResponse(apiResult);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<ApiResponse> gRegisterRequest({
+    String? code,
+    required double lat,
+    required double lng,
+    required String name,
+    required String email,
+    required String phone,
+    required String password,
+    required String countryCode,
+    required String firebaseIdToken,
+  }) async {
+    try {
+      dynamic body = {
+        "lat": lat,
+        "lng": lng,
+        "name": name,
+        "code": code,
+        "email": email,
+        "phone": phone,
+        "role": "client",
+        "provider": "google",
+        "password": password,
+        "country_code": countryCode,
+        "firebase_id_token": firebaseIdToken,
       };
       List<File> files = [];
       FormData formData = FormData.fromMap(body);

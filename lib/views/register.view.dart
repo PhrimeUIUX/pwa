@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pwa/constants/images.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,9 @@ class _RegisterViewState extends State<RegisterView> {
                 registerViewModel.passwordTEC.text == "null") &&
             (registerViewModel.cPasswordTEC.text == "" ||
                 registerViewModel.cPasswordTEC.text == "null")) {
+          setState(() {
+            isTourist = false;
+          });
           Get.back();
         } else {
           AlertService().showAppAlert(
@@ -48,6 +52,9 @@ class _RegisterViewState extends State<RegisterView> {
             hideCancel: false,
             confirmText: "Go back",
             confirmAction: () {
+              setState(() {
+                isTourist = false;
+              });
               Get.back();
               Get.back();
             },
@@ -90,6 +97,9 @@ class _RegisterViewState extends State<RegisterView> {
                                       vm.passwordTEC.text == "null") &&
                                   (vm.cPasswordTEC.text == "" ||
                                       vm.cPasswordTEC.text == "null")) {
+                                setState(() {
+                                  isTourist = false;
+                                });
                                 Get.back();
                               } else {
                                 AlertService().showAppAlert(
@@ -98,6 +108,9 @@ class _RegisterViewState extends State<RegisterView> {
                                   hideCancel: false,
                                   confirmText: "Go back",
                                   confirmAction: () {
+                                    setState(() {
+                                      isTourist = false;
+                                    });
                                     Get.back();
                                     Get.back();
                                   },
@@ -272,146 +285,210 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: TextFieldWidget(
+                                  readOnly: selfieFile == null &&
+                                      !AuthService.inReviewMode(),
+                                  onTap: () {
+                                    if (selfieFile == null &&
+                                        !AuthService.inReviewMode()) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      vm.processRegister();
+                                    }
+                                  },
+                                  controller: vm.emailTEC,
+                                  hintText: "juandelacruz@gmail.com",
+                                  labelText: "Email Address",
+                                  textCapitalization: TextCapitalization.none,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  obscureText: false,
+                                  showPrefix: true,
+                                  showSuffix: false,
+                                  prefixText: null,
+                                  suffixIcon: null,
+                                  onSuffixTap: null,
+                                  autoFocus: false,
+                                  minLines: null,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : const SizedBox(height: 16),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: TextFieldWidget(
+                                  readOnly: selfieFile == null &&
+                                      !AuthService.inReviewMode(),
+                                  onTap: () {
+                                    if (selfieFile == null &&
+                                        !AuthService.inReviewMode()) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      vm.processRegister();
+                                    }
+                                  },
+                                  controller: vm.phoneTEC,
+                                  hintText: "XXXXXXXXX",
+                                  labelText: "Phone Number",
+                                  textCapitalization: TextCapitalization.none,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  obscureText: false,
+                                  showPrefix: true,
+                                  showSuffix: false,
+                                  prefixText: "+63",
+                                  suffixIcon: null,
+                                  onSuffixTap: null,
+                                  autoFocus: false,
+                                  minLines: null,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : const SizedBox(height: 16),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: TextFieldWidget(
+                                  readOnly: selfieFile == null &&
+                                      !AuthService.inReviewMode(),
+                                  onTap: () {
+                                    if (selfieFile == null &&
+                                        !AuthService.inReviewMode()) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      vm.processRegister();
+                                    }
+                                  },
+                                  controller: vm.passwordTEC,
+                                  hintText: "Enter your password",
+                                  labelText: "Password",
+                                  textCapitalization: TextCapitalization.none,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.next,
+                                  obscureText: true,
+                                  showPrefix: false,
+                                  showSuffix: true,
+                                  prefixText: null,
+                                  suffixIcon: null,
+                                  onSuffixTap: null,
+                                  autoFocus: false,
+                                  minLines: null,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : const SizedBox(height: 16),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: TextFieldWidget(
+                                  readOnly: selfieFile == null &&
+                                      !AuthService.inReviewMode(),
+                                  onTap: () {
+                                    if (selfieFile == null &&
+                                        !AuthService.inReviewMode()) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      vm.processRegister();
+                                    }
+                                  },
+                                  controller: vm.cPasswordTEC,
+                                  hintText: "confirm your password",
+                                  labelText: "Confirm Password",
+                                  textCapitalization: TextCapitalization.none,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.done,
+                                  obscureText: true,
+                                  showPrefix: false,
+                                  showSuffix: true,
+                                  prefixText: null,
+                                  suffixIcon: null,
+                                  onSuffixTap: null,
+                                  autoFocus: false,
+                                  minLines: null,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ),
+                      isTourist
+                          ? const SizedBox.shrink()
+                          : const SizedBox(height: 16),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
                         ),
                         child: SizedBox(
                           width: double.infinity.clamp(0, 800),
-                          child: TextFieldWidget(
-                            readOnly: selfieFile == null &&
-                                !AuthService.inReviewMode(),
-                            onTap: () {
-                              if (selfieFile == null &&
-                                  !AuthService.inReviewMode()) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                vm.processRegister();
-                              }
-                            },
-                            controller: vm.emailTEC,
-                            hintText: "juandelacruz@gmail.com",
-                            labelText: "Email Address",
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            obscureText: false,
-                            showPrefix: true,
-                            showSuffix: false,
-                            prefixText: null,
-                            suffixIcon: null,
-                            onSuffixTap: null,
-                            autoFocus: false,
-                            minLines: null,
-                            maxLines: 1,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Checkbox(
+                                  side: const BorderSide(
+                                    color: Color(0xFF030744),
+                                    width: 2,
+                                  ),
+                                  activeColor: const Color(0xFF007BFF),
+                                  checkColor: Colors.white,
+                                  value: !isTourist,
+                                  onChanged: (value) {
+                                    setState(
+                                      () {
+                                        isTourist = !isTourist;
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                "I have a PH 🇵🇭 Phone Number",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  height: 1,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF030744),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity.clamp(0, 800),
-                          child: TextFieldWidget(
-                            readOnly: selfieFile == null &&
-                                !AuthService.inReviewMode(),
-                            onTap: () {
-                              if (selfieFile == null &&
-                                  !AuthService.inReviewMode()) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                vm.processRegister();
-                              }
-                            },
-                            controller: vm.phoneTEC,
-                            hintText: "XXXXXXXXX",
-                            labelText: "Phone Number",
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            obscureText: false,
-                            showPrefix: true,
-                            showSuffix: false,
-                            prefixText: "+63",
-                            suffixIcon: null,
-                            onSuffixTap: null,
-                            autoFocus: false,
-                            minLines: null,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity.clamp(0, 800),
-                          child: TextFieldWidget(
-                            readOnly: selfieFile == null &&
-                                !AuthService.inReviewMode(),
-                            onTap: () {
-                              if (selfieFile == null &&
-                                  !AuthService.inReviewMode()) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                vm.processRegister();
-                              }
-                            },
-                            controller: vm.passwordTEC,
-                            hintText: "Enter your password",
-                            labelText: "Password",
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                            obscureText: true,
-                            showPrefix: false,
-                            showSuffix: true,
-                            prefixText: null,
-                            suffixIcon: null,
-                            onSuffixTap: null,
-                            autoFocus: false,
-                            minLines: null,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity.clamp(0, 800),
-                          child: TextFieldWidget(
-                            readOnly: selfieFile == null &&
-                                !AuthService.inReviewMode(),
-                            onTap: () {
-                              if (selfieFile == null &&
-                                  !AuthService.inReviewMode()) {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                vm.processRegister();
-                              }
-                            },
-                            controller: vm.cPasswordTEC,
-                            hintText: "confirm your password",
-                            labelText: "Confirm Password",
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.done,
-                            obscureText: true,
-                            showPrefix: false,
-                            showSuffix: true,
-                            prefixText: null,
-                            suffixIcon: null,
-                            onSuffixTap: null,
-                            autoFocus: false,
-                            minLines: null,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
@@ -476,18 +553,68 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: ActionButton(
-                          text: "Create account",
-                          onTap: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            vm.processRegister();
-                          },
-                        ),
-                      ),
+                      !isTourist
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: ActionButton(
+                                text: "Create account",
+                                onTap: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  vm.processRegister(
+                                    provider: "custom",
+                                  );
+                                },
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: Container(
+                                height: 50,
+                                width: double.infinity.clamp(0, 800),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: const Color(0xFF030744),
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                child: WidgetButton(
+                                  borderRadius: 8,
+                                  onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    vm.processRegister(
+                                      provider: "google",
+                                    );
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        AppImages.google,
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      const Text(
+                                        "Sign up with Google",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF030744),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                       const SizedBox(height: 12),
                       const Text(
                         "or",
@@ -506,6 +633,9 @@ class _RegisterViewState extends State<RegisterView> {
                           text: "Login to account",
                           mainColor: const Color(0xFF030744),
                           onTap: () {
+                            setState(() {
+                              isTourist = false;
+                            });
                             Get.back();
                           },
                         ),

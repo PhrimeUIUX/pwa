@@ -137,7 +137,7 @@ class MapViewModel extends BaseViewModel {
           isLoading = false;
           await addressSelected(
             address,
-            animate: true,
+            animate: false,
             isPickup: isPickup,
           );
           notifyListeners();
