@@ -728,7 +728,9 @@ class HomeViewModel extends GMapViewModel {
       if (ongoingOrder?.driver == null) {
         Get.until((route) => route.isFirst);
         AlertService().showLoading();
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(
+          const Duration(seconds: 5),
+        );
         await getOngoingOrder(showSnack: true);
         AlertService().stopLoading();
       } else {

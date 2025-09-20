@@ -14,6 +14,7 @@ class MapViewModel extends BaseViewModel {
   gmaps.Map? _map;
   Timer? _debounce;
   bool isLoading = false;
+  bool skipCamera = false;
   TaxiRequest taxiRequest = TaxiRequest();
   FocusNode searchFocusNode = FocusNode();
   ValueNotifier<gmaps.LatLng>? lastCenter;
@@ -170,7 +171,6 @@ class MapViewModel extends BaseViewModel {
           );
           notifyListeners();
         }
-
         if (gVehicleTypes.isEmpty) {
           try {
             gVehicleTypes = await taxiRequest.vehicleTypesRequest();

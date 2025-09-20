@@ -80,12 +80,23 @@ class _MapViewState extends State<MapView> {
                                 debounceDuration: const Duration(
                                   seconds: 1,
                                 ),
-                                onSelected: (Address address) {
-                                  vm.addressSelected(
+                                onSelected: (Address address) async {
+                                  setState(() {
+                                    vm.skipCamera = true;
+                                  });
+                                  await vm.addressSelected(
                                     address,
                                     animate: true,
                                     isPickup: widget.isPickup,
                                   );
+                                  await Future.delayed(
+                                    const Duration(
+                                      milliseconds: 500,
+                                    ),
+                                  );
+                                  setState(() {
+                                    vm.skipCamera = false;
+                                  });
                                 },
                                 loadingBuilder: (context) => ListTile(
                                   title: Row(
@@ -242,7 +253,7 @@ class _MapViewState extends State<MapView> {
                                     final a = vm.disposed;
                                     if (center != vm.lastCenter?.value) {
                                       vm.lastCenter?.value = center;
-                                      if (!a) {
+                                      if (!a && !vm.skipCamera) {
                                         vm.mapCameraMove(
                                           center,
                                           isPickup: widget.isPickup,
