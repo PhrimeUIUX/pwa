@@ -202,7 +202,7 @@ class _HistoryViewState extends State<HistoryView> {
         ),
         const SizedBox(height: 4),
         Text(
-          "Bookings will appear here",
+          "Your bookings will appear here",
           style: TextStyle(
             height: 1,
             color: const Color(0xFF030744).withOpacity(0.5),

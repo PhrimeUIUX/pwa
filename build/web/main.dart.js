@@ -116825,7 +116825,7 @@ while(true)switch(s){case 0:s=2
 return A.k(A.y2(),$async$ws)
 case 2:s=3
 return A.k(A.Ed(),$async$ws)
-case 3:try{$.b2w="1.0.11"
+case 3:try{$.b2w="1.0.0"
 $.abZ="31"}catch(o){q=A.O(o)
 A.ci().$1("getAppInfo error: "+A.d(q))}return A.o(null,r)}})
 return A.p($async$ws,r)},
@@ -117856,7 +117856,7 @@ $3(a,b,c){var s,r,q,p=null,o=A.hs(B.h,p,p,p,p,0),n=t.p,m=A.b5(A.a([B.b7,A.c2(100
 if(b.lH(0,b))s=A.bf(A.a([A.b_M(A.J(64,0,123,255),B.r)],n),B.j,B.m,B.k)
 else if(b.fL$.h(0,A.d4(b))!=null){s=B.d.N(127.5)
 s=A.bf(A.a([A.hi(B.qY,A.J(s,3,7,68),p,75),B.L,A.ah("An error occurred",p,p,p,p,A.bC(p,p,A.J(s,3,7,68),p,p,p,p,p,p,p,p,20,p,p,B.Z,p,1,!0,p,p,p,p,p,p,p,p),p,p),B.hz,A.ah("Please try again later",p,p,p,p,A.bC(p,p,A.J(s,3,7,68),p,p,p,p,p,p,p,p,p,p,p,p,p,1,!0,p,p,p,p,p,p,p,p),p,p)],n),B.j,B.aj,B.k)}else if(J.dW(b.as)){s=B.d.N(127.5)
-s=A.bf(A.a([A.hi(B.qQ,A.J(s,3,7,68),p,75),B.L,A.ah("No bookings yet",p,p,p,p,A.bC(p,p,A.J(s,3,7,68),p,p,p,p,p,p,p,p,20,p,p,B.Z,p,1,!0,p,p,p,p,p,p,p,p),p,p),B.hz,A.ah("Bookings will appear here",p,p,p,p,A.bC(p,p,A.J(s,3,7,68),p,p,p,p,p,p,p,p,p,p,p,p,p,1,!0,p,p,p,p,p,p,p,p),p,p)],n),B.j,B.aj,B.k)}else{s=b.as
+s=A.bf(A.a([A.hi(B.qQ,A.J(s,3,7,68),p,75),B.L,A.ah("No bookings yet",p,p,p,p,A.bC(p,p,A.J(s,3,7,68),p,p,p,p,p,p,p,p,20,p,p,B.Z,p,1,!0,p,p,p,p,p,p,p,p),p,p),B.hz,A.ah("Your bookings will appear here",p,p,p,p,A.bC(p,p,A.J(s,3,7,68),p,p,p,p,p,p,p,p,p,p,p,p,p,1,!0,p,p,p,p,p,p,p,p),p,p)],n),B.j,B.aj,B.k)}else{s=b.as
 r=this.a
 q=r.f
 r=A.b6O(r.e,b.Q,q,new A.aL0(b),s,r.gapZ(),t._5)
@@ -118986,7 +118986,7 @@ m=A.ff(A.J(38,3,7,68),1,1)
 if(b.lH(0,b))r=A.bf(A.a([A.b_M(A.J(64,0,123,255),B.r)],s),B.j,B.m,B.k)
 else if(b.fL$.h(0,A.d4(b))!=null){r=B.d.N(127.5)
 r=A.bf(A.a([A.hi(B.qY,A.J(r,3,7,68),o,75),B.L,A.ah("An error occurred",o,o,o,o,A.bC(o,o,A.J(r,3,7,68),o,o,o,o,o,o,o,o,20,o,o,B.Z,o,1,!0,o,o,o,o,o,o,o,o),o,o),B.hz,A.ah("Please try again later",o,o,o,o,A.bC(o,o,A.J(r,3,7,68),o,o,o,o,o,o,o,o,o,o,o,o,o,1,!0,o,o,o,o,o,o,o,o),o,o)],s),B.j,B.aj,B.k)}else if(J.dW(b.at)){r=B.d.N(127.5)
-r=A.bf(A.a([A.hi(B.qQ,A.J(r,3,7,68),o,75),B.L,A.ah("No transactions yet",o,o,o,o,A.bC(o,o,A.J(r,3,7,68),o,o,o,o,o,o,o,o,20,o,o,B.Z,o,1,!0,o,o,o,o,o,o,o,o),o,o),B.hz,A.ah("Transactions will appear here",o,o,o,o,A.bC(o,o,A.J(r,3,7,68),o,o,o,o,o,o,o,o,o,o,o,o,o,1,!0,o,o,o,o,o,o,o,o),o,o)],s),B.j,B.aj,B.k)}else{r=b.at
+r=A.bf(A.a([A.hi(B.qQ,A.J(r,3,7,68),o,75),B.L,A.ah("No transactions yet",o,o,o,o,A.bC(o,o,A.J(r,3,7,68),o,o,o,o,o,o,o,o,20,o,o,B.Z,o,1,!0,o,o,o,o,o,o,o,o),o,o),B.hz,A.ah("Your transactions will appear here",o,o,o,o,A.bC(o,o,A.J(r,3,7,68),o,o,o,o,o,o,o,o,o,o,o,o,o,1,!0,o,o,o,o,o,o,o,o),o,o)],s),B.j,B.aj,B.k)}else{r=b.at
 q=this.a
 p=q.f
 q=A.b6O(q.e,b.Q,p,new A.aNL(b),r,q.gaur(),t.vA)

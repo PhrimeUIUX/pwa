@@ -384,7 +384,7 @@ class _LoadViewState extends State<LoadView> {
         ),
         const SizedBox(height: 4),
         Text(
-          "Transactions will appear here",
+          "Your transactions will appear here",
           style: TextStyle(
             height: 1,
             color: const Color(0xFF030744).withOpacity(0.5),
