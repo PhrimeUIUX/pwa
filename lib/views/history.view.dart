@@ -186,7 +186,7 @@ class _HistoryViewState extends State<HistoryView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
-          Icons.emoji_nature_outlined,
+          Icons.cancel_presentation,
           color: const Color(0xFF030744).withOpacity(0.5),
           size: 75,
         ),
