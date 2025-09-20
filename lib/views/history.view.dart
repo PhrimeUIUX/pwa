@@ -122,23 +122,25 @@ class _HistoryViewState extends State<HistoryView> {
                         )
                       : vm.hasError
                           ? _buildErrorWidget()
-                          : ListViewWidget(
-                              items: vm.orders,
-                              controller: _scrollController,
-                              isLoadingMore: _isLoadingMore,
-                              onRefresh: _refresh,
-                              currentPage: vm.queryPage,
-                              itemBuilder: (context, order, index) {
-                                return OrderListItem(
-                                  order: order,
-                                  onTap: () {
-                                    if (!AuthService.inReviewMode()) {
-                                      vm.openOrderDetails(order: order);
-                                    }
+                          : vm.orders.isEmpty
+                              ? _buildEmptyWidget()
+                              : ListViewWidget(
+                                  items: vm.orders,
+                                  controller: _scrollController,
+                                  isLoadingMore: _isLoadingMore,
+                                  onRefresh: _refresh,
+                                  currentPage: vm.queryPage,
+                                  itemBuilder: (context, order, index) {
+                                    return OrderListItem(
+                                      order: order,
+                                      onTap: () {
+                                        if (!AuthService.inReviewMode()) {
+                                          vm.openOrderDetails(order: order);
+                                        }
+                                      },
+                                    );
                                   },
-                                );
-                              },
-                            ),
+                                ),
                 ),
               ],
             ),
@@ -170,6 +172,37 @@ class _HistoryViewState extends State<HistoryView> {
         const SizedBox(height: 4),
         Text(
           "Please try again later",
+          style: TextStyle(
+            height: 1,
+            color: const Color(0xFF030744).withOpacity(0.5),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.emoji_nature_outlined,
+          color: const Color(0xFF030744).withOpacity(0.5),
+          size: 75,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          "No bookings yet",
+          style: TextStyle(
+            height: 1,
+            fontSize: 20,
+            color: const Color(0xFF030744).withOpacity(0.5),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          "Bookings will appear here",
           style: TextStyle(
             height: 1,
             color: const Color(0xFF030744).withOpacity(0.5),

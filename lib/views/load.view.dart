@@ -309,18 +309,20 @@ class _LoadViewState extends State<LoadView> {
                         )
                       : vm.hasError
                           ? _buildErrorWidget()
-                          : ListViewWidget(
-                              items: vm.loadTransactions,
-                              controller: _scrollController,
-                              isLoadingMore: _isLoadingMore,
-                              onRefresh: _refresh,
-                              currentPage: vm.queryPage,
-                              itemBuilder: (context, order, index) {
-                                return TransactionListItem(
-                                  transaction: vm.loadTransactions[index],
-                                );
-                              },
-                            ),
+                          : vm.loadTransactions.isEmpty
+                              ? _buildEmptyWidget()
+                              : ListViewWidget(
+                                  items: vm.loadTransactions,
+                                  controller: _scrollController,
+                                  isLoadingMore: _isLoadingMore,
+                                  onRefresh: _refresh,
+                                  currentPage: vm.queryPage,
+                                  itemBuilder: (context, order, index) {
+                                    return TransactionListItem(
+                                      transaction: vm.loadTransactions[index],
+                                    );
+                                  },
+                                ),
                 ),
               ],
             ),
@@ -352,6 +354,37 @@ class _LoadViewState extends State<LoadView> {
         const SizedBox(height: 4),
         Text(
           "Please try again later",
+          style: TextStyle(
+            height: 1,
+            color: const Color(0xFF030744).withOpacity(0.5),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.emoji_nature_outlined,
+          color: const Color(0xFF030744).withOpacity(0.5),
+          size: 75,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          "No transactions yet",
+          style: TextStyle(
+            height: 1,
+            fontSize: 20,
+            color: const Color(0xFF030744).withOpacity(0.5),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          "Transactions will appear here",
           style: TextStyle(
             height: 1,
             color: const Color(0xFF030744).withOpacity(0.5),
