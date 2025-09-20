@@ -469,7 +469,7 @@ share(String text) async {
   try {
     await html.window.navigator.share(
       {
-        'title': 'PPC TODA',
+        'title': 'PPC TODA (Beta)',
         'text': text,
         'url': "https://ppctoda.framer.website",
       },

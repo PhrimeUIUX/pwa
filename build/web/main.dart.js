@@ -32950,7 +32950,7 @@ s=q}while(true)switch(s){case 0:q=3
 o=window.navigator
 o.toString
 n=t.z
-m=A.aWQ(A.a7(["title","PPC TODA","text",a,"url","https://ppctoda.framer.website"],n,n))
+m=A.aWQ(A.a7(["title","PPC TODA (Beta)","text",a,"url","https://ppctoda.framer.website"],n,n))
 o=o.share(m)
 o.toString
 s=6
@@ -111764,7 +111764,7 @@ $1(a){},
 $S:24}
 A.WA.prototype={
 G(a){var s=null
-return new A.Go(B.Xe,new A.avr(),"PPC TODA",A.wR(s,A.b4f(s,s,B.aP,s,s,B.aY).aAf(B.Re),s,B.aY,s,s),!1,s)}}
+return new A.Go(B.Xe,new A.avr(),"PPC TODA (Beta)",A.wR(s,A.b4f(s,s,B.aP,s,s,B.aY).aAf(B.Re),s,B.aY,s,s),!1,s)}}
 A.avr.prototype={
 $2(a,b){var s=A.a2(a,null,t.w).w.aAy(B.V,new A.jv(1),B.V,B.V)
 return A.Ht(b,s)},
@@ -113701,7 +113701,7 @@ A.aYg.prototype={
 $3(a,b,c){return new A.qq(this.a,this.b,null)},
 $S:267}
 A.aYl.prototype={
-$1(a){var s=A.Hc(B.LS,new A.aYj(this.a,this.b),B.a2B),r=A.Hc(B.LB,new A.aYk(),B.a2t)
+$1(a){var s=A.Hc(B.LS,new A.aYj(this.a,this.b),B.a2C),r=A.Hc(B.LB,new A.aYk(),B.a2t)
 return A.bj(A.a([s,r],t.p),B.j,B.m,B.bS)},
 $S:692}
 A.aYj.prototype={
@@ -115194,7 +115194,7 @@ $1(a){return a.gjI()},
 $S:16}
 A.aop.prototype={
 $1(a){var s=null
-return A.nq(!1,A.b3B(s,s,A.bj(A.a([B.a2z,B.De,A.b_I(B.ll,B.r),B.k1,B.a39,B.De,A.aj(A.fb(s,38,B.cC,new A.aon(this.a),B.Zh,"Cancel"),38,s)],t.p),B.j,B.aq,B.k),B.Uv,s),new A.aoo(),t.K)},
+return A.nq(!1,A.b3B(s,s,A.bj(A.a([B.a2A,B.De,A.b_I(B.ll,B.r),B.k1,B.a2u,B.De,A.aj(A.fb(s,38,B.cC,new A.aon(this.a),B.Zh,"Cancel"),38,s)],t.p),B.j,B.aq,B.k),B.Uv,s),new A.aoo(),t.K)},
 $S:136}
 A.aoo.prototype={
 $2(a,b){return this.a8O(a,b)},
@@ -116823,7 +116823,7 @@ while(true)switch(s){case 0:s=2
 return A.k(A.y2(),$async$ws)
 case 2:s=3
 return A.k(A.Ed(),$async$ws)
-case 3:try{$.b2s="1.0.11"
+case 3:try{$.b2s="1.0.0"
 $.abZ="31"}catch(o){q=A.O(o)
 A.ci().$1("getAppInfo error: "+A.d(q))}return A.o(null,r)}})
 return A.p($async$ws,r)},
@@ -117597,7 +117597,7 @@ A.aJ4.prototype={
 $3(a,b,c){var s,r,q,p,o,n=null,m=A.hr(B.h,n,n,n,n,0),l=t.w,k=A.a2(a,n,l).w,j=A.a2(a,n,l).w
 l=A.a2(a,n,l).w
 s=t.p
-r=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aJ0(),!0),B.bW,B.a37],s),B.j,B.m,B.k)
+r=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aJ0(),!0),B.bW,B.a38],s),B.j,B.m,B.k)
 q=A.bI(A.bx(A.hv("assets/images/auth.png",n,B.i2,n,n),n,n),2)
 p=B.e.ai(1/0,0,800)
 p=A.aj(A.ka(!1,b.at,!0,"Password must be at least 8 characters",B.cb,"Password",1,n,!1,n,n,n,!1,!1,!1,n,B.bC,B.d6),n,p)
@@ -117892,9 +117892,9 @@ if(l==null)l=""
 l=A.lr(A.aj(A.vH(new A.aMd(),B.au,l,600,new A.aMe()),50,50))
 s=t.p
 s=A.a([o,A.c1(0,new A.a8(B.Kc,A.b5(A.a([l,B.f5,A.bI(A.ai(m?"Login Account":A.cm(A.d(n.w),"\u2022\u2022\u2022"),r,r,r,r,B.a0G,r,r),1),B.f5,B.r0],s),B.j,B.m,B.k),r),!1,B.h,new A.aMf(q),!0),A.ff(A.K(B.d.N(25.5),3,7,68),1,1)],s)
-if($.bS!=null)s.push(A.Hc(B.Lt,new A.aMg(q),B.a30))
+if($.bS!=null)s.push(A.Hc(B.Lt,new A.aMg(q),B.a31))
 if($.bS!=null)s.push(A.Hc(B.LG,new A.aMh(q),B.a3d))
-s.push(A.Hc(B.LM,new A.aMi(),B.a2W))
+s.push(A.Hc(B.LM,new A.aMi(),B.a2X))
 o=$.b2s
 if(o==null)o="1.0.0"
 n=$.abZ
@@ -118424,7 +118424,7 @@ A.aLk.prototype={
 $0(){this.a.x1=!1},
 $S:0}
 A.aLQ.prototype={
-$0(){A.aYf("Hey there, you can now book tricycles on the PPC TODA app! Here is the download link.")},
+$0(){A.aYf("Hey there, you can now book tricycles on the PPC TODA (Beta) app! Here is the download link.")},
 $S:0}
 A.aM0.prototype={
 $0(){var s=0,r=A.q(t.H),q=this,p,o,n,m
@@ -119041,7 +119041,7 @@ k=A.aj(A.ka(!1,b.ax,!0,"Enter your password",B.cb,"Password",1,p,!0,p,p,p,$.eJ,!
 j=B.e.ai(1/0,0,800)
 s=A.da()?B.C:A.aj(A.aZm(B.r,B.h,new A.aNY(this.a,b),B.kS,!$.eJ),20,20)
 r=A.da()?B.C:B.aI
-q=A.da()?B.C:B.a36
+q=A.da()?B.C:B.a37
 j=A.aj(A.b5(A.a([s,r,q,B.c1,A.cf(p,A.ai("Forgot password?",p,p,p,p,A.bK(p,p,$.eJ?B.cq:B.r,p,p,p,p,p,p,p,p,14,p,p,B.a1,p,p,!0,p,p,p,p,p,p,p,p),p,p),B.B,!1,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,new A.aNZ(a),p,p,p,p,p,p,!1,B.Q)],n),B.j,B.eM,B.k),p,j)
 if(!$.eJ)s=new A.a8(B.S,A.fb(p,50,B.r,new A.aO_(b),B.bZ,"Login with phone"),p)
 else{s=B.e.ai(1/0,0,800)
@@ -119447,7 +119447,7 @@ A.aQV.prototype={
 $1(a){return a.cz()},
 $S:765}
 A.aQU.prototype={
-$3(a2,a3,a4){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d=null,c=A.hr(B.h,d,d,d,d,0),b=this.a,a=t.p,a0=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aQF(b,a3),!0),B.bW,B.a3_],a),B.j,B.m,B.k),a1=A.da()?B.C:B.bq
+$3(a2,a3,a4){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d=null,c=A.hr(B.h,d,d,d,d,0),b=this.a,a=t.p,a0=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aQF(b,a3),!0),B.bW,B.a30],a),B.j,B.m,B.k),a1=A.da()?B.C:B.bq
 if(A.da())s=B.C
 else{s=t.w
 if($.dF!=null){r=B.d.ai(A.a2(a2,d,s).w.a.a,0,800)
@@ -119484,11 +119484,11 @@ k=new A.a8(B.S,A.aj(A.ka(!1,a3.ch,!0,"confirm your password",B.cb,"Confirm Passw
 h=B.e.ai(1/0,0,800)
 h=A.aj(A.b5(A.a([A.aj(A.aZm(B.r,B.h,new A.aQT(b),B.kS,!$.eJ),20,20),B.aI,B.a3r],a),B.j,B.m,B.k),d,h)
 g=B.e.ai(1/0,0,800)
-g=A.aj(A.b5(A.a([A.aj(A.aZm(B.r,B.h,new A.aQG(b),B.kS,$.xG),20,20),B.aI,B.a34,B.b7,A.cf(d,B.a2o,B.B,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,new A.aQH(),d,d,d,d,d,d,!1,B.Q)],a),B.j,B.m,B.k),d,g)
+g=A.aj(A.b5(A.a([A.aj(A.aZm(B.r,B.h,new A.aQG(b),B.kS,$.xG),20,20),B.aI,B.a35,B.b7,A.cf(d,B.a2o,B.B,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,new A.aQH(),d,d,d,d,d,d,!1,B.Q)],a),B.j,B.m,B.k),d,g)
 if(!$.eJ)f=new A.a8(B.S,A.fb(d,50,B.r,new A.aQI(a3),B.bZ,"Create account"),d)
 else{f=B.e.ai(1/0,0,800)
 e=A.hf(B.D,1)
-f=new A.a8(B.S,A.aR(d,A.c1(8,A.b5(A.a([A.hv("assets/images/google.png",d,d,24,24),B.ar,B.a2O,B.b7],a),B.j,B.aq,B.k),!1,B.h,new A.aQJ(a3),!0),B.n,d,d,new A.bk(d,d,e,B.b1,d,d,B.E),d,50,d,d,d,d,f),d)}return A.cf(d,A.fF(c,B.h,A.i3(!0,A.i4(A.bj(A.a([B.O,a0,a1,s,r,new A.a8(B.S,q,d),B.aj,p,n,o,l,m,j,k,i,new A.a8(B.S,h,d),B.O,new A.a8(B.S,g,d),B.aj,f,B.O,B.DV,B.O,new A.a8(B.S,A.fb(d,50,B.D,new A.aQK(b),B.bZ,"Login to account"),d),B.b_],a),B.j,B.m,B.k),d,d),B.V,!0),d,d,d),B.B,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,new A.aQL(),d,d,d,d,d,d,!1,B.Q)},
+f=new A.a8(B.S,A.aR(d,A.c1(8,A.b5(A.a([A.hv("assets/images/google.png",d,d,24,24),B.ar,B.a2P,B.b7],a),B.j,B.aq,B.k),!1,B.h,new A.aQJ(a3),!0),B.n,d,d,new A.bk(d,d,e,B.b1,d,d,B.E),d,50,d,d,d,d,f),d)}return A.cf(d,A.fF(c,B.h,A.i3(!0,A.i4(A.bj(A.a([B.O,a0,a1,s,r,new A.a8(B.S,q,d),B.aj,p,n,o,l,m,j,k,i,new A.a8(B.S,h,d),B.O,new A.a8(B.S,g,d),B.aj,f,B.O,B.DV,B.O,new A.a8(B.S,A.fb(d,50,B.D,new A.aQK(b),B.bZ,"Login to account"),d),B.b_],a),B.j,B.m,B.k),d,d),B.V,!0),d,d,d),B.B,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,d,new A.aQL(),d,d,d,d,d,d,!1,B.Q)},
 $S:766}
 A.aQL.prototype={
 $0(){var s=$.W.Y$.d.c
@@ -119660,7 +119660,7 @@ A.aSB.prototype={
 $1(a){return a.cz()},
 $S:771}
 A.aSA.prototype={
-$3(a,b,c){var s=null,r=A.hr(B.h,s,s,s,s,0),q=t.p,p=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aSv(),!0),B.bW,B.a2L],q),B.j,B.m,B.k),o=A.ff(A.K(B.d.N(25.5),3,7,68),1,1),n=A.c1(0,B.T4,!1,B.h,new A.aSw(a),!0),m=!A.da()?B.C:A.c1(0,B.T0,!1,B.h,new A.aSx(a),!0)
+$3(a,b,c){var s=null,r=A.hr(B.h,s,s,s,s,0),q=t.p,p=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aSv(),!0),B.bW,B.a2M],q),B.j,B.m,B.k),o=A.ff(A.K(B.d.N(25.5),3,7,68),1,1),n=A.c1(0,B.T4,!1,B.h,new A.aSw(a),!0),m=!A.da()?B.C:A.c1(0,B.T0,!1,B.h,new A.aSx(a),!0)
 return A.cf(s,A.fF(r,B.h,A.i3(!0,A.bj(A.a([B.O,p,B.O,o,n,m,A.c1(0,B.T2,!1,B.h,new A.aSy(b),!0)],q),B.j,B.m,B.k),B.V,!0),s,s,s),B.B,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.aSz(),s,s,s,s,s,s,!1,B.Q)},
 $S:772}
 A.aSz.prototype={
@@ -119756,7 +119756,7 @@ if(!a.aG$)a.aY()
 return null},
 $S:778}
 A.aUR.prototype={
-$3(a0,a1,a2){var s,r,q,p,o,n,m,l=null,k=A.hr(B.h,l,l,l,l,0),j=t.w,i=A.a2(a0,l,j).w,h=A.a2(a0,l,j).w,g=A.a2(a0,l,j).w,f=t.p,e=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aUK(),!0),B.bW,B.a2y],f),B.j,B.m,B.k),d=A.bI(A.bx(A.hv("assets/images/verify.png",l,B.i2,l,l),l,l),2),c=B.e.ai(1/0,0,800),b=this.a,a=t.VO
+$3(a0,a1,a2){var s,r,q,p,o,n,m,l=null,k=A.hr(B.h,l,l,l,l,0),j=t.w,i=A.a2(a0,l,j).w,h=A.a2(a0,l,j).w,g=A.a2(a0,l,j).w,f=t.p,e=A.b5(A.a([B.b7,A.c1(1000,B.bN,!1,B.h,new A.aUK(),!0),B.bW,B.a2z],f),B.j,B.m,B.k),d=A.bI(A.bx(A.hv("assets/images/verify.png",l,B.i2,l,l),l,l),2),c=B.e.ai(1/0,0,800),b=this.a,a=t.VO
 c=A.aj(A.bx(A.rE(l,l,l,B.bb,l,l,!0,l,A.bD(A.a([B.Yx,A.bD(l,l,B.YG,"0"+b.a.e)],a),l,l,l),B.av,l,l,B.a8,B.al),l,l),l,c)
 s=B.d.ai(A.a2(a0,l,j).w.a.a,0,800)
 r=B.e.ai(1/0,0,800)
@@ -119770,7 +119770,7 @@ n=A.a([],n)
 j=A.bx(new A.a8(B.S,A.aj(new A.Iv(a0,6,new A.aUL(),B.a_O,B.oH,B.k5,!0,a1.as,!0,A.b7L(o.x,m,B.r,B.h,q,o.ch,o.Q,o.d,o.w,o.as,(p-106)/6,o.cx,(j-106)/6,n,o.z,B.D,B.h,o.y,B.r,B.h,B.TS),l),(s-106)/6,r),l),l,l)
 s=A.fb(l,50,B.r,new A.aUM(b,a1),B.bZ,"Verify")
 r=$.aYU()
-r=A.b5(A.a([B.a2A,A.b0N(new A.a8(B.lL,A.ai("("+r+")",l,l,l,l,B.k9,l,l),l),r>0),A.b0N(A.cf(l,B.T5,B.B,!1,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,new A.aUN(b,a1),l,l,l,l,l,l,!1,B.Q),r===0)],f),B.j,B.aq,B.k)
+r=A.b5(A.a([B.a2B,A.b0N(new A.a8(B.lL,A.ai("("+r+")",l,l,l,l,B.k9,l,l),l),r>0),A.b0N(A.cf(l,B.T5,B.B,!1,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,new A.aUN(b,a1),l,l,l,l,l,l,!1,B.Q),r===0)],f),B.j,B.aq,B.k)
 b=A.rT(l,l)
 b.bf=new A.aUO()
 b=A.bD(l,b,B.DG,"Contact")
@@ -120586,7 +120586,7 @@ p=A.bD(m,p,B.DH,"Contact")
 o=A.bD(m,m,A.bK(m,m,A.K(s,3,7,68),m,m,m,m,m,m,m,m,15,m,m,B.t,m,1.15,!0,m,m,m,m,m,m,m,m)," or ")
 n=A.rT(m,m)
 n.bf=new A.aEu()
-return A.aR(m,A.i4(A.aj(A.bj(A.a([f,B.WG,e,B.c1,l,B.c1,B.a2P,B.aj,r,A.bI(A.bx(A.rE(m,m,m,B.bb,m,m,!0,m,A.bD(A.a([q,p,o,A.bD(m,n,B.DH,"Message"),A.bD(m,m,A.bK(m,m,A.K(s,3,7,68),m,m,m,m,m,m,m,m,15,m,m,B.t,m,1.15,!0,m,m,m,m,m,m,m,m)," us!")],t.VO),m,m,m),B.av,m,m,B.a8,B.al),m,m),2),new A.a8(B.Kk,A.fb(m,50,B.r,new A.aEv(),B.bZ,"Update"),m),B.nB],t.p),B.j,B.aq,B.k),g.a.b,h.a.a),m,B.js),B.n,m,m,new A.bk(m,m,m,m,m,new A.zy(B.ei,B.dw,B.cc,i,m,m),B.E),m,j.a.b,m,m,m,m,k.a.a)}}
+return A.aR(m,A.i4(A.aj(A.bj(A.a([f,B.WG,e,B.c1,l,B.c1,B.a2Q,B.aj,r,A.bI(A.bx(A.rE(m,m,m,B.bb,m,m,!0,m,A.bD(A.a([q,p,o,A.bD(m,n,B.DH,"Message"),A.bD(m,m,A.bK(m,m,A.K(s,3,7,68),m,m,m,m,m,m,m,m,15,m,m,B.t,m,1.15,!0,m,m,m,m,m,m,m,m)," us!")],t.VO),m,m,m),B.av,m,m,B.a8,B.al),m,m),2),new A.a8(B.Kk,A.fb(m,50,B.r,new A.aEv(),B.bZ,"Update"),m),B.nB],t.p),B.j,B.aq,B.k),g.a.b,h.a.a),m,B.js),B.n,m,m,new A.bk(m,m,m,m,m,new A.zy(B.ei,B.dw,B.cc,i,m,m),B.E),m,j.a.b,m,m,m,m,k.a.a)}}
 A.aEt.prototype={
 $0(){A.km("sms://+639122078420",B.cn)},
 $S:0}
@@ -126348,11 +126348,11 @@ B.R0=new A.dy([50,B.Ik,100,B.fD,200,B.I8,300,B.I2,400,B.I_,500,B.HX,600,B.HU,700
 B.b6=new A.nh(B.R0,4283215696)
 B.a1=new A.kw(6)
 B.ZY=new A.w(!0,B.b6,null,null,null,null,null,B.a1,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2M=new A.aZ("\u20b1",null,B.ZY,null,null,null,null,null,null)
-B.pg=new A.fr(B.N,null,null,B.a2M,null)
+B.a2N=new A.aZ("\u20b1",null,B.ZY,null,null,null,null,null,null)
+B.pg=new A.fr(B.N,null,null,B.a2N,null)
 B.nT=new A.w(!0,B.h,null,null,null,null,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a31=new A.aZ("\u20b1500",null,B.nT,null,null,null,null,null,null)
-B.H9=new A.fr(B.N,null,null,B.a31,null)
+B.a32=new A.aZ("\u20b1500",null,B.nT,null,null,null,null,null,null)
+B.H9=new A.fr(B.N,null,null,B.a32,null)
 B.Lm=new A.c6(61728,!1)
 B.LN=new A.d0(B.Lm,30,B.r,null,null)
 B.Ha=new A.fr(B.N,null,null,B.LN,null)
@@ -126371,13 +126371,13 @@ B.n=new A.yj(0,"none")
 B.L7=new A.c6(57706,!1)
 B.qZ=new A.d0(B.L7,35,B.h,null,null)
 B.k8=new A.w(!0,B.h,null,null,null,null,18,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2F=new A.aZ("Cancel",null,B.k8,null,null,null,null,null,null)
+B.a2G=new A.aZ("Cancel",null,B.k8,null,null,null,null,null,null)
 B.aI=new A.cI(8,null,null,null)
-B.OQ=A.a(s([B.qZ,B.a2F,B.aI]),t.p)
+B.OQ=A.a(s([B.qZ,B.a2G,B.aI]),t.p)
 B.Uz=new A.k6(B.aE,B.aq,B.k,B.j,null,B.aK,null,B.OQ,null)
 B.He=new A.fr(B.N,null,null,B.Uz,null)
-B.a2J=new A.aZ("Close",null,B.k8,null,null,null,null,null,null)
-B.NE=A.a(s([B.qZ,B.a2J,B.aI]),t.p)
+B.a2K=new A.aZ("Close",null,B.k8,null,null,null,null,null,null)
+B.NE=A.a(s([B.qZ,B.a2K,B.aI]),t.p)
 B.Uw=new A.k6(B.aE,B.aq,B.k,B.j,null,B.aK,null,B.NE,null)
 B.Hf=new A.fr(B.N,null,null,B.Uw,null)
 B.Lj=new A.c6(61214,!1)
@@ -126490,16 +126490,16 @@ B.bp=new A.cI(null,20,null,null)
 B.Hv=new A.y(2147682116)
 B.a1Y=new A.w(!0,B.Hv,null,null,null,null,15,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.aB=new A.pt(2,"center")
-B.a38=new A.aZ("An error occurred. Try again later",null,B.a1Y,B.aB,null,null,null,null,null)
-B.P2=A.a(s([B.LI,B.bp,B.a38]),t.p)
+B.a39=new A.aZ("An error occurred. Try again later",null,B.a1Y,B.aB,null,null,null,null,null)
+B.P2=A.a(s([B.LI,B.bp,B.a39]),t.p)
 B.IK=new A.qx(B.b0,B.aq,B.k,B.j,null,B.aK,null,B.P2,null)
 B.qW=new A.c6(62107,!1)
 B.LE=new A.d0(B.qW,50,B.D,null,null)
 B.bq=new A.cI(null,8,null,null)
 B.P=new A.kw(4)
 B.YR=new A.w(!0,B.D,null,"Inter",null,null,14,B.P,null,null,null,null,1.05,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a33=new A.aZ("Profile Photo",null,B.YR,null,null,null,null,null,null)
-B.Nr=A.a(s([B.LE,B.bq,B.a33,B.bq]),t.p)
+B.a34=new A.aZ("Profile Photo",null,B.YR,null,null,null,null,null,null)
+B.Nr=A.a(s([B.LE,B.bq,B.a34,B.bq]),t.p)
 B.IL=new A.qx(B.b0,B.aq,B.k,B.j,null,B.aK,null,B.Nr,null)
 B.pL=new A.ER(0,"none")
 B.IM=new A.ER(1,"waiting")
@@ -128372,8 +128372,8 @@ B.Lk=new A.c6(61354,!1)
 B.Ly=new A.d0(B.Lk,25,B.q,null,null)
 B.ar=new A.cI(12,null,null,null)
 B.DI=new A.w(!0,B.q,null,null,null,null,15,B.P,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2X=new A.aZ("Delete Account",null,B.DI,null,null,null,null,null,null)
-B.O1=A.a(s([B.Ly,B.ar,B.a2X]),t.p)
+B.a2Y=new A.aZ("Delete Account",null,B.DI,null,null,null,null,null,null)
+B.O1=A.a(s([B.Ly,B.ar,B.a2Y]),t.p)
 B.Uy=new A.k6(B.aE,B.m,B.k,B.j,null,B.aK,null,B.O1,null)
 B.T0=new A.a8(B.lK,B.Uy,null)
 B.YB=new A.w(!0,B.fz,null,null,null,null,15,B.t,null,null,null,null,1.05,null,null,null,null,null,null,null,null,null,null,null,null,null)
@@ -128391,13 +128391,13 @@ B.T3=new A.a8(B.aL,B.a3t,null)
 B.Ln=new A.c6(61847,!1)
 B.LC=new A.d0(B.Ln,25,B.D,null,null)
 B.DQ=new A.w(!0,B.D,null,null,null,null,15,B.P,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2w=new A.aZ("Change Password",null,B.DQ,null,null,null,null,null,null)
-B.NU=A.a(s([B.LC,B.ar,B.a2w,B.c1,B.r0]),t.p)
+B.a2x=new A.aZ("Change Password",null,B.DQ,null,null,null,null,null,null)
+B.NU=A.a(s([B.LC,B.ar,B.a2x,B.c1,B.r0]),t.p)
 B.UC=new A.k6(B.aE,B.m,B.k,B.j,null,B.aK,null,B.NU,null)
 B.T4=new A.a8(B.lK,B.UC,null)
 B.a04=new A.w(!0,B.r,null,null,null,null,null,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2H=new A.aZ("Resend",null,B.a04,null,null,null,null,null,null)
-B.T5=new A.a8(B.lL,B.a2H,null)
+B.a2I=new A.aZ("Resend",null,B.a04,null,null,null,null,null,null)
+B.T5=new A.a8(B.lL,B.a2I,null)
 B.K2=new A.aq(0,2,4,2)
 B.L4=new A.c6(57694,!0)
 B.LH=new A.d0(B.L4,38,B.D,null,null)
@@ -128523,12 +128523,12 @@ B.f2=new A.At(1,"doNotPop")
 B.C7=new A.At(2,"bubble")
 B.n9=new A.m9(null,null)
 B.r_=new A.d0(B.qS,35,B.h,null,null)
-B.a2V=new A.aZ("Send",null,B.k8,null,null,null,null,null,null)
-B.O9=A.a(s([B.r_,B.aI,B.a2V]),t.p)
+B.a2W=new A.aZ("Send",null,B.k8,null,null,null,null,null,null)
+B.O9=A.a(s([B.r_,B.aI,B.a2W]),t.p)
 B.Ux=new A.k6(B.aE,B.aq,B.k,B.j,null,B.aK,null,B.O9,null)
 B.a1v=new A.w(!0,B.D,null,null,null,null,15,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2K=new A.aZ("Account Information",null,B.a1v,null,null,null,null,null,null)
-B.OI=A.a(s([B.a2K]),t.p)
+B.a2L=new A.aZ("Account Information",null,B.a1v,null,null,null,null,null,null)
+B.OI=A.a(s([B.a2L]),t.p)
 B.UA=new A.k6(B.aE,B.m,B.k,B.j,null,B.aK,null,B.OI,null)
 B.Lf=new A.c6(58727,!1)
 B.Lz=new A.d0(B.Lf,null,B.r,null,null)
@@ -128797,64 +128797,64 @@ B.a7l=new A.nC(4,"remove")
 B.Dm=new A.nC(5,"timeout")
 B.WP=new A.AQ(null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.G=new A.w(!0,B.h,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2x=new A.aZ("Please add a profile photo",null,B.G,null,null,null,null,null,null)
-B.WQ=new A.d6(B.a2x,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2N=new A.aZ("Please enter your password",null,B.G,null,null,null,null,null,null)
-B.nF=new A.d6(B.a2N,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2v=new A.aZ("Please enter your reason",null,B.G,null,null,null,null,null,null)
-B.WR=new A.d6(B.a2v,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2Z=new A.aZ("Please tell us what happened",null,B.G,null,null,null,null,null,null)
-B.WS=new A.d6(B.a2Z,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2Q=new A.aZ("Passwords entered do not match",null,B.G,null,null,null,null,null,null)
-B.nG=new A.d6(B.a2Q,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2G=new A.aZ("Please enter your old password",null,B.G,null,null,null,null,null,null)
-B.WT=new A.d6(B.a2G,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2I=new A.aZ("Text copied to clipboard",null,null,null,null,null,null,null,null)
-B.WU=new A.d6(B.a2I,B.b6,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2y=new A.aZ("Please add a profile photo",null,B.G,null,null,null,null,null,null)
+B.WQ=new A.d6(B.a2y,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2O=new A.aZ("Please enter your password",null,B.G,null,null,null,null,null,null)
+B.nF=new A.d6(B.a2O,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2w=new A.aZ("Please enter your reason",null,B.G,null,null,null,null,null,null)
+B.WR=new A.d6(B.a2w,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a3_=new A.aZ("Please tell us what happened",null,B.G,null,null,null,null,null,null)
+B.WS=new A.d6(B.a3_,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2R=new A.aZ("Passwords entered do not match",null,B.G,null,null,null,null,null,null)
+B.nG=new A.d6(B.a2R,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2H=new A.aZ("Please enter your old password",null,B.G,null,null,null,null,null,null)
+B.WT=new A.d6(B.a2H,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2J=new A.aZ("Text copied to clipboard",null,null,null,null,null,null,null,null)
+B.WU=new A.d6(B.a2J,B.b6,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a2n=new A.aZ("Please set your pickup address",null,B.G,null,null,null,null,null,null)
 B.WV=new A.d6(B.a2n,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2T=new A.aZ("Please confirm your password",null,B.G,null,null,null,null,null,null)
-B.WW=new A.d6(B.a2T,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2S=new A.aZ("Please agree to the terms of service",null,B.G,null,null,null,null,null,null)
-B.WX=new A.d6(B.a2S,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2U=new A.aZ("Please confirm your password",null,B.G,null,null,null,null,null,null)
+B.WW=new A.d6(B.a2U,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2T=new A.aZ("Please agree to the terms of service",null,B.G,null,null,null,null,null,null)
+B.WX=new A.d6(B.a2T,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a2s=new A.aZ("Password must be at least 6 characters",null,B.G,null,null,null,null,null,null)
 B.f6=new A.d6(B.a2s,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a2p=new A.aZ("Please enter a valid email address",null,B.G,null,null,null,null,null,null)
 B.WY=new A.d6(B.a2p,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2u=new A.aZ("Please enter your phone number",null,B.G,null,null,null,null,null,null)
-B.nH=new A.d6(B.a2u,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a35=new A.aZ("Finalizing your details, please wait ...",null,B.G,null,null,null,null,null,null)
-B.WZ=new A.d6(B.a35,B.b6,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2v=new A.aZ("Please enter your phone number",null,B.G,null,null,null,null,null,null)
+B.nH=new A.d6(B.a2v,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a36=new A.aZ("Finalizing your details, please wait ...",null,B.G,null,null,null,null,null,null)
+B.WZ=new A.d6(B.a36,B.b6,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a3o=new A.aZ("There was a problem with your location detection!",null,B.G,null,null,null,null,null,null)
 B.X_=new A.d6(B.a3o,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a2q=new A.aZ("Please enter the 6-digit code",null,B.G,null,null,null,null,null,null)
 B.X0=new A.d6(B.a2q,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a2r=new A.aZ("Please enter your full name",null,B.G,null,null,null,null,null,null)
 B.X1=new A.d6(B.a2r,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2C=new A.aZ("Please confirm your new password",null,B.G,null,null,null,null,null,null)
-B.Dn=new A.d6(B.a2C,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2R=new A.aZ("Please provide us the details",null,B.G,null,null,null,null,null,null)
-B.X2=new A.d6(B.a2R,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2D=new A.aZ("Please tell us your reason",null,B.G,null,null,null,null,null,null)
-B.X3=new A.d6(B.a2D,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2Y=new A.aZ("Please set your dropoff address",null,B.G,null,null,null,null,null,null)
-B.X4=new A.d6(B.a2Y,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2D=new A.aZ("Please confirm your new password",null,B.G,null,null,null,null,null,null)
+B.Dn=new A.d6(B.a2D,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2S=new A.aZ("Please provide us the details",null,B.G,null,null,null,null,null,null)
+B.X2=new A.d6(B.a2S,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2E=new A.aZ("Please tell us your reason",null,B.G,null,null,null,null,null,null)
+B.X3=new A.d6(B.a2E,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2Z=new A.aZ("Please set your dropoff address",null,B.G,null,null,null,null,null,null)
+B.X4=new A.d6(B.a2Z,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a3p=new A.aZ("No driver found. Try again later",null,B.G,null,null,null,null,null,null)
 B.nI=new A.d6(B.a3p,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a3b=new A.aZ("You can no longer call your driver. Please report an issue instead",null,B.G,null,null,null,null,null,null)
 B.X6=new A.d6(B.a3b,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a3c=new A.aZ("You can no longer chat your driver. Please report an issue instead",null,B.G,null,null,null,null,null,null)
 B.X5=new A.d6(B.a3c,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a32=new A.aZ("Please enter your email address",null,B.G,null,null,null,null,null,null)
-B.X7=new A.d6(B.a32,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a33=new A.aZ("Please enter your email address",null,B.G,null,null,null,null,null,null)
+B.X7=new A.d6(B.a33,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a2l=new A.aZ("Please enter your new password",null,B.G,null,null,null,null,null,null)
 B.Do=new A.d6(B.a2l,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.a3e=new A.aZ("Please change your new password",null,B.G,null,null,null,null,null,null)
 B.X8=new A.d6(B.a3e,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2E=new A.aZ("Please enter correct full name",null,B.G,null,null,null,null,null,null)
-B.X9=new A.d6(B.a2E,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
-B.a2U=new A.aZ("Please enter a valid phone number",null,B.G,null,null,null,null,null,null)
-B.nJ=new A.d6(B.a2U,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2F=new A.aZ("Please enter correct full name",null,B.G,null,null,null,null,null,null)
+B.X9=new A.d6(B.a2F,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
+B.a2V=new A.aZ("Please enter a valid phone number",null,B.G,null,null,null,null,null,null)
+B.nJ=new A.d6(B.a2V,B.q,null,null,null,null,null,null,null,null,null,null,null,B.F,null,null,null,B.p,null)
 B.Dp=new A.K8(0,"permissive")
 B.Xa=new A.K8(1,"normal")
 B.Xb=new A.K8(2,"forced")
@@ -129306,26 +129306,26 @@ B.a2k=new A.aZ("Sign in with Google",null,B.nX,null,null,null,null,null,null)
 B.a05=new A.w(!0,B.r,null,null,null,null,14,B.qC,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.a2o=new A.aZ("Terms of Service",null,B.a05,B.aB,null,null,null,null,null)
 B.a2t=new A.aZ("Gallery",null,null,null,null,null,null,null,null)
-B.a2y=new A.aZ("Verify Code",null,B.bQ,null,null,null,null,null,null)
+B.a2u=new A.aZ("PPC TODA (Beta) is searching for tricycle drivers near you. If this takes too long, there might be no available tricycle drivers near your current area.",null,null,B.aB,null,null,null,null,null)
+B.a2z=new A.aZ("Verify Code",null,B.bQ,null,null,null,null,null,null)
 B.a_Z=new A.w(!0,null,null,null,null,null,18,B.P,null,null,null,null,1.05,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2z=new A.aZ("Searching for vehicles",null,B.a_Z,null,null,null,null,null,null)
-B.a2A=new A.aZ("Didn't receive the code?",null,null,null,null,null,null,null,null)
-B.a2B=new A.aZ("Camera",null,null,null,null,null,null,null,null)
+B.a2A=new A.aZ("Searching for vehicles",null,B.a_Z,null,null,null,null,null,null)
+B.a2B=new A.aZ("Didn't receive the code?",null,null,null,null,null,null,null,null)
+B.a2C=new A.aZ("Camera",null,null,null,null,null,null,null,null)
 B.a20=new A.w(!0,B.b6,null,null,null,null,14,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.DT=new A.aZ("Via App",null,B.a20,null,null,null,null,null,null)
-B.a2L=new A.aZ("Settings",null,B.bQ,null,null,null,null,null,null)
-B.a2O=new A.aZ("Sign up with Google",null,B.nX,null,null,null,null,null,null)
+B.a2M=new A.aZ("Settings",null,B.bQ,null,null,null,null,null,null)
+B.a2P=new A.aZ("Sign up with Google",null,B.nX,null,null,null,null,null,null)
 B.a0K=new A.w(!0,B.D,null,null,null,null,26,B.eF,null,null,null,null,1.05,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a2P=new A.aZ("New version available",null,B.a0K,null,null,null,null,null,null)
-B.a2W=new A.aZ("Assistance",null,B.bP,null,null,null,null,null,null)
-B.a3_=new A.aZ("Register",null,B.bQ,null,null,null,null,null,null)
+B.a2Q=new A.aZ("New version available",null,B.a0K,null,null,null,null,null,null)
+B.a2X=new A.aZ("Assistance",null,B.bP,null,null,null,null,null,null)
+B.a30=new A.aZ("Register",null,B.bQ,null,null,null,null,null,null)
 B.a0n=new A.w(!0,B.D,null,null,null,null,15,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a30=new A.aZ("History",null,B.a0n,null,null,null,null,null,null)
+B.a31=new A.aZ("History",null,B.a0n,null,null,null,null,null,null)
 B.nY=new A.w(!0,B.D,null,null,null,null,14,B.t,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a34=new A.aZ("I agree to the",null,B.nY,B.aB,null,null,null,null,null)
-B.a36=new A.aZ("Use \ud83c\uddf5\ud83c\udded Phone",null,B.nY,B.aB,null,null,null,null,null)
-B.a37=new A.aZ("Delete Account",null,B.bQ,null,null,null,null,null,null)
-B.a39=new A.aZ("PPC TODA is searching for tricycle drivers near you. If this takes too long, there might be no available tricycle drivers near your current area.",null,null,B.aB,null,null,null,null,null)
+B.a35=new A.aZ("I agree to the",null,B.nY,B.aB,null,null,null,null,null)
+B.a37=new A.aZ("Use \ud83c\uddf5\ud83c\udded Phone",null,B.nY,B.aB,null,null,null,null,null)
+B.a38=new A.aZ("Delete Account",null,B.bQ,null,null,null,null,null,null)
 B.a3a=new A.aZ("Chat Driver",null,B.bQ,null,null,null,null,null,null)
 B.a3d=new A.aZ("Settings",null,B.bP,null,null,null,null,null,null)
 B.a3f=new A.aZ("History",null,B.bQ,null,null,null,null,null,null)

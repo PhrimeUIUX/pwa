@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'PPC TODA',
+      title: 'PPC TODA (Beta)',
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         var mediaQuery = MediaQuery.of(

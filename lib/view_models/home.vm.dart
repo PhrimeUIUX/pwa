@@ -256,7 +256,7 @@ class HomeViewModel extends GMapViewModel {
                       height: 15,
                     ),
                     const Text(
-                      "PPC TODA is searching for tricycle drivers near you. If this takes too long, there might be no available tricycle drivers near your current area.",
+                      "PPC TODA (Beta) is searching for tricycle drivers near you. If this takes too long, there might be no available tricycle drivers near your current area.",
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(
