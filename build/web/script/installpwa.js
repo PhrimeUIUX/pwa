@@ -52,7 +52,7 @@ function setOpenApp() {
   installBtn.textContent = "Open App";
   installBtn.onclick = () => {
     // Open your PWA's start_url
-    window.location.href = "https://ppctodaapp.vercel.app/index.html";
+    window.location.href = "https://ppc-toda.vercel.app/index.html";
   };
 }
 
