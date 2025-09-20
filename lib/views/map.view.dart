@@ -136,7 +136,7 @@ class _MapViewState extends State<MapView> {
                                 ),
                                 errorBuilder: (context, error) => ListTile(
                                   title: Text(
-                                    "An error occurred, please try again!",
+                                    "An error occurred. Please try again",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: const Color(0xFF030744)
@@ -445,7 +445,7 @@ class _MapViewState extends State<MapView> {
                                                         mapUnavailable
                                                     ? mapUnavailable
                                                         ? "Service location is not available"
-                                                        : "An error occurred, please try again!"
+                                                        : "An error occurred. Please try again"
                                                     : capitalizeWords(
                                                         !(address?.addressLine ??
                                                                     "")

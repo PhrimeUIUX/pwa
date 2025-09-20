@@ -23,10 +23,7 @@ class LoginViewModel extends BaseViewModel {
   var phoneTEC = TextEditingController();
   var passwordTEC = TextEditingController();
 
-  initialise() async {
-    isTourist = false;
-    notifyListeners();
-  }
+  initialise() async {}
 
   processPhoneLogin() async {
     if (phoneTEC.text.isEmpty) {
@@ -138,7 +135,7 @@ class LoginViewModel extends BaseViewModel {
         emailAddress = gsiAccount?.email;
       }
       if (emailAddress == null) {
-        throw Exception("An error occurred, please try again!");
+        throw Exception("An error occurred. Please try again");
       }
       final credential = GoogleAuthProvider.credential(
         idToken: auth?.idToken,
@@ -161,7 +158,11 @@ class LoginViewModel extends BaseViewModel {
     } on TimeoutException {
       showError("Request timed out. Please try again later.");
     } catch (e) {
-      showError(e.toString());
+      showError(
+        e.toString().contains("null")
+            ? "An error occurred. Try again later"
+            : e.toString(),
+      );
     } finally {
       AlertService().stopLoading();
     }

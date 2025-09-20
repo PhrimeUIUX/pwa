@@ -1,3 +1,4 @@
+import 'package:pwa/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/views/login.view.dart';
@@ -198,6 +199,9 @@ class _IntroViewState extends State<IntroView> {
                       child: ActionButton(
                         text: "Login account",
                         onTap: () {
+                          setState(() {
+                            isTourist = false;
+                          });
                           Navigator.push(
                             context,
                             PageRouteBuilder(

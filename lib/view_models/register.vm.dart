@@ -1,21 +1,20 @@
+import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pwa/constants/lotties.dart';
-import 'package:pwa/utils/functions.dart';
-import 'package:pwa/views/home.view.dart';
+import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'package:pwa/utils/data.dart';
+import 'package:pwa/utils/functions.dart';
+import 'package:pwa/views/home.view.dart';
+import 'package:pwa/constants/lotties.dart';
 import 'package:pwa/views/verify.view.dart';
 import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/requests/auth.request.dart';
 import 'package:pwa/services/alert.service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pwa/models/api_response.model.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class RegisterViewModel extends BaseViewModel {
   AuthRequest authRequest = AuthRequest();
@@ -241,7 +240,7 @@ class RegisterViewModel extends BaseViewModel {
             emailAddress = gsiAccount?.email;
           }
           if (emailAddress == null) {
-            throw Exception("An error occurred, please try again!");
+            throw Exception("An error occurred. Please try again");
           }
           apiResponse = await authRequest.checkCredentialsExist(
             email: emailAddress,
@@ -366,7 +365,11 @@ class RegisterViewModel extends BaseViewModel {
     } on TimeoutException {
       showError("Request timed out. Please try again later.");
     } catch (e) {
-      showError(e.toString());
+      showError(
+        e.toString().contains("null")
+            ? "An error occurred. Try again later"
+            : e.toString(),
+      );
     } finally {
       AlertService().stopLoading();
     }
@@ -426,8 +429,6 @@ class RegisterViewModel extends BaseViewModel {
           (route) => false,
         );
       }
-      isTourist = false;
-      notifyListeners();
     } catch (e) {
       AlertService().stopLoading();
       ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();

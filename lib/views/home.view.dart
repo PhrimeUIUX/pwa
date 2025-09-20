@@ -75,6 +75,9 @@ class _HomeViewState extends State<HomeView> {
                   borderRadius: 0,
                   onTap: () {
                     if (!AuthService.isLoggedIn()) {
+                      setState(() {
+                        isTourist = false;
+                      });
                       _navigateWithoutTransition(
                         const LoginView(),
                       );
@@ -150,11 +153,13 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                         const SizedBox(width: 15),
-                        const Icon(Icons.chevron_right,
-                            color: Color(
-                              0xFF030744,
-                            ),
-                            size: 25),
+                        const Icon(
+                          Icons.chevron_right,
+                          color: Color(
+                            0xFF030744,
+                          ),
+                          size: 25,
+                        ),
                       ],
                     ),
                   ),
@@ -353,7 +358,8 @@ class _HomeViewState extends State<HomeView> {
                                   },
                                   onCameraMove: (center) {
                                     try {
-                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
                                       final a = vm.disposed;
                                       final b = vm.markers;
                                       if (vm.ongoingOrder == null) {
@@ -409,7 +415,7 @@ class _HomeViewState extends State<HomeView> {
                                             const SnackBar(
                                               backgroundColor: Colors.red,
                                               content: Text(
-                                                "There was a problem with your location detection!",
+                                                "There was a problem with your location detection",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                 ),
@@ -657,7 +663,7 @@ class _HomeViewState extends State<HomeView> {
                                                                   Text(
                                                                     locUnavailable
                                                                         ? "Service location is not available"
-                                                                        : "An error occurred, please try again!",
+                                                                        : "An error occurred. Please try again",
                                                                     maxLines: 1,
                                                                     overflow:
                                                                         TextOverflow
