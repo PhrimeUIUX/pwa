@@ -5,16 +5,11 @@
   ],
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/build/web/index.html"
-    },
-    {
       "source": "/:page",
       "destination": "/build/web/:page.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/build/web/$1"
     }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/build/web/$1" }
   ]
 }
