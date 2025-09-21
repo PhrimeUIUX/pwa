@@ -18,10 +18,12 @@ class LoadViewModel extends BaseViewModel {
   }
 
   getLoadBalance() async {
+    setBusy(true);
     try {
       gLoad = await loadRequest.loadBalanceRequest();
       Get.forceAppUpdate();
     } catch (_) {}
+    setBusy(false);
   }
 
   getLoadTransactions({

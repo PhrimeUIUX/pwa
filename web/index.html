@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="style/indexstyle.css?v1.0.11+31"/>
+    <link rel="stylesheet" href="style/indexstyle.css?v1.0.0+31"/>
     <base href="$FLUTTER_BASE_HREF">
     <meta charset="UTF-8">
     <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -41,21 +41,18 @@
     display: block;
     margin: 0 auto;
   }
-
   @media (min-aspect-ratio: 1/1) {
     #logo {
       width: min(calc(100vh / 2.1), 350px);
       height: min(calc(100vh / 2.1), 350px);
     }
   }
-
   @media (max-aspect-ratio: 1/1) {
     #logo {
       width: min(calc(100vw / 1.3), 350px);
       height: min(calc(100vw / 1.3), 350px);
     }
   }
-
 </style>
 <body style="margin:0; padding:0; overflow:hidden; background-color:#ffffff;">
 <div id="splash">
@@ -66,42 +63,38 @@
   window.addEventListener("flutter-first-frame", function () {
     document.getElementById("splash").style.display = "none";
   });
-
-
 </script>
-<script>
-(function() {
-  const doc = document;
-  const root = doc.documentElement;
-  function requestFS() {
-    if (root.requestFullscreen) return root.requestFullscreen();
-    if (root.webkitRequestFullscreen) return root.webkitRequestFullscreen();
-    if (root.msRequestFullscreen) return root.msRequestFullscreen();
-  }
-  function bindFullscreenEvents() {
-    const ask = () => {
-      requestFS()?.catch(err => console.warn("Fullscreen failed:", err));
-    };
-    const opts = { once: true, passive: false };
-    window.addEventListener('click', ask, opts);
-    window.addEventListener('touchend', ask, opts);
-    window.addEventListener('pointerup', ask, opts);
-    window.addEventListener('keydown', ask, opts);
-  }
-  function onFSChange() {
-    const fsEl = doc.fullscreenElement ||
-                 doc.webkitFullscreenElement ||
-                 doc.msFullscreenElement;
-    if (!fsEl) bindFullscreenEvents();
-  }
-  doc.addEventListener('fullscreenchange', onFSChange);
-  doc.addEventListener('webkitfullscreenchange', onFSChange);
-  doc.addEventListener('MSFullscreenChange', onFSChange);
-  bindFullscreenEvents();
-})();
-
-
-</script>
+<!--<script>-->
+<!--(function() {-->
+<!--  const doc = document;-->
+<!--  const root = doc.documentElement;-->
+<!--  function requestFS() {-->
+<!--    if (root.requestFullscreen) return root.requestFullscreen();-->
+<!--    if (root.webkitRequestFullscreen) return root.webkitRequestFullscreen();-->
+<!--    if (root.msRequestFullscreen) return root.msRequestFullscreen();-->
+<!--  }-->
+<!--  function bindFullscreenEvents() {-->
+<!--    const ask = () => {-->
+<!--      requestFS()?.catch(err => console.warn("Fullscreen failed:", err));-->
+<!--    };-->
+<!--    const opts = { once: true, passive: false };-->
+<!--    window.addEventListener('click', ask, opts);-->
+<!--    window.addEventListener('touchend', ask, opts);-->
+<!--    window.addEventListener('pointerup', ask, opts);-->
+<!--    window.addEventListener('keydown', ask, opts);-->
+<!--  }-->
+<!--  function onFSChange() {-->
+<!--    const fsEl = doc.fullscreenElement ||-->
+<!--                 doc.webkitFullscreenElement ||-->
+<!--                 doc.msFullscreenElement;-->
+<!--    if (!fsEl) bindFullscreenEvents();-->
+<!--  }-->
+<!--  doc.addEventListener('fullscreenchange', onFSChange);-->
+<!--  doc.addEventListener('webkitfullscreenchange', onFSChange);-->
+<!--  doc.addEventListener('MSFullscreenChange', onFSChange);-->
+<!--  bindFullscreenEvents();-->
+<!--})();-->
+<!--</script>-->
 <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
