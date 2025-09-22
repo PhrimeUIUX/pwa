@@ -5,10 +5,10 @@ const installBtn = document.getElementById("installPwa");
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  
+
   installBtn.style.display = "block";
   installBtn.textContent = "Install";
-  
+
   installBtn.onclick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -23,20 +23,22 @@ window.addEventListener("beforeinstallprompt", (e) => {
 async function checkIfInstalled() {
   // Chrome/Android: check installed related apps
   if (navigator.getInstalledRelatedApps) {
-    const relatedApps = await navigator.getInstalledRelatedApps();
-    const found = relatedApps.some(
-      (app) =>
-        app.platform === "webapp" &&
-        app.url.includes("/build/web/manifest.json") // updated path
-    );
-    if (found) {
-      setOpenApp();
-      return;
+    try {
+      const relatedApps = await navigator.getInstalledRelatedApps();
+      const found = relatedApps.some(
+        (app) =>
+          app.platform === "webapp" &&
+          app.url.includes("manifest.json") // don't hardcode /build/web
+      );
+      if (found) {
+        setOpenApp();
+        return;
+      }
+    } catch (err) {
+      console.warn("getInstalledRelatedApps not available:", err);
     }
   }
-}
 
-  
   // Fallback: detect if running as standalone
   if (
     window.matchMedia("(display-mode: standalone)").matches ||
@@ -59,7 +61,7 @@ function setOpenApp() {
 }
 
 // Run check every 5s
-setInterval(checkIfInstalled, 100);
+setInterval(checkIfInstalled, 2000);
 
 // Also check immediately on page load
 checkIfInstalled();
