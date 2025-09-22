@@ -5,5 +5,8 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/build/web/$1" }
+  ],
+   "rewrites": [
+    { "source": "/download", "destination": "/download.html" }
   ]
 }
