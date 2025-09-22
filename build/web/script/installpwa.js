@@ -26,14 +26,16 @@ async function checkIfInstalled() {
     const relatedApps = await navigator.getInstalledRelatedApps();
     const found = relatedApps.some(
       (app) =>
-      app.platform === "webapp" &&
-      app.url.includes("manifest.json") // replace if your manifest has another path
+        app.platform === "webapp" &&
+        app.url.includes("/build/web/manifest.json") // updated path
     );
     if (found) {
       setOpenApp();
       return;
     }
   }
+}
+
   
   // Fallback: detect if running as standalone
   if (
@@ -52,7 +54,7 @@ function setOpenApp() {
   installBtn.textContent = "Open App";
   installBtn.onclick = () => {
     // Open your PWA's start_url
-    window.location.href = "https://ppc-toda.vercel.app/index.html";
+    window.location.href = "https://ppc-toda.vercel.app";
   };
 }
 
