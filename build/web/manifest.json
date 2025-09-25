@@ -1,19 +1,13 @@
 {
   "name": "PPC TODA (Beta)",
-  "short_name": "PPC TODA",
-  "start_url": "/",
+  "short_name": "PPC TODA (Beta)",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "description": "PPC TODA (Beta)",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "prefer_related_applications": false,
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://ppc-toda.vercel.app/manifest.json"
-    }
-  ],
   "icons": [
     {
       "src": "icons/webiconsmall.png",
