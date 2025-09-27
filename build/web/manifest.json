@@ -8,6 +8,12 @@
   "description": "PPC TODA (Beta)",
   "orientation": "portrait",
   "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://ppc-toda.vercel.app/manifest.json"
+    }
+  ],
   "icons": [
     {
       "src": "icons/webiconsmall.png",
@@ -33,3 +39,4 @@
     }
   ]
 }
+
