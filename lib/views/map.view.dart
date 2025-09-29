@@ -89,6 +89,7 @@ class _MapViewState extends State<MapView> {
                                     animate: true,
                                     isPickup: widget.isPickup,
                                   );
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   await Future.delayed(
                                     const Duration(
                                       milliseconds: 500,
