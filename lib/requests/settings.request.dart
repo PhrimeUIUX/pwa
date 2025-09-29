@@ -35,7 +35,7 @@ class SettingsRequest extends HttpService {
   Future<List<Banner>> bannersRequest() async {
     try {
       final apiResult = await getExternal(
-        "https://cors-anywhere.com/${Api.baseUrl}${Api.banners}",
+        "https://corsproxy.io/${Api.baseUrl}${Api.banners}",
       ).timeout(
         const Duration(seconds: 30),
       );

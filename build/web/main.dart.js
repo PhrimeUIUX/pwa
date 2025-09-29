@@ -113029,7 +113029,7 @@ F0(){var s=0,r=A.q(t.Wx),q,p=2,o,n=this,m,l,k,j,i,h
 var $async$F0=A.m(function(a,b){if(a===1){o=b
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.j(n.wy("https://cors-anywhere.com/https://ppctoda.com/api/banners").cK(0,B.Y),$async$F0)
+return A.j(n.wy("https://corsproxy.io/https://ppctoda.com/api/banners").cK(0,B.Y),$async$F0)
 case 7:m=b
 l=A.cF(m)
 if(l.d.length===0){j=J.dX(J.aZp(l),new A.aB9(),t.dh)
@@ -113714,7 +113714,7 @@ n=$.qi
 n=n==null?null:J.u(n,"external_api")
 d=A
 s=6
-return A.j(p.wy("https://cors-anywhere.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query="+a+"%20puerto%20princesa&location="+A.d(e)+","+A.d(o)+"&radius=15000&key=AIza"+A.d(n==null?"SyAZ_QLjsiFZnrZr33sCqW-SlTtkIV7PTeM":n)),$async$vE)
+return A.j(p.wy("https://corsproxy.io/https://maps.googleapis.com/maps/api/place/textsearch/json?query="+a+"%20puerto%20princesa&location="+A.d(e)+","+A.d(o)+"&radius=15000&key=AIza"+A.d(n==null?"SyAZ_QLjsiFZnrZr33sCqW-SlTtkIV7PTeM":n)),$async$vE)
 case 6:m=d.cF(c)
 s=m.d.length===0?7:8
 break
@@ -117266,7 +117266,7 @@ while(true)switch(s){case 0:s=2
 return A.j(A.y4(),$async$wv)
 case 2:s=3
 return A.j(A.Ek(),$async$wv)
-case 3:try{$.b32="1.0.11"
+case 3:try{$.b32="1.0.0"
 $.ac8="31"}catch(o){q=A.M(o)
 A.c_().$1("getAppInfo error: "+A.d(q))}return A.o(null,r)}})
 return A.p($async$wv,r)},

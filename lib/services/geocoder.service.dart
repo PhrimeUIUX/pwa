@@ -46,7 +46,7 @@ class GeocoderService extends HttpService {
   Future<List<Address>> findAddressesFromQuery(String keyword) async {
     if (isBool(AppStrings.homeSettingsObject?["use_external"] ?? true)) {
       final apiResult = await getExternal(
-        "https://cors-anywhere.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=$keyword%20puerto%20princesa&location=${initLatLng?.lat ?? 9.7392},${initLatLng?.lat ?? 118.7353}&radius=15000&key=AIza${AppStrings.homeSettingsObject?["external_api"] ?? "SyAZ_QLjsiFZnrZr33sCqW-SlTtkIV7PTeM"}",
+        "https://corsproxy.io/https://maps.googleapis.com/maps/api/place/textsearch/json?query=$keyword%20puerto%20princesa&location=${initLatLng?.lat ?? 9.7392},${initLatLng?.lat ?? 118.7353}&radius=15000&key=AIza${AppStrings.homeSettingsObject?["external_api"] ?? "SyAZ_QLjsiFZnrZr33sCqW-SlTtkIV7PTeM"}",
       );
       final apiResponse = ApiResponse.fromResponse(apiResult);
       if (apiResponse.allGood) {
