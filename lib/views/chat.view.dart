@@ -115,13 +115,13 @@ class _ChatViewState extends State<ChatView> {
                                       padding: EdgeInsets.only(
                                         top: vm.messages.isNotEmpty &&
                                                 index == vm.messages.length - 1
-                                            ? 82.5
+                                            ? 83
                                             : 0,
                                       ),
                                       child: GestureDetector(
                                         onTap: () {
-                                          if (vm.messages[index].text.contains(
-                                              "https://ppctoda.com/storage")) {
+                                          if (vm.messages[index].text
+                                              .contains("https")) {
                                             AlertService().showAppAlert(
                                               isCustom: true,
                                               customWidget: PinchZoom(
@@ -252,7 +252,7 @@ class _ChatViewState extends State<ChatView> {
                                                               .messages[index]
                                                               .text
                                                               .contains(
-                                                        "https://ppctoda.com/storage",
+                                                        "https",
                                                       )
                                                           ? EdgeInsets.zero
                                                           : const EdgeInsets
@@ -273,7 +273,7 @@ class _ChatViewState extends State<ChatView> {
                                                                 .messages[index]
                                                                 .text
                                                                 .contains(
-                                                          "https://ppctoda.com/storage",
+                                                          "https",
                                                         )
                                                             ? null
                                                             : DecorationImage(
@@ -296,7 +296,7 @@ class _ChatViewState extends State<ChatView> {
                                                           vm.messages[index]
                                                                   .text
                                                                   .contains(
-                                                            "https://ppctoda.com/storage",
+                                                            "https",
                                                           )
                                                               ? SizedBox(
                                                                   width: MediaQuery.of(
@@ -336,7 +336,7 @@ class _ChatViewState extends State<ChatView> {
                                                                         index]
                                                                     .text
                                                                     .contains(
-                                                              "https://ppctoda.com/storage",
+                                                              "https",
                                                             )
                                                                 ? const EdgeInsets
                                                                     .all(5)
@@ -347,7 +347,7 @@ class _ChatViewState extends State<ChatView> {
                                                                         index]
                                                                     .text
                                                                     .contains(
-                                                              "https://ppctoda.com/storage",
+                                                              "https",
                                                             )
                                                                 ? const EdgeInsets
                                                                     .all(5)
@@ -367,7 +367,7 @@ class _ChatViewState extends State<ChatView> {
                                                                           index]
                                                                       .text
                                                                       .contains(
-                                                                "https://ppctoda.com/storage",
+                                                                "https",
                                                               )
                                                                   ? Colors.black
                                                                       .withOpacity(
@@ -393,7 +393,7 @@ class _ChatViewState extends State<ChatView> {
                                                                             index]
                                                                         .text
                                                                         .contains(
-                                                                  "https://ppctoda.com/storage",
+                                                                  "https",
                                                                 )
                                                                     ? Colors
                                                                         .white
@@ -419,13 +419,13 @@ class _ChatViewState extends State<ChatView> {
                                       padding: EdgeInsets.only(
                                         top: vm.messages.isNotEmpty &&
                                                 index == vm.messages.length - 1
-                                            ? 82.5
+                                            ? 83
                                             : 0,
                                       ),
                                       child: GestureDetector(
                                         onTap: () {
-                                          if (vm.messages[index].text.contains(
-                                              "https://ppctoda.com/storage")) {
+                                          if (vm.messages[index].text
+                                              .contains("https")) {
                                             AlertService().showAppAlert(
                                               isCustom: true,
                                               customWidget: PinchZoom(
@@ -467,7 +467,7 @@ class _ChatViewState extends State<ChatView> {
                                                   padding: vm
                                                           .messages[index].text
                                                           .contains(
-                                                    "https://ppctoda.com/storage",
+                                                    "https",
                                                   )
                                                       ? EdgeInsets.zero
                                                       : const EdgeInsets.all(
@@ -486,7 +486,7 @@ class _ChatViewState extends State<ChatView> {
                                                     image: !vm.messages[index]
                                                             .text
                                                             .contains(
-                                                      "https://ppctoda.com/storage",
+                                                      "https",
                                                     )
                                                         ? null
                                                         : DecorationImage(
@@ -503,7 +503,7 @@ class _ChatViewState extends State<ChatView> {
                                                     children: [
                                                       vm.messages[index].text
                                                               .contains(
-                                                        "https://ppctoda.com/storage",
+                                                        "https",
                                                       )
                                                           ? SizedBox(
                                                               width: MediaQuery.of(
@@ -537,7 +537,7 @@ class _ChatViewState extends State<ChatView> {
                                                                 .messages[index]
                                                                 .text
                                                                 .contains(
-                                                          "https://ppctoda.com/storage",
+                                                          "https",
                                                         )
                                                             ? const EdgeInsets
                                                                 .all(5)
@@ -546,7 +546,7 @@ class _ChatViewState extends State<ChatView> {
                                                                 .messages[index]
                                                                 .text
                                                                 .contains(
-                                                          "https://ppctoda.com/storage",
+                                                          "https",
                                                         )
                                                             ? const EdgeInsets
                                                                 .all(5)
@@ -565,7 +565,7 @@ class _ChatViewState extends State<ChatView> {
                                                                       index]
                                                                   .text
                                                                   .contains(
-                                                            "https://ppctoda.com/storage",
+                                                            "https",
                                                           )
                                                               ? Colors.black
                                                                   .withOpacity(
