@@ -91,6 +91,93 @@ class _ChatViewState extends State<ChatView> {
             body: SafeArea(
               child: Column(
                 children: [
+                  const SizedBox(height: 12),
+                  GestureDetector(
+                    onTap: () {
+                      _removeSelection();
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 4),
+                        IconButton(
+                          onPressed: () async {
+                            fbStore
+                                .collection(
+                                  "orders",
+                                )
+                                .doc(widget.order.code)
+                                .update(
+                              {
+                                "userSeen": true,
+                              },
+                            );
+                            Get.back();
+                          },
+                          icon: const Padding(
+                            padding: EdgeInsets.only(
+                              top: 2,
+                              right: 4,
+                              bottom: 2,
+                            ),
+                            child: Icon(
+                              Icons.chevron_left,
+                              color: Color(
+                                0xFF030744,
+                              ),
+                              size: 38,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        const Text(
+                          "Chat Driver",
+                          style: TextStyle(
+                            height: 1,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            color: Color(
+                              0xFF030744,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: SizedBox.shrink()),
+                        SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: WidgetButton(
+                            onTap: () {
+                              launchUrlString(
+                                "tel://${widget.order.driver?.phone}",
+                              );
+                            },
+                            mainColor: const Color(
+                              0xFF007BFF,
+                            ),
+                            borderRadius: 8,
+                            useDefaultHoverColor: false,
+                            child: const Center(
+                              child: Icon(
+                                Icons.call,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: const Color(
+                      0xFF030744,
+                    ).withOpacity(
+                      0.15,
+                    ),
+                  ),
                   Expanded(
                     child: Stack(
                       children: [
@@ -98,94 +185,6 @@ class _ChatViewState extends State<ChatView> {
                           try {
                             return Column(
                               children: [
-                                const SizedBox(height: 12),
-                                GestureDetector(
-                                  onTap: () {
-                                    _removeSelection();
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(width: 4),
-                                      IconButton(
-                                        onPressed: () async {
-                                          fbStore
-                                              .collection(
-                                                "orders",
-                                              )
-                                              .doc(widget.order.code)
-                                              .update(
-                                            {
-                                              "userSeen": true,
-                                            },
-                                          );
-                                          Get.back();
-                                        },
-                                        icon: const Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 2,
-                                            right: 4,
-                                            bottom: 2,
-                                          ),
-                                          child: Icon(
-                                            Icons.chevron_left,
-                                            color: Color(
-                                              0xFF030744,
-                                            ),
-                                            size: 38,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 2),
-                                      const Text(
-                                        "Chat Driver",
-                                        style: TextStyle(
-                                          height: 1,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color(
-                                            0xFF030744,
-                                          ),
-                                        ),
-                                      ),
-                                      const Expanded(child: SizedBox.shrink()),
-                                      SizedBox(
-                                        width: 44,
-                                        height: 44,
-                                        child: WidgetButton(
-                                          onTap: () {
-                                            launchUrlString(
-                                              "tel://${widget.order.driver?.phone}",
-                                            );
-                                          },
-                                          mainColor: const Color(
-                                            0xFF007BFF,
-                                          ),
-                                          borderRadius: 8,
-                                          useDefaultHoverColor: false,
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.call,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: const Color(
-                                    0xFF030744,
-                                  ).withOpacity(
-                                    0.15,
-                                  ),
-                                ),
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
@@ -844,8 +843,8 @@ class _ChatViewState extends State<ChatView> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 49,
-                                          height: 49,
+                                          width: 55,
+                                          height: 55,
                                           child: WidgetButton(
                                             onTap: () async {
                                               if (!vm.isBusy &&
