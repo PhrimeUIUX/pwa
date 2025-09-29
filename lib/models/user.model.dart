@@ -16,7 +16,6 @@ class User {
   String? rawPhone;
   String? countryCode;
   String? photo;
-  String? role;
   List<String>? bookingServices;
   String? branchName;
   String? prevBranchName;
@@ -48,7 +47,6 @@ class User {
     this.rawPhone,
     this.countryCode,
     this.photo,
-    this.role,
     this.bookingServices,
     this.branchName,
     this.prevBranchName,
@@ -128,10 +126,6 @@ class User {
         photo: parseString(
           json?["photo"] ?? json?["real_photo"],
           "real_photo",
-        ),
-        role: parseString(
-          json?["role"],
-          "role",
         ),
         bookingServices: parseList<String>(
           json?["booking_services"] ?? json?["features"],
@@ -227,7 +221,6 @@ class User {
         "country_code": countryCode,
         "photo": photo,
         "real_photo": photo,
-        "role": role,
         "features": bookingServices,
         "booking_services": bookingServices,
         "branch_name": branchName,

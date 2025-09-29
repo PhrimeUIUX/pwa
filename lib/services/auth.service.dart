@@ -34,13 +34,13 @@ class AuthService {
       AppStrings.userKey,
       stringMap,
     );
+    subscribeToTopic("c");
     subscribeToTopic("all");
+    subscribeToTopic("client");
     subscribeToTopic("${currentUser?.id}");
-    subscribeToTopic("${currentUser?.role}");
+    subscribeToTopic("c_${currentUser?.id}");
+    subscribeToTopic("client_${currentUser?.id}");
     subscribeToTopic("branch_${currentUser?.branchID}");
-    subscribeToTopic("${currentUser?.role?.split("")[0]}");
-    subscribeToTopic("${currentUser?.role}_${currentUser?.id}");
-    subscribeToTopic("${currentUser?.role?.split("")[0]}_${currentUser?.id}");
     return currentUser;
   }
 
@@ -79,13 +79,12 @@ class AuthService {
   }
 
   logout() async {
+    unsubscribeFromTopic("c");
+    unsubscribeFromTopic("client");
     unsubscribeFromTopic("${currentUser?.id}");
-    unsubscribeFromTopic("${currentUser?.role}");
+    unsubscribeFromTopic("c_${currentUser?.id}");
+    unsubscribeFromTopic("client_${currentUser?.id}");
     unsubscribeFromTopic("branch_${currentUser?.branchID}");
-    unsubscribeFromTopic("${currentUser?.role?.split("")[0]}");
-    unsubscribeFromTopic("${currentUser?.role}_${currentUser?.id}");
-    unsubscribeFromTopic(
-        "${currentUser?.role?.split("")[0]}_${currentUser?.id}");
     await StorageService.rxPrefs?.clear();
     await StorageService.prefs?.clear();
     dropoffAddress = null;
@@ -149,7 +148,7 @@ class AuthService {
     }
   }
 
-   subscribeToTopic(String topic) async {
+  subscribeToTopic(String topic) async {
     try {
       final topics = StorageService.prefs?.getStringList("topics") ?? [];
       if (!topics.contains(topic)) {
@@ -162,7 +161,7 @@ class AuthService {
     }
   }
 
-   unsubscribeFromTopic(String topic) async {
+  unsubscribeFromTopic(String topic) async {
     try {
       final topics = StorageService.prefs?.getStringList("topics") ?? [];
       topics.remove(topic);

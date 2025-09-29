@@ -1,11 +1,17 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
+import 'dart:convert';
 import 'dart:html' as html;
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/views/splash.view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pwa/services/storage.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'models/user.model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +45,8 @@ Future<void> setupWebPush() async {
           "BHlyzsbKUKY7dLGucP2TBDD9jXJWCKnE4c5ZCsFXhfZXEnmcCK9A-kF5vSAIN4DpsKvccRy468XW7qzE_DMfjMk";
       final token = await messaging.getToken(vapidKey: vapidKey);
       debugPrint("Web FCM Token: $token");
+      User? user = await AuthService.getUserFromStorage();
+      AuthService().saveUserToStorage(jsonEncode(user));
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         debugPrint(
           "Foreground title: ${message.data["title"] ?? message.notification?.title}",

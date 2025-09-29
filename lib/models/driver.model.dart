@@ -39,9 +39,7 @@ class Driver extends User {
     super.isActive,
     this.vehicle,
     String? role,
-  }) : super(
-          role: role ?? "driver",
-        );
+  });
 
   factory Driver.fromJson(Map<String, dynamic>? json) {
     try {
