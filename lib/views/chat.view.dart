@@ -17,6 +17,7 @@ import 'package:pwa/requests/order.request.dart';
 import 'package:pwa/services/alert.service.dart';
 import 'package:pwa/models/chat_entity.model.dart';
 import 'package:pwa/widgets/network_image.widget.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView(
@@ -85,81 +86,113 @@ class _ChatViewState extends State<ChatView> {
           model.initialise(widget.chatEntity);
         },
         builder: (context, vm, child) {
-          return GestureDetector(
-            onTap: () {
-              _removeSelection();
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 12),
-                    Row(
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Stack(
                       children: [
-                        const SizedBox(width: 4),
-                        IconButton(
-                          onPressed: () async {
-                            fbStore
-                                .collection(
-                                  "orders",
-                                )
-                                .doc(widget.order.code)
-                                .update(
-                              {
-                                "userSeen": true,
-                              },
-                            );
-                            Get.back();
-                          },
-                          icon: const Padding(
-                            padding: EdgeInsets.only(
-                              top: 2,
-                              right: 4,
-                              bottom: 2,
-                            ),
-                            child: Icon(
-                              Icons.chevron_left,
-                              color: Color(
-                                0xFF030744,
-                              ),
-                              size: 38,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 2),
-                        const Text(
-                          "Chat Driver",
-                          style: TextStyle(
-                            height: 1,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Color(
-                              0xFF030744,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: const Color(
-                        0xFF030744,
-                      ).withOpacity(
-                        0.15,
-                      ),
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Builder(builder: (context) {
-                            try {
-                              return Column(
-                                children: [
-                                  Expanded(
+                        Builder(builder: (context) {
+                          try {
+                            return Column(
+                              children: [
+                                const SizedBox(height: 12),
+                                GestureDetector(
+                                  onTap: () {
+                                    _removeSelection();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(width: 4),
+                                      IconButton(
+                                        onPressed: () async {
+                                          fbStore
+                                              .collection(
+                                                "orders",
+                                              )
+                                              .doc(widget.order.code)
+                                              .update(
+                                            {
+                                              "userSeen": true,
+                                            },
+                                          );
+                                          Get.back();
+                                        },
+                                        icon: const Padding(
+                                          padding: EdgeInsets.only(
+                                            top: 2,
+                                            right: 4,
+                                            bottom: 2,
+                                          ),
+                                          child: Icon(
+                                            Icons.chevron_left,
+                                            color: Color(
+                                              0xFF030744,
+                                            ),
+                                            size: 38,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 2),
+                                      const Text(
+                                        "Chat Driver",
+                                        style: TextStyle(
+                                          height: 1,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(
+                                            0xFF030744,
+                                          ),
+                                        ),
+                                      ),
+                                      const Expanded(child: SizedBox.shrink()),
+                                      SizedBox(
+                                        width: 44,
+                                        height: 44,
+                                        child: WidgetButton(
+                                          onTap: () {
+                                            launchUrlString(
+                                              "tel://${widget.order.driver?.phone}",
+                                            );
+                                          },
+                                          mainColor: const Color(
+                                            0xFF007BFF,
+                                          ),
+                                          borderRadius: 8,
+                                          useDefaultHoverColor: false,
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.call,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  color: const Color(
+                                    0xFF030744,
+                                  ).withOpacity(
+                                    0.15,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _removeSelection();
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                    },
                                     child: ListView.builder(
                                       reverse: true,
                                       padding: EdgeInsets.zero,
@@ -680,183 +713,363 @@ class _ChatViewState extends State<ChatView> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: chatFile == null
-                                        ? null
-                                        : MediaQuery.of(context).size.width,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          _controller.text != "" &&
-                                                  _controller.text != "null"
-                                              ? const SizedBox(width: 16)
-                                              : const SizedBox(width: 8),
-                                          _controller.text != "" &&
-                                                  _controller.text != "null"
-                                              ? const SizedBox.shrink()
-                                              : SizedBox(
-                                                  width: 38,
-                                                  height: 38,
-                                                  child: WidgetButton(
-                                                    onTap: () async {
-                                                      _removeSelection();
-                                                      FocusManager
-                                                          .instance.primaryFocus
-                                                          ?.unfocus();
-                                                      await showCameraSource(
-                                                        cameraType: "chat",
-                                                      );
-                                                    },
-                                                    borderRadius: 8,
-                                                    child: const Center(
-                                                      child: Icon(
-                                                        Icons
-                                                            .camera_alt_outlined,
-                                                        size: 30,
-                                                        color: Color(
-                                                          0xFF007BFF,
-                                                        ),
+                                ),
+                                SizedBox(
+                                  height: chatFile == null
+                                      ? null
+                                      : MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        _controller.text != "" &&
+                                                _controller.text != "null"
+                                            ? const SizedBox(width: 16)
+                                            : const SizedBox(width: 8),
+                                        _controller.text != "" &&
+                                                _controller.text != "null"
+                                            ? const SizedBox.shrink()
+                                            : SizedBox(
+                                                width: 38,
+                                                height: 38,
+                                                child: WidgetButton(
+                                                  onTap: () async {
+                                                    _removeSelection();
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                    await showCameraSource(
+                                                      cameraType: "chat",
+                                                    );
+                                                  },
+                                                  borderRadius: 8,
+                                                  child: const Center(
+                                                    child: Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 30,
+                                                      color: Color(
+                                                        0xFF007BFF,
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                          _controller.text != "" &&
-                                                  _controller.text != "null"
-                                              ? const SizedBox.shrink()
-                                              : SizedBox(
-                                                  width: 38,
-                                                  height: 38,
-                                                  child: WidgetButton(
-                                                    onTap: () async {
-                                                      _removeSelection();
-                                                      FocusManager
-                                                          .instance.primaryFocus
-                                                          ?.unfocus();
-                                                      try {
-                                                        final ImagePicker
-                                                            picker =
-                                                            ImagePicker();
-                                                        final XFile? image =
-                                                            await picker
-                                                                .pickImage(
-                                                          source: ImageSource
-                                                              .gallery,
-                                                        );
-                                                        if (image != null) {
-                                                          chatFile = await image
-                                                              .readAsBytes();
-                                                          Get.forceAppUpdate();
-                                                        }
-                                                      } catch (e) {
-                                                        if (showParseText) {
-                                                          debugPrint(
-                                                            "Error picking image: $e",
-                                                          );
-                                                        }
-                                                      }
-                                                    },
-                                                    borderRadius: 8,
-                                                    child: const Center(
-                                                      child: Icon(
-                                                        Icons.image_outlined,
-                                                        size: 30,
-                                                        color: Color(
-                                                          0xFF007BFF,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                          _controller.text != "" &&
-                                                  _controller.text != "null"
-                                              ? const SizedBox.shrink()
-                                              : const SizedBox(width: 8),
-                                          Expanded(
-                                            child: TextField(
-                                              controller: _controller,
-                                              decoration: InputDecoration(
-                                                filled: true,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(
-                                                      8,
-                                                    ),
-                                                  ),
-                                                  borderSide: BorderSide.none,
-                                                ),
-                                                fillColor: Colors.grey.shade200,
                                               ),
-                                              onTap: () {
-                                                _removeSelection();
-                                              },
-                                              onSubmitted: (message) async {
-                                                if (!vm.isBusy &&
-                                                    message != "" &&
-                                                    message != "null") {
-                                                  await vm.sendMessage(
-                                                    ChatMessage(
-                                                      text: message,
-                                                      user: widget
-                                                          .chatEntity.mainUser!
-                                                          .toChatUser(),
-                                                      createdAt: DateTime.now()
-                                                          .toUtc(),
+                                        _controller.text != "" &&
+                                                _controller.text != "null"
+                                            ? const SizedBox.shrink()
+                                            : SizedBox(
+                                                width: 38,
+                                                height: 38,
+                                                child: WidgetButton(
+                                                  onTap: () async {
+                                                    _removeSelection();
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                    try {
+                                                      final ImagePicker picker =
+                                                          ImagePicker();
+                                                      final XFile? image =
+                                                          await picker
+                                                              .pickImage(
+                                                        source:
+                                                            ImageSource.gallery,
+                                                      );
+                                                      if (image != null) {
+                                                        chatFile = await image
+                                                            .readAsBytes();
+                                                        Get.forceAppUpdate();
+                                                      }
+                                                    } catch (e) {
+                                                      if (showParseText) {
+                                                        debugPrint(
+                                                          "Error picking image: $e",
+                                                        );
+                                                      }
+                                                    }
+                                                  },
+                                                  borderRadius: 8,
+                                                  child: const Center(
+                                                    child: Icon(
+                                                      Icons.image_outlined,
+                                                      size: 30,
+                                                      color: Color(
+                                                        0xFF007BFF,
+                                                      ),
                                                     ),
-                                                  );
-                                                  _controller.clear();
-                                                }
-                                              },
+                                                  ),
+                                                ),
+                                              ),
+                                        _controller.text != "" &&
+                                                _controller.text != "null"
+                                            ? const SizedBox.shrink()
+                                            : const SizedBox(width: 8),
+                                        Expanded(
+                                          child: TextField(
+                                            controller: _controller,
+                                            decoration: InputDecoration(
+                                              filled: true,
+                                              border: const OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                    8,
+                                                  ),
+                                                ),
+                                                borderSide: BorderSide.none,
+                                              ),
+                                              fillColor: Colors.grey.shade200,
+                                            ),
+                                            onTap: () {
+                                              _removeSelection();
+                                            },
+                                            onSubmitted: (message) async {
+                                              if (!vm.isBusy &&
+                                                  message != "" &&
+                                                  message != "null") {
+                                                await vm.sendMessage(
+                                                  ChatMessage(
+                                                    text: message,
+                                                    user: widget
+                                                        .chatEntity.mainUser!
+                                                        .toChatUser(),
+                                                    createdAt:
+                                                        DateTime.now().toUtc(),
+                                                  ),
+                                                );
+                                                _controller.clear();
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 49,
+                                          height: 49,
+                                          child: WidgetButton(
+                                            onTap: () async {
+                                              if (!vm.isBusy &&
+                                                  _controller.text != "" &&
+                                                  _controller.text != "null") {
+                                                await vm.sendMessage(
+                                                  ChatMessage(
+                                                    text: _controller.text,
+                                                    user: widget
+                                                        .chatEntity.mainUser!
+                                                        .toChatUser(),
+                                                    createdAt:
+                                                        DateTime.now().toUtc(),
+                                                  ),
+                                                );
+                                                _controller.clear();
+                                              }
+                                            },
+                                            borderRadius: 8,
+                                            child: Center(
+                                              child: vm.isBusy
+                                                  ? const CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    )
+                                                  : Icon(
+                                                      Icons.send,
+                                                      size: 30,
+                                                      color: _controller.text ==
+                                                                  "" ||
+                                                              _controller
+                                                                      .text ==
+                                                                  "null"
+                                                          ? Colors.grey
+                                                          : const Color(
+                                                              0xFF007BFF,
+                                                            ),
+                                                    ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } catch (e) {
+                            return const SizedBox.shrink();
+                          }
+                        }),
+                        chatFile == null
+                            ? const SizedBox.shrink()
+                            : Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context)
+                                          .size
+                                          .width
+                                          .clamp(0, 450),
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: MemoryImage(chatFile!),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 20,
+                                      right: 20,
+                                      bottom: 20,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
                                             child: SizedBox(
-                                              width: 49,
-                                              height: 49,
+                                              height: 55,
                                               child: WidgetButton(
                                                 onTap: () async {
-                                                  if (!vm.isBusy &&
-                                                      _controller.text != "" &&
-                                                      _controller.text !=
-                                                          "null") {
-                                                    await vm.sendMessage(
-                                                      ChatMessage(
-                                                        text: _controller.text,
-                                                        user: widget.chatEntity
-                                                            .mainUser!
-                                                            .toChatUser(),
-                                                        createdAt:
-                                                            DateTime.now()
-                                                                .toUtc(),
+                                                  chatFile = null;
+                                                },
+                                                mainColor: Colors.red,
+                                                useDefaultHoverColor: false,
+                                                borderRadius: 8,
+                                                child: const Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.close,
+                                                        size: 35,
+                                                        color: Colors.white,
                                                       ),
-                                                    );
-                                                    _controller.clear();
+                                                      Text(
+                                                        "Cancel",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 20),
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 55,
+                                              child: WidgetButton(
+                                                onTap: () async {
+                                                  if (!vm.isBusy) {
+                                                    vm.setBusy(true);
+                                                    try {
+                                                      await OrderRequest()
+                                                          .postMedia(
+                                                        widget.order.id!,
+                                                        "driver",
+                                                      );
+                                                      await OrderRequest()
+                                                          .getMedia(
+                                                        widget.order.id!,
+                                                      );
+                                                      if (mediaList
+                                                              .isNotEmpty &&
+                                                          !vm.messages.any(
+                                                            (message) =>
+                                                                message.text.contains(
+                                                                    mediaList
+                                                                        .last
+                                                                        .photoUrl!) &&
+                                                                message.user
+                                                                        .id ==
+                                                                    "${AuthService.currentUser?.id}",
+                                                          )) {
+                                                        await vm.sendMessage(
+                                                          ChatMessage(
+                                                            text: mediaList
+                                                                .last.photoUrl!,
+                                                            user: widget
+                                                                .chatEntity
+                                                                .mainUser!
+                                                                .toChatUser(),
+                                                            createdAt:
+                                                                DateTime.now()
+                                                                    .toUtc(),
+                                                          ),
+                                                        );
+                                                      }
+                                                      chatFile = null;
+                                                    } catch (e) {
+                                                      ScaffoldMessenger.of(Get
+                                                              .overlayContext!)
+                                                          .clearSnackBars();
+                                                      ScaffoldMessenger.of(
+                                                        Get.overlayContext!,
+                                                      ).showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          content: Text(
+                                                            "Error: $e",
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                    vm.setBusy(false);
                                                   }
                                                 },
+                                                mainColor:
+                                                    const Color(0xFF007BFF),
+                                                useDefaultHoverColor: false,
                                                 borderRadius: 8,
                                                 child: Center(
                                                   child: vm.isBusy
-                                                      ? const CircularProgressIndicator(
-                                                          strokeWidth: 2,
+                                                      ? const SizedBox(
+                                                          width: 30,
+                                                          height: 30,
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            strokeWidth: 2.5,
+                                                            color: Colors.white,
+                                                          ),
                                                         )
-                                                      : Icon(
-                                                          Icons.send,
-                                                          size: 30,
-                                                          color: _controller
-                                                                          .text ==
-                                                                      "" ||
-                                                                  _controller
-                                                                          .text ==
-                                                                      "null"
-                                                              ? Colors.grey
-                                                              : const Color(
-                                                                  0xFF007BFF,
-                                                                ),
+                                                      : const Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.send,
+                                                              size: 35,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 8,
+                                                            ),
+                                                            Text(
+                                                              "Send",
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                 ),
                                               ),
@@ -865,207 +1078,13 @@ class _ChatViewState extends State<ChatView> {
                                         ],
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            } catch (e) {
-                              return const SizedBox.shrink();
-                            }
-                          }),
-                          chatFile == null
-                              ? const SizedBox.shrink()
-                              : Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height: MediaQuery.of(context)
-                                            .size
-                                            .width
-                                            .clamp(0, 450),
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: MemoryImage(chatFile!),
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 20,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: 55,
-                                                child: WidgetButton(
-                                                  onTap: () async {
-                                                    chatFile = null;
-                                                  },
-                                                  mainColor: Colors.red,
-                                                  useDefaultHoverColor: false,
-                                                  borderRadius: 8,
-                                                  child: const Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.close,
-                                                          size: 35,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          "Cancel",
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 8),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: 55,
-                                                child: WidgetButton(
-                                                  onTap: () async {
-                                                    if (!vm.isBusy) {
-                                                      vm.setBusy(true);
-                                                      try {
-                                                        await OrderRequest()
-                                                            .postMedia(
-                                                          widget.order.id!,
-                                                          "driver",
-                                                        );
-                                                        await OrderRequest()
-                                                            .getMedia(
-                                                          widget.order.id!,
-                                                        );
-                                                        if (mediaList
-                                                                .isNotEmpty &&
-                                                            !vm.messages.any(
-                                                              (message) =>
-                                                                  message.text.contains(
-                                                                      mediaList
-                                                                          .last
-                                                                          .photoUrl!) &&
-                                                                  message.user
-                                                                          .id ==
-                                                                      "${AuthService.currentUser?.id}",
-                                                            )) {
-                                                          await vm.sendMessage(
-                                                            ChatMessage(
-                                                              text: mediaList
-                                                                  .last
-                                                                  .photoUrl!,
-                                                              user: widget
-                                                                  .chatEntity
-                                                                  .mainUser!
-                                                                  .toChatUser(),
-                                                              createdAt:
-                                                                  DateTime.now()
-                                                                      .toUtc(),
-                                                            ),
-                                                          );
-                                                        }
-                                                        chatFile = null;
-                                                      } catch (e) {
-                                                        ScaffoldMessenger.of(Get
-                                                                .overlayContext!)
-                                                            .clearSnackBars();
-                                                        ScaffoldMessenger.of(
-                                                          Get.overlayContext!,
-                                                        ).showSnackBar(
-                                                          SnackBar(
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            content: Text(
-                                                              "Error: $e",
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      vm.setBusy(false);
-                                                    }
-                                                  },
-                                                  mainColor:
-                                                      const Color(0xFF007BFF),
-                                                  useDefaultHoverColor: false,
-                                                  borderRadius: 8,
-                                                  child: Center(
-                                                    child: vm.isBusy
-                                                        ? const SizedBox(
-                                                            width: 30,
-                                                            height: 30,
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              strokeWidth: 2.5,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          )
-                                                        : const Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Icon(
-                                                                Icons.send,
-                                                                size: 35,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 8,
-                                                              ),
-                                                              Text(
-                                                                "Send",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  ],
                                 ),
-                        ],
-                      ),
+                              ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

@@ -929,7 +929,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 child: SizedBox(
                                                                                   height: MediaQuery.of(context).size.width - 70,
                                                                                   child: Image.network(
-                                                                                    vm.ongoingOrder!.driver?.cPhoto ?? "",
+                                                                                    vm.ongoingOrder?.driver?.cPhoto ?? "",
                                                                                     fit: BoxFit.cover,
                                                                                   ),
                                                                                 ),
@@ -945,7 +945,7 @@ class _HomeViewState extends State<HomeView> {
                                                                               child: NetworkImageWidget(
                                                                                 fit: BoxFit.cover,
                                                                                 memCacheWidth: 600,
-                                                                                imageUrl: vm.ongoingOrder!.driver?.cPhoto ?? "",
+                                                                                imageUrl: vm.ongoingOrder?.driver?.cPhoto ?? "",
                                                                                 progressIndicatorBuilder: (
                                                                                   context,
                                                                                   imageUrl,
@@ -993,7 +993,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 ),
                                                                                 child: Text(
                                                                                   capitalizeWords(
-                                                                                    vm.ongoingOrder!.driver?.name,
+                                                                                    vm.ongoingOrder?.driver?.name,
                                                                                     alt: "Driver",
                                                                                   ),
                                                                                   maxLines: 1,
@@ -1009,7 +1009,7 @@ class _HomeViewState extends State<HomeView> {
                                                                               ),
                                                                               Text(
                                                                                 capitalizeWords(
-                                                                                  "${vm.ongoingOrder!.driver?.vehicle?.vehicleInfo}${vm.ongoingOrder!.driver?.franchiseNumber == null ? "" : " | ${vm.ongoingOrder!.driver?.franchiseNumber}"}${vm.ongoingOrder!.driver?.licenseNumber == null ? "" : " | ${vm.ongoingOrder!.driver?.licenseNumber}"}",
+                                                                                  "${vm.ongoingOrder?.driver?.vehicle?.vehicleInfo}${vm.ongoingOrder?.driver?.franchiseNumber == null ? "" : " | ${vm.ongoingOrder?.driver?.franchiseNumber}"}${vm.ongoingOrder?.driver?.licenseNumber == null ? "" : " | ${vm.ongoingOrder?.driver?.licenseNumber}"}",
                                                                                   alt: "Driver Info",
                                                                                 ),
                                                                                 style: const TextStyle(
@@ -1034,7 +1034,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             onTap:
                                                                                 () {
                                                                               launchUrlString(
-                                                                                "tel://${vm.ongoingOrder!.driver?.phone}",
+                                                                                "tel://${vm.ongoingOrder?.driver?.phone}",
                                                                               );
                                                                             },
                                                                             mainColor:
