@@ -13,7 +13,9 @@ class AuthService {
   static User? currentUser;
 
   static bool isLoggedIn() {
-    return currentUser != null;
+    return currentUser != null &&
+        currentUser?.name != null &&
+        currentUser?.name != "null";
   }
 
   static Future<String> saveTokenToStorage(
