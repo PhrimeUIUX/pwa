@@ -117,6 +117,19 @@
 </script>
 -->
 
+<!-- FCM Service Worker Registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/firebase-messaging-sw.js')
+      .then((registration) => {
+        console.log('Firebase Messaging SW registered with scope:', registration.scope);
+      })
+      .catch((err) => {
+        console.error('Firebase Messaging SW registration failed:', err);
+      });
+  }
+</script>
+
 <!-- Flutter bootstrap -->
 <script src="flutter_bootstrap.js" async></script>
 </body>

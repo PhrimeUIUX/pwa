@@ -34,13 +34,15 @@ class AuthService {
       AppStrings.userKey,
       stringMap,
     );
-    subscribeToTopic("c");
-    subscribeToTopic("all");
-    subscribeToTopic("client");
-    subscribeToTopic("${currentUser?.id}");
-    subscribeToTopic("c_${currentUser?.id}");
-    subscribeToTopic("client_${currentUser?.id}");
-    subscribeToTopic("branch_${currentUser?.branchID}");
+    await subscribeToTopic("c");
+    await subscribeToTopic("all");
+    await subscribeToTopic("client");
+    await subscribeToTopic("${currentUser?.id}");
+    await subscribeToTopic("c_${currentUser?.id}");
+    await subscribeToTopic("client_${currentUser?.id}");
+    await subscribeToTopic("branch_${currentUser?.branchID}");
+    // final topics = StorageService.prefs?.getStringList("topics") ?? [];
+    // print(topics.join(","));
     return currentUser;
   }
 
