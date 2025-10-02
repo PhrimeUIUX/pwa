@@ -19,9 +19,9 @@ messaging.onBackgroundMessage((payload) => {
   console.log("Received background message: ", payload);
 
   self.registration.showNotification(
-    "bg: " + payload.notification?.title || "Background Title",
+   payload.notification?.title || "Background Title",
     {
-      body: "bg: " + payload.notification?.body || "Background Body",
+      body: payload.notification?.body || "Background Body",
       icon: "/icons/webiconsmall.png",
     }
   );

@@ -3,6 +3,8 @@ class Api {
     return "https://ppctoda.com/api";
   }
 
+  static const fcm = "/fcm";
+
   /// Config
   static const banners = "/banners";
   static const appConfigs = "/config/app";

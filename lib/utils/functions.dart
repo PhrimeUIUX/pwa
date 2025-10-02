@@ -6,11 +6,15 @@ import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:pwa/requests/auth.request.dart';
+import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/widgets/camera.widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pwa/services/alert.service.dart';
 import 'package:pwa/widgets/web_view.widget.dart';
+import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/widgets/list_tile.widget.dart';
+import 'package:pwa/models/api_response.model.dart';
 import 'package:google_maps/google_maps.dart' as gmaps;
 
 String capitalizeWords(
@@ -522,4 +526,40 @@ Map<String, dynamic> parseJwt(String token) {
   final payload = base64Url.normalize(parts[1]);
   final payloadMap = json.decode(utf8.decode(base64Url.decode(payload)));
   return payloadMap;
+}
+
+Future<void> subscribeToServer() async {
+  if (AuthService.isLoggedIn()) {
+    final topics = StorageService.prefs?.getStringList("topics") ?? [];
+    try {
+      ApiResponse apiResponse = await AuthRequest().fcmRequest(
+        token: "$fcmToken",
+        topics: topics,
+      );
+      if (apiResponse.allGood) {
+        debugPrint("subscribed to topics: ${topics.join(",")}");
+        debugPrint("reponse: ${jsonEncode(apiResponse.body)}");
+      } else {
+        throw apiResponse.message;
+      }
+    } catch (e) {
+      debugPrint("$e");
+    }
+  } else {
+    final topics = ["all"];
+    try {
+      ApiResponse apiResponse = await AuthRequest().fcmRequest(
+        token: "$fcmToken",
+        topics: topics,
+      );
+      if (apiResponse.allGood) {
+        debugPrint("subscribed to topics: ${topics.join(",")}");
+        debugPrint("reponse: ${jsonEncode(apiResponse.body)}");
+      } else {
+        throw apiResponse.message;
+      }
+    } catch (e) {
+      debugPrint("$e");
+    }
+  }
 }

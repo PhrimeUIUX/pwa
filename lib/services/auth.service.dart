@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:flutter/material.dart';
+import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/views/intro.view.dart';
 import 'package:pwa/constants/strings.dart';
@@ -43,8 +44,7 @@ class AuthService {
     await subscribeToTopic("c_${currentUser?.id}");
     await subscribeToTopic("client_${currentUser?.id}");
     await subscribeToTopic("branch_${currentUser?.branchID}");
-    // final topics = StorageService.prefs?.getStringList("topics") ?? [];
-    // print(topics.join(","));
+    subscribeToServer();
     return currentUser;
   }
 

@@ -48,8 +48,8 @@ Future<void> setupWebPush() async {
       debugPrint("Web FCM Token: $fcmToken");
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         html.Notification(
-          "fg: " + (message.data["title"] ?? message.notification?.title ?? ''),
-          body: "fg: " + (message.data["body"] ?? message.notification?.body ?? ''),
+          message.data["title"] ?? message.notification?.title ?? '',
+          body: message.data["body"] ?? message.notification?.body ?? '',
           icon: "/icons/webiconsmall.png",
         );
       });

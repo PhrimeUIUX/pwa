@@ -5,6 +5,7 @@ import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:georange/georange.dart';
+import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/views/intro.view.dart';
 import 'package:pwa/constants/strings.dart';
@@ -23,6 +24,7 @@ class SplashViewModel extends BaseViewModel {
     await getAppUser();
     await getBanners();
     await getVehicles();
+    subscribeToServer();
     startListeningToConfigs();
     isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ??
         !AuthService.isLoggedIn();
@@ -33,7 +35,7 @@ class SplashViewModel extends BaseViewModel {
     await AuthService.getUserFromStorage();
     await AuthService.getTokenFromStorage();
     try {
-      version = "1.0.2";
+      version = "1.0.0";
       versionCode = "31";
     } catch (e) {
       debugPrint(

@@ -9,6 +9,25 @@ import 'package:pwa/services/http.service.dart';
 import 'package:pwa/models/api_response.model.dart';
 
 class AuthRequest extends HttpService {
+  Future<ApiResponse> fcmRequest({
+    required String token,
+    required List<String> topics,
+  }) async {
+    try {
+      final apiResult = await post(
+        "https://todapal.com/api/fcm",
+        {
+          "token": token,
+          "topics": topics.join(","),
+          "action": "subscribeTopics",
+        },
+      );
+      return ApiResponse.fromResponse(apiResult);
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<User> getUser() async {
     try {
       final apiResult = await get(
