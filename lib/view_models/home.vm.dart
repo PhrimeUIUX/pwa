@@ -13,6 +13,7 @@ import 'package:pwa/models/address.model.dart';
 import 'package:pwa/services/chat.service.dart';
 import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/services/http.service.dart';
+import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/models/peer_user.model.dart';
 import 'package:pwa/services/alert.service.dart';
 import 'package:pwa/models/chat_entity.model.dart';
@@ -20,7 +21,6 @@ import 'package:pwa/models/coordinates.model.dart';
 import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/models/vehicle_type.model.dart';
 import 'package:pwa/models/api_response.model.dart';
-import 'package:pwa/widgets/button.widget.dart';
 
 class HomeViewModel extends GMapViewModel {
   bool? userSeen;
@@ -33,6 +33,7 @@ class HomeViewModel extends GMapViewModel {
   int paymentMethodId = 1;
   bool snackShown = true;
   bool showReport = false;
+  bool isDisabled = false;
   bool isPreparing = false;
   bool blockCamera = false;
   VehicleType? selectedVehicle;

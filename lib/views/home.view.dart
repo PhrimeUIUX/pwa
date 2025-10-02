@@ -1,14 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pwa/constants/strings.dart';
-import 'package:pwa/models/address.model.dart';
-import 'package:pwa/models/coordinates.model.dart';
-import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/utils/data.dart';
-import 'package:pwa/widgets/page_indicator.widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
@@ -18,6 +12,7 @@ import 'package:pwa/views/load.view.dart';
 import 'package:pwa/utils/functions.dart';
 import 'package:pwa/constants/images.dart';
 import 'package:pwa/views/login.view.dart';
+import 'package:pwa/constants/strings.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:pwa/views/history.view.dart';
 import 'package:pwa/views/profile.view.dart';
@@ -25,14 +20,19 @@ import 'package:pwa/view_models/Load.vm.dart';
 import 'package:pwa/views/settings.view.dart';
 import 'package:pwa/widgets/gmap.widget.dart';
 import 'package:pwa/view_models/home.vm.dart';
+import 'package:pwa/models/address.model.dart';
 import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/services/alert.service.dart';
+import 'package:pwa/models/coordinates.model.dart';
+import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/widgets/list_tile.widget.dart';
 import 'package:pwa/widgets/text_field.widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:pwa/widgets/network_image.widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:google_maps/google_maps.dart' as gmaps;
+import 'package:pwa/widgets/page_indicator.widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -343,7 +343,8 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 GoogleMapWidget(
                                   center: center,
-                                  enableGestures: isAdSeen &&
+                                  enableGestures: !vm.isDisabled &&
+                                      isAdSeen &&
                                       !vm.showReport &&
                                       (isBool(vm.userSeen) ||
                                           vm.dvrMessage == null ||
@@ -606,8 +607,10 @@ class _HomeViewState extends State<HomeView> {
                                                     ),
                                                     WidgetButton(
                                                       isTransparentColor: true,
-                                                      useDefaultHoverColor: false,
-                                                      mainColor:  Colors.grey.withOpacity(
+                                                      useDefaultHoverColor:
+                                                          false,
+                                                      mainColor: Colors.grey
+                                                          .withOpacity(
                                                         0.25,
                                                       ),
                                                       onTap: () async {
@@ -617,6 +620,16 @@ class _HomeViewState extends State<HomeView> {
                                                             showBranch = false;
                                                           },
                                                         );
+                                                      },
+                                                      onTapEnd: () {
+                                                        setState(() {
+                                                          vm.isDisabled = false;
+                                                        });
+                                                      },
+                                                      onTapStart: () {
+                                                        setState(() {
+                                                          vm.isDisabled = true;
+                                                        });
                                                       },
                                                       child: const SizedBox(
                                                         width: 66,

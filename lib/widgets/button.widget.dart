@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class ActionButton extends StatefulWidget {
   final String text;
@@ -89,14 +89,20 @@ class WidgetButton extends StatefulWidget {
   final Color? mainColor;
   final VoidCallback onTap;
   final double borderRadius;
+  final VoidCallback onTapEnd;
+  final VoidCallback onTapStart;
   final bool isTransparentColor;
   final bool useDefaultHoverColor;
   final bool disableGestureDetection;
+
+  static void _null() {}
 
   const WidgetButton({
     super.key,
     required this.child,
     required this.onTap,
+    this.onTapEnd = _null,
+    this.onTapStart = _null,
     this.borderRadius = 1000,
     this.mainColor = Colors.white,
     this.isTransparentColor = false,
@@ -125,12 +131,19 @@ class _WidgetButtonState extends State<WidgetButton> {
       onEnter: (_) => _isHovered.value = true,
       onExit: (_) => _isHovered.value = false,
       child: GestureDetector(
-        onTapDown: (_) => _isPressed.value = true,
+        onTapDown: (_) {
+          _isPressed.value = true;
+          widget.onTapStart();
+        },
         onTapUp: (_) {
           _isPressed.value = false;
           widget.onTap();
+          widget.onTapEnd();
         },
-        onTapCancel: () => _isPressed.value = false,
+        onTapCancel: () {
+          _isPressed.value = false;
+          widget.onTapEnd();
+        },
         child: ValueListenableBuilder2<bool, bool>(
           first: _isHovered,
           second: _isPressed,
