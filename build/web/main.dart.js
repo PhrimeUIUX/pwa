@@ -112195,15 +112195,17 @@ A.aYs.prototype={
 $1(a){},
 $S:24}
 A.aYK.prototype={
-$1(a){var s,r,q,p
-if(a.y!=null){s=a.e
-r=B.c.W("fg: ",s.h(0,"title"))
-s=B.c.W("fg: ",s.h(0,"body"))
-q=t.z
-p=A.z(q,q)
-p.n(0,"body",s)
-p.n(0,"icon","/icons/webiconsmall.png")
-A.bor(r,p)}},
+$1(a){var s,r,q=a.e,p=q.h(0,"title")
+if(p==null){p=a.y
+p=p==null?null:p.d}p=B.c.W("fg: ",p==null?"":p)
+q=q.h(0,"body")
+if(q==null){q=a.y
+q=q==null?null:q.r}q=B.c.W("fg: ",q==null?"":q)
+s=t.z
+r=A.z(s,s)
+r.n(0,"body",q)
+r.n(0,"icon","/icons/webiconsmall.png")
+A.bor(p,r)},
 $S:676}
 A.WJ.prototype={
 H(a){var s=null
@@ -117263,7 +117265,7 @@ while(true)switch(s){case 0:s=2
 return A.j(A.y5(),$async$wv)
 case 2:s=3
 return A.j(A.Eo(),$async$wv)
-case 3:try{$.b36="1.0.1"
+case 3:try{$.b36="1.0.2"
 $.aca="31"}catch(o){q=A.M(o)
 A.c3().$1("getAppInfo error: "+A.d(q))}return A.o(null,r)}})
 return A.p($async$wv,r)},

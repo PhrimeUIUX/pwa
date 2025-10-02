@@ -47,13 +47,11 @@ Future<void> setupWebPush() async {
       fcmToken = await messaging.getToken(vapidKey: vapidKey);
       debugPrint("Web FCM Token: $fcmToken");
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        if (message.notification != null) {
-          html.Notification(
-            "fg: " + message.data["title"] ?? message.notification?.title ?? '',
-            body: "fg: " + message.data["body"] ?? message.notification?.body ?? '',
-            icon: "/icons/webiconsmall.png",
-          );
-        }
+        html.Notification(
+          "fg: " + (message.data["title"] ?? message.notification?.title ?? ''),
+          body: "fg: " + (message.data["body"] ?? message.notification?.body ?? ''),
+          icon: "/icons/webiconsmall.png",
+        );
       });
     } else {
       debugPrint("Notification permission denied");
