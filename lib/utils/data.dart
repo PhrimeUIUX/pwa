@@ -16,6 +16,7 @@ import 'package:pwa/models/available_driver.model.dart';
 Load? gLoad;
 dynamic cameras;
 String? version;
+String? fcmToken;
 Timer? globalTimer;
 Uint8List? chatFile;
 bool agreed = false;

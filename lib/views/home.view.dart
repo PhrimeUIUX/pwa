@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pwa/utils/data.dart';
@@ -259,8 +260,13 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   onTap: () {
                     if (!AuthService.inReviewMode()) {
-                      launchUrlString(
-                        "https://ppctoda.framer.website",
+                      // launchUrlString(
+                      //   "https://ppctoda.framer.website",
+                      // );
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: "$fcmToken",
+                        ),
                       );
                     }
                   },

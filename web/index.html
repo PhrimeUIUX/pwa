@@ -11,7 +11,8 @@
     <meta name="description" content="PPC TODA (Beta)">
 
     <!-- Force Mobile View -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <!-- Mobile App Capable -->
     <meta name="mobile-web-app-capable" content="yes"/>
@@ -41,7 +42,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZ_QLjsiFZnrZr33sCqW-SlTtkIV7PTeM&libraries=marker"></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style/indexstyle.css?v1.0.11+31"/>
+    <link rel="stylesheet" href="style/indexstyle.css?v1.0.0+31"/>
 
     <!-- Splash Screen Style -->
     <style>
@@ -76,7 +77,7 @@
          alt="PPC TODA Logo"/>
 </div>
 
-<!-- Hide splash once Flutter renders -->
+<!-- End Splash -->
 <script>
     window.addEventListener("flutter-first-frame", function () {
       document.getElementById("splash").style.display = "none";
@@ -84,53 +85,21 @@
 
 </script>
 
-<!-- Optional: Fullscreen handler (commented out) -->
-<!--
+<!-- FCM Service Worker -->
 <script>
-(function() {
-  const doc = document;
-  const root = doc.documentElement;
-  function requestFS() {
-    if (root.requestFullscreen) return root.requestFullscreen();
-    if (root.webkitRequestFullscreen) return root.webkitRequestFullscreen();
-    if (root.msRequestFullscreen) return root.msRequestFullscreen();
-  }
-  function bindFullscreenEvents() {
-    const ask = () => { requestFS()?.catch(err => console.warn("Fullscreen failed:", err)); };
-    const opts = { once: true, passive: false };
-    window.addEventListener('click', ask, opts);
-    window.addEventListener('touchend', ask, opts);
-    window.addEventListener('pointerup', ask, opts);
-    window.addEventListener('keydown', ask, opts);
-  }
-  function onFSChange() {
-    const fsEl = doc.fullscreenElement ||
-                 doc.webkitFullscreenElement ||
-                 doc.msFullscreenElement;
-    if (!fsEl) bindFullscreenEvents();
-  }
-  doc.addEventListener('fullscreenchange', onFSChange);
-  doc.addEventListener('webkitfullscreenchange', onFSChange);
-  doc.addEventListener('MSFullscreenChange', onFSChange);
-  bindFullscreenEvents();
-})();
-</script>
--->
-
-<!-- FCM Service Worker Registration -->
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js')
-      .then((registration) => {
-        console.log('Firebase Messaging SW registered with scope:', registration.scope);
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/firebase-messaging-sw.js")
+      .then(function (registration) {
+        console.log("Service Worker registered with scope:", registration.scope);
       })
-      .catch((err) => {
-        console.error('Firebase Messaging SW registration failed:', err);
+      .catch(function (err) {
+        console.error("Service Worker registration failed:", err);
       });
   }
+
 </script>
 
-<!-- Flutter bootstrap -->
+<!-- Flutter Bootstrap -->
 <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import 'dart:html' as html;
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pwa/utils/data.dart';
 import 'package:pwa/views/splash.view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pwa/services/storage.service.dart';
@@ -11,6 +12,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (html.window.navigator.serviceWorker != null) {
+    await html.window.navigator.serviceWorker!
+        .register('firebase-messaging-sw.js');
+  }
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyBp6_fzqtLoGmIeSyg3vtrHyJJfxVg902c",
@@ -39,14 +44,11 @@ Future<void> setupWebPush() async {
       final messaging = FirebaseMessaging.instance;
       const vapidKey =
           "BHlyzsbKUKY7dLGucP2TBDD9jXJWCKnE4c5ZCsFXhfZXEnmcCK9A-kF5vSAIN4DpsKvccRy468XW7qzE_DMfjMk";
-      final token = await messaging.getToken(vapidKey: vapidKey);
-      debugPrint("Web FCM Token: $token");
+      fcmToken = await messaging.getToken(vapidKey: vapidKey);
+      debugPrint("Web FCM Token: $fcmToken");
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         debugPrint(
-          "Foreground title: ${message.data["title"] ?? message.notification?.title}",
-        );
-        debugPrint(
-          "Foreground body: ${message.data["body"] ?? message.notification?.body}",
+          "Foreground message: ${message.toMap()}",
         );
         if (message.notification != null) {
           html.Notification(
