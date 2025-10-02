@@ -1,8 +1,14 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pwa/constants/strings.dart';
+import 'package:pwa/models/address.model.dart';
+import 'package:pwa/models/coordinates.model.dart';
+import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/utils/data.dart';
+import 'package:pwa/widgets/page_indicator.widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
@@ -36,6 +42,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  int itemsIndex = 0;
   final HomeViewModel homeViewModel = HomeViewModel();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -336,7 +343,8 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 GoogleMapWidget(
                                   center: center,
-                                  enableGestures: !vm.showReport &&
+                                  enableGestures: isAdSeen &&
+                                      !vm.showReport &&
                                       (isBool(vm.userSeen) ||
                                           vm.dvrMessage == null ||
                                           vm.dvrMessage == "null" ||
@@ -569,6 +577,91 @@ class _HomeViewState extends State<HomeView> {
                                     ],
                                   ),
                                 ),
+                                vm.ongoingOrder != null ||
+                                        !isBool(
+                                          AppStrings.homeSettingsObject?[
+                                                  "show_ad"] ??
+                                              true,
+                                        )
+                                    ? const SizedBox()
+                                    : Positioned(
+                                        left: 0,
+                                        right: 0,
+                                        bottom: vm.selectedAddress.value == null
+                                            ? -500
+                                            : 20,
+                                        child: Column(
+                                          children: [
+                                            ClipOval(
+                                              child: Container(
+                                                width: 66,
+                                                height: 66,
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: const Color(
+                                                        0xFF030744,
+                                                      ).withOpacity(
+                                                        0.25,
+                                                      ),
+                                                      spreadRadius: 0,
+                                                      blurRadius: 2,
+                                                      offset: const Offset(
+                                                        0,
+                                                        2,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Material(
+                                                  color: Colors.white,
+                                                  child: Ink.image(
+                                                    fit: BoxFit.cover,
+                                                    image: const AssetImage(
+                                                      AppImages.mnb,
+                                                    ),
+                                                    child: InkWell(
+                                                      hoverDuration:
+                                                          const Duration(
+                                                        milliseconds: 500,
+                                                      ),
+                                                      onTap: () async {
+                                                        setState(
+                                                          () {
+                                                            isAdSeen = false;
+                                                            showBranch = false;
+                                                          },
+                                                        );
+                                                      },
+                                                      focusColor: const Color(
+                                                        0xFF030744,
+                                                      ).withOpacity(
+                                                        0.2,
+                                                      ),
+                                                      hoverColor: const Color(
+                                                        0xFF030744,
+                                                      ).withOpacity(
+                                                        0.2,
+                                                      ),
+                                                      splashColor: const Color(
+                                                        0xFF030744,
+                                                      ).withOpacity(
+                                                        0.2,
+                                                      ),
+                                                      highlightColor:
+                                                          const Color(
+                                                        0xFF030744,
+                                                      ).withOpacity(
+                                                        0.2,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                 vm.markers.isNotEmpty
                                     ? const SizedBox.shrink()
                                     : const Center(
@@ -2314,7 +2407,8 @@ class _HomeViewState extends State<HomeView> {
                                                             ),
                                                           ),
                                                           const SizedBox(
-                                                              height: 16),
+                                                            height: 16,
+                                                          ),
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsets
@@ -3084,7 +3178,8 @@ class _HomeViewState extends State<HomeView> {
                                                               ),
                                                             ),
                                                             const SizedBox(
-                                                                height: 16),
+                                                              height: 16,
+                                                            ),
                                                             Padding(
                                                               padding:
                                                                   const EdgeInsets
@@ -3694,6 +3789,607 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                     ),
                                   ],
+                                ),
+                              ),
+                            ),
+                      isAdSeen ||
+                              vm.ongoingOrder != null ||
+                              !isBool(
+                                AppStrings.homeSettingsObject?["show_ad"] ??
+                                    true,
+                              )
+                          ? const SizedBox()
+                          : Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await StorageService.prefs?.setBool(
+                                    "is_ad_seen",
+                                    true,
+                                  );
+                                  setState(
+                                    () {
+                                      isAdSeen = true;
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.75),
+                                  child: SafeArea(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (!showBranch) {
+                                              setState(
+                                                () {
+                                                  branchNumber = 0;
+                                                  showBranch = !showBranch;
+                                                },
+                                              );
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                            ),
+                                            child: Container(
+                                              width: double.infinity
+                                                      .clamp(0, 500) -
+                                                  40,
+                                              height: showBranch
+                                                  ? null
+                                                  : context
+                                                          .mediaQuery.size.width
+                                                          .clamp(0, 500) -
+                                                      20,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                    16,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: showBranch
+                                                    ? [
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        ClipOval(
+                                                          child: Container(
+                                                            width: 66,
+                                                            height: 66,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              image:
+                                                                  DecorationImage(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                image:
+                                                                    AssetImage(
+                                                                  AppImages.mnb,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 4,
+                                                        ),
+                                                        const Text(
+                                                          "Max & Bunny",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            height: 1.05,
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                        const Text(
+                                                          "Dine in and help a driver earn!",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 16,
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            if (branchNumber ==
+                                                                1) {
+                                                              setState(() {
+                                                                branchNumber =
+                                                                    0;
+                                                              });
+                                                            } else {
+                                                              setState(() {
+                                                                branchNumber =
+                                                                    1;
+                                                              });
+                                                            }
+                                                          },
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                              horizontal: 22,
+                                                            ),
+                                                            child: Container(
+                                                              height: 50,
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: branchNumber ==
+                                                                          1
+                                                                      ? const Color(
+                                                                          0xFF007BFF,
+                                                                        )
+                                                                      : const Color(
+                                                                          0xFF030744,
+                                                                        ).withOpacity(
+                                                                          0.25,
+                                                                        ),
+                                                                  width: 1,
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "SM Branch",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    height:
+                                                                        1.05,
+                                                                    color: branchNumber ==
+                                                                            1
+                                                                        ? const Color(
+                                                                            0xFF007BFF,
+                                                                          )
+                                                                        : const Color(
+                                                                            0xFF030744,
+                                                                          ).withOpacity(
+                                                                            0.25,
+                                                                          ),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 12,
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            if (branchNumber ==
+                                                                2) {
+                                                              setState(() {
+                                                                branchNumber =
+                                                                    0;
+                                                              });
+                                                            } else {
+                                                              setState(() {
+                                                                branchNumber =
+                                                                    2;
+                                                              });
+                                                            }
+                                                          },
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                              horizontal: 22,
+                                                            ),
+                                                            child: Container(
+                                                              height: 50,
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                    8,
+                                                                  ),
+                                                                ),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: branchNumber ==
+                                                                          2
+                                                                      ? const Color(
+                                                                          0xFF007BFF,
+                                                                        )
+                                                                      : const Color(
+                                                                          0xFF030744,
+                                                                        ).withOpacity(
+                                                                          0.25,
+                                                                        ),
+                                                                  width: 1,
+                                                                ),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "San Pedro Branch",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    height:
+                                                                        1.05,
+                                                                    color: branchNumber ==
+                                                                            2
+                                                                        ? const Color(
+                                                                            0xFF007BFF,
+                                                                          )
+                                                                        : const Color(
+                                                                            0xFF030744,
+                                                                          ).withOpacity(
+                                                                            0.25,
+                                                                          ),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 22,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                            horizontal: 22,
+                                                          ),
+                                                          child: SizedBox(
+                                                            height: 50,
+                                                            child: Material(
+                                                              color:
+                                                                  const Color(
+                                                                0xFF007BFF,
+                                                              ),
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    8),
+                                                              ),
+                                                              child: Ink(
+                                                                child: InkWell(
+                                                                  onTap: () {
+                                                                    if (!AuthService
+                                                                        .isLoggedIn()) {
+                                                                      if (branchNumber ==
+                                                                          0) {
+                                                                        ScaffoldMessenger
+                                                                            .of(
+                                                                          Get.overlayContext!,
+                                                                        ).clearSnackBars();
+                                                                        ScaffoldMessenger
+                                                                            .of(
+                                                                          Get.overlayContext!,
+                                                                        ).showSnackBar(
+                                                                          const SnackBar(
+                                                                            backgroundColor:
+                                                                                Colors.red,
+                                                                            content:
+                                                                                Text(
+                                                                              "Please select a dropoff branch",
+                                                                              style: TextStyle(
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      } else {
+                                                                        setState(
+                                                                          () {
+                                                                            isAdSeen =
+                                                                                true;
+                                                                            branchNumber =
+                                                                                0;
+                                                                            showBranch =
+                                                                                false;
+                                                                          },
+                                                                        );
+                                                                        Get.to(
+                                                                          () =>
+                                                                              const LoginView(),
+                                                                        );
+                                                                      }
+                                                                    } else if (branchNumber ==
+                                                                        0) {
+                                                                      ScaffoldMessenger
+                                                                          .of(
+                                                                        Get.overlayContext!,
+                                                                      ).clearSnackBars();
+                                                                      ScaffoldMessenger
+                                                                          .of(
+                                                                        Get.overlayContext!,
+                                                                      ).showSnackBar(
+                                                                        const SnackBar(
+                                                                          backgroundColor:
+                                                                              Colors.red,
+                                                                          content:
+                                                                              Text(
+                                                                            "Please select a dropoff branch",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    } else if (branchNumber ==
+                                                                        1) {
+                                                                      setState(
+                                                                        () {
+                                                                          isAdSeen =
+                                                                              true;
+                                                                          branchNumber =
+                                                                              0;
+                                                                          showBranch =
+                                                                              false;
+                                                                          dropoffAddress =
+                                                                              Address(
+                                                                            addressLine:
+                                                                                "Max & Bunny - SM Branch",
+                                                                            coordinates:
+                                                                                Coordinates(
+                                                                              9.743318345512021,
+                                                                              118.7390989745996,
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                      vm.drawDropPolyLines(
+                                                                        "pickup-dropoff",
+                                                                        pickupAddress!
+                                                                            .latLng,
+                                                                        gmaps
+                                                                            .LatLng(
+                                                                          9.743318345512021,
+                                                                          118.7390989745996,
+                                                                        ),
+                                                                        null,
+                                                                      );
+                                                                      vm.fetchVehicleTypesPricing();
+                                                                    } else {
+                                                                      setState(
+                                                                        () {
+                                                                          isAdSeen =
+                                                                              true;
+                                                                          branchNumber =
+                                                                              0;
+                                                                          showBranch =
+                                                                              false;
+                                                                          dropoffAddress =
+                                                                              Address(
+                                                                            addressLine:
+                                                                                "Max & Bunny - San Pedro Branch",
+                                                                            coordinates:
+                                                                                Coordinates(
+                                                                              9.762115888944837,
+                                                                              118.75241723828879,
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                      vm.drawDropPolyLines(
+                                                                        "pickup-dropoff",
+                                                                        pickupAddress!
+                                                                            .latLng,
+                                                                        gmaps
+                                                                            .LatLng(
+                                                                          9.762115888944837,
+                                                                          118.75241723828879,
+                                                                        ),
+                                                                        null,
+                                                                      );
+                                                                      vm.fetchVehicleTypesPricing();
+                                                                    }
+                                                                  },
+                                                                  borderRadius:
+                                                                      const BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            8),
+                                                                  ),
+                                                                  focusColor:
+                                                                      const Color(
+                                                                    0xFF030744,
+                                                                  ).withOpacity(
+                                                                    0.2,
+                                                                  ),
+                                                                  hoverColor:
+                                                                      const Color(
+                                                                    0xFF030744,
+                                                                  ).withOpacity(
+                                                                    0.2,
+                                                                  ),
+                                                                  splashColor:
+                                                                      const Color(
+                                                                    0xFF030744,
+                                                                  ).withOpacity(
+                                                                    0.2,
+                                                                  ),
+                                                                  highlightColor:
+                                                                      const Color(
+                                                                    0xFF030744,
+                                                                  ).withOpacity(
+                                                                    0.2,
+                                                                  ),
+                                                                  child:
+                                                                      const Center(
+                                                                    child: Text(
+                                                                      "Set as Dropoff",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 22,
+                                                        ),
+                                                      ]
+                                                    : [
+                                                        CarouselSlider(
+                                                          items: gBanners
+                                                              .map(
+                                                                (banner) =>
+                                                                    Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      margin: const EdgeInsets
+                                                                          .only(
+                                                                        top: 15,
+                                                                      ),
+                                                                      width: context
+                                                                              .mediaQuery
+                                                                              .size
+                                                                              .width
+                                                                              .clamp(0, 500) -
+                                                                          70,
+                                                                      height: context
+                                                                              .mediaQuery
+                                                                              .size
+                                                                              .width
+                                                                              .clamp(0, 500) -
+                                                                          70,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color:
+                                                                            const Color(
+                                                                          0xFF007BFF,
+                                                                        ).withOpacity(0.2),
+                                                                        borderRadius:
+                                                                            const BorderRadius.all(
+                                                                          Radius
+                                                                              .circular(
+                                                                            10,
+                                                                          ),
+                                                                        ),
+                                                                        image:
+                                                                            DecorationImage(
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          image:
+                                                                              NetworkImage(
+                                                                            "${banner.photo}",
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                              .toList(),
+                                                          options:
+                                                              CarouselOptions(
+                                                            height: context
+                                                                    .mediaQuery
+                                                                    .size
+                                                                    .width
+                                                                    .clamp(0,
+                                                                        500) -
+                                                                55,
+                                                            initialPage: 0,
+                                                            autoPlay: true,
+                                                            viewportFraction: 1,
+                                                            onPageChanged:
+                                                                (index,
+                                                                    reason) {
+                                                              setState(
+                                                                () {
+                                                                  itemsIndex =
+                                                                      index;
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 12,
+                                                        ),
+                                                        PageIndicatorWidget(
+                                                          activeSize: 10,
+                                                          inactiveSize: 6,
+                                                          count:
+                                                              gBanners.length,
+                                                          currentIndex:
+                                                              itemsIndex,
+                                                          activeColor:
+                                                              const Color(
+                                                            0xFF007BFF,
+                                                          ),
+                                                          inactiveColor:
+                                                              const Color(
+                                                            0xFFA3C9FF,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 12,
+                                                        ),
+                                                      ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 12,
+                                        ),
+                                        const Text(
+                                          "Tap to close",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

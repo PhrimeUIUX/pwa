@@ -537,7 +537,7 @@ Future<void> subscribeToServer() async {
         topics: topics,
       );
       if (apiResponse.allGood) {
-        debugPrint("subscribed to topics: ${topics.join(",")}");
+        debugPrint("subscribed topic(s): ${topics.join(",")}");
         debugPrint("reponse: ${jsonEncode(apiResponse.body)}");
       } else {
         throw apiResponse.message;
@@ -553,7 +553,7 @@ Future<void> subscribeToServer() async {
         topics: topics,
       );
       if (apiResponse.allGood) {
-        debugPrint("subscribed to topics: ${topics.join(",")}");
+        debugPrint("subscribed topic(s): ${topics.join(",")}");
         debugPrint("reponse: ${jsonEncode(apiResponse.body)}");
       } else {
         throw apiResponse.message;

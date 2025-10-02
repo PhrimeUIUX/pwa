@@ -83,17 +83,18 @@ class AuthService {
   }
 
   logout() async {
-    unsubscribeFromTopic("c");
-    unsubscribeFromTopic("client");
-    unsubscribeFromTopic("${currentUser?.id}");
-    unsubscribeFromTopic("c_${currentUser?.id}");
-    unsubscribeFromTopic("client_${currentUser?.id}");
-    unsubscribeFromTopic("branch_${currentUser?.branchID}");
+    await unsubscribeFromTopic("c");
+    await unsubscribeFromTopic("client");
+    await unsubscribeFromTopic("${currentUser?.id}");
+    await unsubscribeFromTopic("c_${currentUser?.id}");
+    await unsubscribeFromTopic("client_${currentUser?.id}");
+    await unsubscribeFromTopic("branch_${currentUser?.branchID}");
     await StorageService.rxPrefs?.clear();
     await StorageService.prefs?.clear();
     dropoffAddress = null;
     pickupAddress = null;
     currentUser = null;
+    subscribeToServer();
     if (!AuthService.inReviewMode()) {
       Navigator.pushAndRemoveUntil(
         Get.overlayContext!,
