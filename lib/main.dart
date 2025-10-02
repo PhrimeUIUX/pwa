@@ -47,13 +47,10 @@ Future<void> setupWebPush() async {
       fcmToken = await messaging.getToken(vapidKey: vapidKey);
       debugPrint("Web FCM Token: $fcmToken");
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        debugPrint(
-          "Foreground message: ${message.toMap()}",
-        );
         if (message.notification != null) {
           html.Notification(
-            message.data["title"] ?? message.notification?.title ?? '',
-            body: message.data["body"] ?? message.notification?.body ?? '',
+            "fg: " + message.data["title"] ?? message.notification?.title ?? '',
+            body: "fg: " + message.data["body"] ?? message.notification?.body ?? '',
             icon: "/icons/webiconsmall.png",
           );
         }
