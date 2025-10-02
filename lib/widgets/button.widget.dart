@@ -89,6 +89,7 @@ class WidgetButton extends StatefulWidget {
   final Color? mainColor;
   final VoidCallback onTap;
   final double borderRadius;
+  final bool isTransparentColor;
   final bool useDefaultHoverColor;
   final bool disableGestureDetection;
 
@@ -98,6 +99,7 @@ class WidgetButton extends StatefulWidget {
     required this.onTap,
     this.borderRadius = 1000,
     this.mainColor = Colors.white,
+    this.isTransparentColor = false,
     this.useDefaultHoverColor = true,
     this.disableGestureDetection = false,
   });
@@ -138,12 +140,18 @@ class _WidgetButtonState extends State<WidgetButton> {
                 : widget.useDefaultHoverColor
                     ? isPressed
                         ? Colors.grey.shade400
-                        : (isHovered ? Colors.grey.shade200 : widget.mainColor)
+                        : (isHovered
+                            ? Colors.grey.shade200
+                            : widget.isTransparentColor
+                                ? Colors.transparent
+                                : widget.mainColor)
                     : isPressed
                         ? pressColor(widget.mainColor!)
                         : (isHovered
                             ? hoverColor(widget.mainColor!)
-                            : widget.mainColor);
+                            : widget.isTransparentColor
+                                ? Colors.transparent
+                                : widget.mainColor);
             return Container(
               decoration: BoxDecoration(
                 color: color,

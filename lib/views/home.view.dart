@@ -596,34 +596,19 @@ class _HomeViewState extends State<HomeView> {
                                               child: Container(
                                                 width: 66,
                                                 height: 66,
-                                                decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: const Color(
-                                                        0xFF030744,
-                                                      ).withOpacity(
-                                                        0.25,
-                                                      ),
-                                                      spreadRadius: 0,
-                                                      blurRadius: 2,
-                                                      offset: const Offset(
-                                                        0,
-                                                        2,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: Material(
-                                                  color: Colors.white,
-                                                  child: Ink.image(
-                                                    fit: BoxFit.cover,
-                                                    image: const AssetImage(
+                                                decoration:
+                                                    const BoxDecoration(),
+                                                child: Stack(
+                                                  children: [
+                                                    Image.asset(
                                                       AppImages.mnb,
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                    child: InkWell(
-                                                      hoverDuration:
-                                                          const Duration(
-                                                        milliseconds: 500,
+                                                    WidgetButton(
+                                                      isTransparentColor: true,
+                                                      useDefaultHoverColor: false,
+                                                      mainColor:  Colors.grey.withOpacity(
+                                                        0.25,
                                                       ),
                                                       onTap: () async {
                                                         setState(
@@ -633,29 +618,12 @@ class _HomeViewState extends State<HomeView> {
                                                           },
                                                         );
                                                       },
-                                                      focusColor: const Color(
-                                                        0xFF030744,
-                                                      ).withOpacity(
-                                                        0.2,
-                                                      ),
-                                                      hoverColor: const Color(
-                                                        0xFF030744,
-                                                      ).withOpacity(
-                                                        0.2,
-                                                      ),
-                                                      splashColor: const Color(
-                                                        0xFF030744,
-                                                      ).withOpacity(
-                                                        0.2,
-                                                      ),
-                                                      highlightColor:
-                                                          const Color(
-                                                        0xFF030744,
-                                                      ).withOpacity(
-                                                        0.2,
+                                                      child: const SizedBox(
+                                                        width: 66,
+                                                        height: 66,
                                                       ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ),

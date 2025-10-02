@@ -29,8 +29,7 @@ class PageIndicatorWidget extends StatelessWidget {
         (index) {
           return Container(
             margin: EdgeInsets.symmetric(horizontal: spacing),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 100),
+            child: Container(
               width: currentIndex == index ? activeSize : inactiveSize,
               height: currentIndex == index ? activeSize : inactiveSize,
               decoration: BoxDecoration(
