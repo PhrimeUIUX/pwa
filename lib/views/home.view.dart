@@ -42,7 +42,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int itemsIndex = 0;
+  ValueNotifier<int> itemsIndex = ValueNotifier(0);
   final HomeViewModel homeViewModel = HomeViewModel();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -4319,15 +4319,12 @@ class _HomeViewState extends State<HomeView> {
                                                             initialPage: 0,
                                                             autoPlay: true,
                                                             viewportFraction: 1,
-                                                            onPageChanged:
-                                                                (index,
-                                                                    reason) {
-                                                              setState(
-                                                                () {
-                                                                  itemsIndex =
-                                                                      index;
-                                                                },
-                                                              );
+                                                            onPageChanged: (
+                                                              index,
+                                                              reason,
+                                                            ) {
+                                                              itemsIndex.value = index;
+                                                              vm.notifyListeners();
                                                             },
                                                           ),
                                                         ),
@@ -4340,7 +4337,7 @@ class _HomeViewState extends State<HomeView> {
                                                           count:
                                                               gBanners.length,
                                                           currentIndex:
-                                                              itemsIndex,
+                                                              itemsIndex.value,
                                                           activeColor:
                                                               const Color(
                                                             0xFF007BFF,
