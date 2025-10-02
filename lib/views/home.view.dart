@@ -4323,7 +4323,8 @@ class _HomeViewState extends State<HomeView> {
                                                               index,
                                                               reason,
                                                             ) {
-                                                              itemsIndex.value = index;
+                                                              itemsIndex.value =
+                                                                  index;
                                                               vm.notifyListeners();
                                                             },
                                                           ),

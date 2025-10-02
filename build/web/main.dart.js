@@ -117912,7 +117912,7 @@ while(true)switch(s){case 0:s=2
 return A.j(A.yk(),$async$wA)
 case 2:s=3
 return A.j(A.EE(),$async$wA)
-case 3:try{$.b4r="1.0.1"
+case 3:try{$.b4r="1.0.12"
 $.acx="32"}catch(o){q=A.M(o)
 A.bQ().$1("getAppInfo error: "+A.d(q))}return A.o(null,r)}})
 return A.p($async$wA,r)},
