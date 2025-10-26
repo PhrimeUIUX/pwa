@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
-import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/constants/images.dart';
+import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/view_models/verify.vm.dart';
 import 'package:pwa/services/alert.service.dart';
@@ -16,7 +16,9 @@ class VerifyView extends StatefulWidget {
   final String? name;
   final String? email;
   final String? phone;
-  final String purpose;
+  final String? purpose;
+  final String? birthday;
+  final String? referral;
   final String? password;
 
   const VerifyView({
@@ -24,6 +26,8 @@ class VerifyView extends StatefulWidget {
     required this.email,
     required this.phone,
     required this.purpose,
+    required this.birthday,
+    required this.referral,
     required this.password,
     super.key,
   });
@@ -73,6 +77,8 @@ class _VerifyViewState extends State<VerifyView> {
           name: widget.name,
           email: widget.email,
           phone: widget.phone,
+          birthday: widget.birthday,
+          referral: widget.referral,
           password: widget.password,
         ),
         builder: (context, vm, child) {
@@ -257,7 +263,7 @@ class _VerifyViewState extends State<VerifyView> {
                           text: "Verify",
                           onTap: () {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            vm.verifyCode(widget.purpose);
+                            vm.verifyCode("${widget.purpose}");
                           },
                         ),
                       ),

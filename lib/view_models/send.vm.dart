@@ -119,9 +119,11 @@ class SendViewModel extends BaseViewModel {
                 VerifyView(
               name: null,
               email: null,
-              phone: phoneTEC.text,
-              purpose: purpose,
+              birthday: null,
+              referral: null,
               password: null,
+              purpose: purpose,
+              phone: phoneTEC.text,
             ),
           ),
         );
@@ -157,9 +159,11 @@ class SendViewModel extends BaseViewModel {
               VerifyView(
             name: null,
             email: null,
-            phone: phoneTEC.text,
-            purpose: purpose,
+            birthday: null,
+            referral: null,
             password: null,
+            purpose: purpose,
+            phone: phoneTEC.text,
           ),
         ),
       );

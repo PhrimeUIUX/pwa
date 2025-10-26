@@ -8,6 +8,7 @@ class ActionButton extends StatefulWidget {
   final Color? mainColor;
   final VoidCallback onTap;
   final Color? borderColor;
+  final VoidCallback? onLongPress;
 
   const ActionButton({
     super.key,
@@ -21,6 +22,7 @@ class ActionButton extends StatefulWidget {
     ),
     this.mainColor = const Color(0xFF007BFF),
     this.borderColor,
+    this.onLongPress,
   });
 
   @override
@@ -50,6 +52,7 @@ class _ActionButtonState extends State<ActionButton> {
           widget.onTap();
         },
         onTapCancel: () => _isPressed.value = false,
+        onLongPress: widget.onLongPress,
         child: ValueListenableBuilder2<bool, bool>(
           first: _isHovered,
           second: _isPressed,
@@ -91,6 +94,7 @@ class WidgetButton extends StatefulWidget {
   final double borderRadius;
   final VoidCallback onTapEnd;
   final VoidCallback onTapStart;
+  final VoidCallback? onLongPress;
   final bool isTransparentColor;
   final bool useDefaultHoverColor;
   final bool disableGestureDetection;
@@ -103,6 +107,7 @@ class WidgetButton extends StatefulWidget {
     required this.onTap,
     this.onTapEnd = _null,
     this.onTapStart = _null,
+    this.onLongPress,
     this.borderRadius = 1000,
     this.mainColor = Colors.white,
     this.isTransparentColor = false,
@@ -144,6 +149,8 @@ class _WidgetButtonState extends State<WidgetButton> {
           _isPressed.value = false;
           widget.onTapEnd();
         },
+        onLongPress: widget.onLongPress,
+        // ✅ Added
         child: ValueListenableBuilder2<bool, bool>(
           first: _isHovered,
           second: _isPressed,

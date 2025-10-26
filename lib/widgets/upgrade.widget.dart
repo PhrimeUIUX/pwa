@@ -160,7 +160,7 @@ class UpgradeWidget extends StatelessWidget {
                   text: "Update",
                   onTap: () {
                     launchUrlString(
-                      "https://ppctoda.framer.website",
+                      "https://ppctoda.com",
                     );
                   },
                 ),

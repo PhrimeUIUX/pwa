@@ -17,10 +17,14 @@ import 'package:pwa/models/api_response.model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class RegisterViewModel extends BaseViewModel {
+  bool isBirthdayActive = false;
+  DateTime selectedDate = DateTime.now();
   AuthRequest authRequest = AuthRequest();
   var nameTEC = TextEditingController();
   var emailTEC = TextEditingController();
   var phoneTEC = TextEditingController();
+  var birthdayTEC = TextEditingController();
+  var referralTEC = TextEditingController();
   var passwordTEC = TextEditingController();
   var cPasswordTEC = TextEditingController();
 
@@ -83,6 +87,21 @@ class RegisterViewModel extends BaseViewModel {
           backgroundColor: Colors.red,
           content: Text(
             "Please enter your email address",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    } else if (birthdayTEC.text.trim().isEmpty || isBirthdayActive) {
+      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(
+        Get.overlayContext!,
+      ).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            "Please set your birthday",
             style: TextStyle(
               color: Colors.white,
             ),
@@ -312,10 +331,12 @@ class RegisterViewModel extends BaseViewModel {
               b,
             ) =>
                 VerifyView(
+              purpose: "register",
               name: nameTEC.text.trim(),
               email: emailTEC.text.trim(),
               phone: phoneTEC.text.trim(),
-              purpose: "register",
+              birthday: birthdayTEC.text.trim(),
+              referral: referralTEC.text.trim(),
               password: passwordTEC.text.trim(),
             ),
           ),
@@ -385,7 +406,9 @@ class RegisterViewModel extends BaseViewModel {
         countryCode: "PH",
         phone: "+63008891",
         password: "password",
+        code: referralTEC.text,
         firebaseIdToken: "$idToken",
+        birthday: birthdayTEC.text.trim(),
         name: capitalizeWords(nameTEC.text.trim()),
         lat: double.parse("${initLatLng?.lat ?? 9.7638}"),
         lng: double.parse("${initLatLng?.lng ?? 118.7473}"),

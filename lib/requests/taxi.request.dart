@@ -271,41 +271,41 @@ class TaxiRequest extends HttpService {
           );
           return availableDriver;
         } else {
-          availableDriver = null;
-          otherVehicleOpen = false;
-          availableVehicles = [];
-          for (VehicleType type in types) {
-            if (type.id != vehicleTypeId) {
-              try {
-                final apiResult = await get(
-                  "/vehicle/${type.id}/find_available",
-                  queryParameters: {
-                    "type": "ride",
-                    "pickup": "${pickup.coordinates.latitude},"
-                        "${pickup.coordinates.longitude}",
-                    "dropoff": "${dropoff.coordinates.latitude},"
-                        "${dropoff.coordinates.longitude}",
-                  },
-                ).timeout(
-                  const Duration(
-                    seconds: 30,
-                  ),
-                );
-                final apiResponse = ApiResponse.fromResponse(apiResult);
-                if (apiResponse.allGood) {
-                  availableVehicles.add(type);
-                }
-              } catch (e) {
-                throw e.toString();
-              }
-            }
-          }
-          if (availableVehicles.isEmpty) {
-            otherVehicleOpen = false;
-          } else {
+          // availableDriver = null;
+          // otherVehicleOpen = false;
+          // availableVehicles = [];
+          // for (VehicleType type in types) {
+          //   if (type.id != vehicleTypeId) {
+          //     try {
+          //       final apiResult = await get(
+          //         "/vehicle/${type.id}/find_available",
+          //         queryParameters: {
+          //           "type": "ride",
+          //           "pickup": "${pickup.coordinates.latitude},"
+          //               "${pickup.coordinates.longitude}",
+          //           "dropoff": "${dropoff.coordinates.latitude},"
+          //               "${dropoff.coordinates.longitude}",
+          //         },
+          //       ).timeout(
+          //         const Duration(
+          //           seconds: 30,
+          //         ),
+          //       );
+          //       final apiResponse = ApiResponse.fromResponse(apiResult);
+          //       if (apiResponse.allGood) {
+          //         availableVehicles.add(type);
+          //       }
+          //     } catch (e) {
+          //       throw e.toString();
+          //     }
+          //   }
+          // }
+          // if (availableVehicles.isEmpty) {
+          //   otherVehicleOpen = false;
+          // } else {
             otherVehicleOpen = true;
             return null;
-          }
+          // }
         }
       }
     } catch (e) {

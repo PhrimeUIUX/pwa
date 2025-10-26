@@ -21,17 +21,23 @@ class VerifyViewModel extends BaseViewModel {
   var nameTEC = TextEditingController();
   var emailTEC = TextEditingController();
   var phoneTEC = TextEditingController();
+  var birthdayTEC = TextEditingController();
+  var referralTEC = TextEditingController();
   var passwordTEC = TextEditingController();
 
   initialise({
     String? name,
     String? email,
     String? phone,
+    String? birthday,
+    String? referral,
     String? password,
   }) {
     nameTEC.text = name ?? "";
     emailTEC.text = email ?? "";
     phoneTEC.text = phone ?? "";
+    birthdayTEC.text = birthday ?? "";
+    referralTEC.text = referral ?? "";
     passwordTEC.text = password ?? "";
     if (isBool(AppStrings.appSettingsObject?["strings"][itexmo] ?? false)) {
       codeTEC.text = "";
@@ -131,8 +137,10 @@ class VerifyViewModel extends BaseViewModel {
               ApiResponse apiResponse = await authRequest.registerRequest(
                 countryCode: "PH",
                 email: emailTEC.text,
+                code: referralTEC.text,
                 password: passwordTEC.text,
                 phone: "+63${phoneTEC.text}",
+                birthday: birthdayTEC.text.trim(),
                 name: capitalizeWords(nameTEC.text),
                 lat: double.parse("${initLatLng?.lat ?? 9.7638}"),
                 lng: double.parse("${initLatLng?.lng ?? 118.7473}"),

@@ -206,7 +206,7 @@ class HomeViewModel extends GMapViewModel {
           content: Text(
             locUnavailable
                 ? "Please try another location"
-                : "Please select a vehicle type",
+                : "Please select a vehicle",
             style: const TextStyle(
               color: Colors.white,
             ),
@@ -351,18 +351,10 @@ class HomeViewModel extends GMapViewModel {
       "is_mov_reached": false,
       "includes_ride_cover": false,
       "includes_shower_cap": false,
-      "tip": 0,
-      "discount": 0,
-      "total_budget": 0,
-      "marked_up_budget": 0,
-      "note": "",
-      "coupon_code": "",
-      "pickup_date": "",
-      "pickup_time": "",
-      "payment_method": "",
-      "items_to_purchase": "",
-      "special_instructions": "",
-      "store_location_details": "",
+      "tip": 0.0,
+      "discount": 0.0,
+      "coupon_code": null,
+      "payment_method": null,
       "total": selectedVehicle?.total,
       "sub_total": selectedVehicle?.total,
       "payment_method_id": paymentMethodId,
@@ -382,14 +374,14 @@ class HomeViewModel extends GMapViewModel {
         "lng": dropoffAddress?.coordinates.longitude,
         "address": dropoffAddress?.addressLine,
       },
-      "driver_accept_latitude":
-          isBool(AppStrings.homeSettingsObject?["enable_prc"] ?? true)
-              ? availableDriver?.driver?.lat
-              : null,
-      "driver_accept_longitude":
-          isBool(AppStrings.homeSettingsObject?["enable_prc"] ?? true)
-              ? availableDriver?.driver?.lng
-              : null,
+      // "driver_accept_latitude":
+      //     isBool(AppStrings.homeSettingsObject?["enable_prc"] ?? true)
+      //         ? availableDriver?.driver?.lat
+      //         : null,
+      // "driver_accept_longitude":
+      //     isBool(AppStrings.homeSettingsObject?["enable_prc"] ?? true)
+      //         ? availableDriver?.driver?.lng
+      //         : null,
     };
     AlertService().showLoading();
     try {

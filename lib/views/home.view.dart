@@ -97,6 +97,41 @@ class _HomeViewState extends State<HomeView> {
                       );
                     }
                   },
+                  onLongPress: () {
+                    if (AuthService.isLoggedIn()) {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: lowerCase(
+                            AuthService.currentUser?.code,
+                          ),
+                        ),
+                      );
+                      Get.back();
+                      ScaffoldMessenger.of(
+                        Get.overlayContext!,
+                      ).clearSnackBars();
+                      ScaffoldMessenger.of(
+                        Get.overlayContext!,
+                      ).showSnackBar(
+                        SnackBar(
+                          margin: const EdgeInsets.all(
+                            20,
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.grey.shade700,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          content: const Text(
+                            "Copied to clipboard.",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 18,
@@ -145,19 +180,58 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         const SizedBox(width: 15),
                         Expanded(
-                          child: Text(
-                            !AuthService.isLoggedIn()
-                                ? "Login Account"
-                                : capitalizeWords(
-                                    "${AuthService.currentUser!.name}"),
-                            style: const TextStyle(
-                              height: 1.05,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(
-                                0xFF030744,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                !AuthService.isLoggedIn()
+                                    ? "Login Account"
+                                    : capitalizeWords(
+                                        "${AuthService.currentUser!.name}",
+                                      ),
+                                style: const TextStyle(
+                                  height: 1.05,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(
+                                    0xFF030744,
+                                  ),
+                                ),
                               ),
-                            ),
+                              !AuthService.isLoggedIn()
+                                  ? const SizedBox()
+                                  : const SizedBox(height: 4),
+                              !AuthService.isLoggedIn()
+                                  ? const SizedBox()
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: const Color(
+                                            0xFF030744,
+                                          ),
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 2,
+                                          horizontal: 8,
+                                        ),
+                                        child: Text(
+                                          lowerCase(
+                                            AuthService.currentUser?.code,
+                                          ),
+                                          style: const TextStyle(
+                                            height: 1.05,
+                                            fontSize: 12,
+                                            color: Color(
+                                              0xFF030744,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ],
                           ),
                         ),
                         const SizedBox(width: 15),
@@ -584,7 +658,7 @@ class _HomeViewState extends State<HomeView> {
                                                   "show_ad"] ??
                                               true,
                                         )
-                                    ? const SizedBox()
+                                    ? const SizedBox.shrink()
                                     : Positioned(
                                         left: 0,
                                         right: 0,
@@ -3779,7 +3853,7 @@ class _HomeViewState extends State<HomeView> {
                                 AppStrings.homeSettingsObject?["show_ad"] ??
                                     true,
                               )
-                          ? const SizedBox()
+                          ? const SizedBox.shrink()
                           : Positioned(
                               top: 0,
                               left: 0,

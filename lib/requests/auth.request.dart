@@ -173,6 +173,7 @@ class AuthRequest extends HttpService {
     required String name,
     required String email,
     required String phone,
+    required String birthday,
     required String password,
     required String countryCode,
   }) async {
@@ -185,6 +186,7 @@ class AuthRequest extends HttpService {
         "email": email,
         "phone": phone,
         "role": "client",
+        "birthday": birthday,
         "password": password,
         "country_code": countryCode,
       };
@@ -242,6 +244,7 @@ class AuthRequest extends HttpService {
     required String name,
     required String email,
     required String phone,
+    required String birthday,
     required String password,
     required String countryCode,
     required String firebaseIdToken,
@@ -256,6 +259,7 @@ class AuthRequest extends HttpService {
         "phone": phone,
         "role": "client",
         "provider": "google",
+        "birthday": birthday,
         "password": password,
         "country_code": countryCode,
         "firebase_id_token": firebaseIdToken,

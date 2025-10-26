@@ -475,14 +475,14 @@ share(String text) async {
       {
         'title': 'PPC TODA (Beta)',
         'text': text,
-        'url': "https://ppctoda.framer.website",
+        'url': "https://ppctoda.com",
       },
     );
   } catch (e) {
     Clipboard.setData(
       ClipboardData(
         text: "$text Here's the download link: "
-            "https://ppctoda.framer.website",
+            "https://ppctoda.com",
       ),
     );
     ScaffoldMessenger.of(
