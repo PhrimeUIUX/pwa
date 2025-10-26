@@ -336,86 +336,91 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      GestureDetector(
-                        onTap: () {
-                          Clipboard.setData(
-                            ClipboardData(
-                              text: lowerCase(
-                                AuthService.currentUser?.code,
-                              ),
-                            ),
-                          );
-                          ScaffoldMessenger.of(
-                            Get.overlayContext!,
-                          ).clearSnackBars();
-                          ScaffoldMessenger.of(
-                            Get.overlayContext!,
-                          ).showSnackBar(
-                            SnackBar(
-                              margin: const EdgeInsets.all(
-                                20,
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.grey.shade700,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              content: const Text(
-                                "Copied to clipboard.",
-                                style: TextStyle(
-                                  color: Colors.white,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity.clamp(0, 800),
+                          child: GestureDetector(
+                            onTap: () {
+                              Clipboard.setData(
+                                ClipboardData(
+                                  text: lowerCase(
+                                    AuthService.currentUser?.code,
+                                  ),
                                 ),
+                              );
+                              ScaffoldMessenger.of(
+                                Get.overlayContext!,
+                              ).clearSnackBars();
+                              ScaffoldMessenger.of(
+                                Get.overlayContext!,
+                              ).showSnackBar(
+                                SnackBar(
+                                  margin: const EdgeInsets.all(
+                                    20,
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.grey.shade700,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  content: const Text(
+                                    "Copied to clipboard.",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Referral",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: const Color(0xFF030744)
+                                              .withOpacity(0.5),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        lowerCase(
+                                          "${AuthService.currentUser?.code}",
+                                        ),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF030744),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      const Icon(
+                                        Icons.copy,
+                                        size: 14,
+                                        color: Color(0xFF030744),
+                                      ),
+                                      const SizedBox(width: 2),
+                                      const Text(
+                                        "tap to copy",
+                                        style: TextStyle(
+                                          color: Color(0xFF030744),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        },
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const SizedBox(width: 24),
-                                  Text(
-                                    "Referral",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: const Color(0xFF030744)
-                                          .withOpacity(0.5),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 24),
-                                  Text(
-                                    lowerCase(
-                                      "${AuthService.currentUser?.code}",
-                                    ),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF030744),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  const Icon(
-                                    Icons.copy,
-                                    size: 14,
-                                    color: Color(0xFF030744),
-                                  ),
-                                  const SizedBox(width: 2),
-                                  const Text(
-                                    "tap to copy",
-                                    style: TextStyle(
-                                      color: Color(0xFF030744),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 24),
-                                ],
-                              ),
-                            ],
                           ),
                         ),
                       ),
