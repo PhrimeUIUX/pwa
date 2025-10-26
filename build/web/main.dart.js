@@ -118785,8 +118785,8 @@ while(true)switch(s){case 0:s=2
 return A.j(A.ys(),$async$wK)
 case 2:s=3
 return A.j(A.EM(),$async$wK)
-case 3:try{$.b5r="1.0.12"
-$.acT="32"}catch(o){q=A.M(o)
+case 3:try{$.b5r="1.0.13"
+$.acT="33"}catch(o){q=A.M(o)
 A.bR().$1("getAppInfo error: "+A.d(q))}return A.o(null,r)}})
 return A.p($async$wK,r)},
 mv(a){var s=0,r=A.q(t.z),q=1,p,o=this,n,m,l,k,j,i,h,g,f,e,d,c
