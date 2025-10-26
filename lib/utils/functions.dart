@@ -487,11 +487,24 @@ share(String text) async {
     );
     ScaffoldMessenger.of(
       Get.overlayContext!,
+    ).clearSnackBars();
+    ScaffoldMessenger.of(
+      Get.overlayContext!,
     ).showSnackBar(
-      const SnackBar(
-        backgroundColor: Colors.green,
-        content: Text(
-          "Text copied to clipboard",
+      SnackBar(
+        margin: const EdgeInsets.all(
+          20,
+        ),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.grey.shade700,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        content: const Text(
+          "Copied to clipboard.",
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -562,4 +575,15 @@ Future<void> subscribeToServer() async {
       debugPrint("$e");
     }
   }
+}
+
+void copyToClipboardWeb(String text) {
+  final textarea = html.TextAreaElement()
+    ..value = text
+    ..style.position = 'fixed';
+  html.document.body?.append(textarea);
+  textarea.focus();
+  textarea.select();
+  html.document.execCommand('copy');
+  textarea.remove();
 }

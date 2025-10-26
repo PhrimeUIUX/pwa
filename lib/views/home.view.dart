@@ -99,11 +99,16 @@ class _HomeViewState extends State<HomeView> {
                   },
                   onLongPress: () {
                     if (AuthService.isLoggedIn()) {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: lowerCase(
-                            AuthService.currentUser?.code,
-                          ),
+                      // Clipboard.setData(
+                      //   ClipboardData(
+                      //     text: lowerCase(
+                      //       AuthService.currentUser?.code,
+                      //     ),
+                      //   ),
+                      // );
+                      copyToClipboardWeb(
+                        lowerCase(
+                          AuthService.currentUser?.code,
                         ),
                       );
                       Get.back();

@@ -344,11 +344,16 @@ class _ProfileViewState extends State<ProfileView> {
                           width: double.infinity.clamp(0, 800),
                           child: GestureDetector(
                             onTap: () {
-                              Clipboard.setData(
-                                ClipboardData(
-                                  text: lowerCase(
-                                    AuthService.currentUser?.code,
-                                  ),
+                              // Clipboard.setData(
+                              //   ClipboardData(
+                              //     text: lowerCase(
+                              //       AuthService.currentUser?.code,
+                              //     ),
+                              //   ),
+                              // );
+                              copyToClipboardWeb(
+                                lowerCase(
+                                  AuthService.currentUser?.code,
                                 ),
                               );
                               ScaffoldMessenger.of(
