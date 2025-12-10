@@ -287,58 +287,58 @@ class HomeViewModel extends GMapViewModel {
           },
         );
       } else {
-        AlertService().showLoading();
-        try {
-          snackShown = false;
-          availableDriver = null;
-          availableDriver = await taxiRequest.findAvailableDriver(
-            types: vehicleTypes,
-            pickup: pickupAddress,
-            dropoff: dropoffAddress,
-            vehicleTypeId: selectedVehicle!.id!,
-          );
-        } catch (_) {
-          availableDriver = null;
-        }
-        AlertService().stopLoading();
-        if (availableDriver?.driver != null &&
-            availableDriver!.kmDistance != 0) {
-          if ((availableDriver?.pickupKm ?? 0.0) <
-              (selectedVehicle?.pickupKmLimit ?? 0.0)) {
+        // AlertService().showLoading();
+        // try {
+        //   snackShown = false;
+        //   availableDriver = null;
+        //   availableDriver = await taxiRequest.findAvailableDriver(
+        //     types: vehicleTypes,
+        //     pickup: pickupAddress,
+        //     dropoff: dropoffAddress,
+        //     vehicleTypeId: selectedVehicle!.id!,
+        //   );
+        // } catch (_) {
+        //   availableDriver = null;
+        // }
+        // AlertService().stopLoading();
+        // if (availableDriver?.driver != null &&
+        //     availableDriver!.kmDistance != 0) {
+        //   if ((availableDriver?.pickupKm ?? 0.0) <
+        //       (selectedVehicle?.pickupKmLimit ?? 0.0)) {
             placeNewOrder();
-          } else {
-            AlertService().showAppAlert(
-              title: "Driver is Distant",
-              content:
-                  "Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up",
-              hideCancel: false,
-              confirmText: "Accept",
-              confirmColor: Colors.red,
-              confirmAction: () {
-                Get.back();
-                placeNewOrder();
-              },
-            );
-          }
-        } else {
-          if (!snackShown) {
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-            ScaffoldMessenger.of(
-              Get.overlayContext!,
-            ).showSnackBar(
-              const SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(
-                  "No driver found. Try again later",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
-            snackShown = true;
-          }
-        }
+        //   } else {
+        //     AlertService().showAppAlert(
+        //       title: "Driver is Distant",
+        //       content:
+        //           "Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up",
+        //       hideCancel: false,
+        //       confirmText: "Accept",
+        //       confirmColor: Colors.red,
+        //       confirmAction: () {
+        //         Get.back();
+        //         placeNewOrder();
+        //       },
+        //     );
+        //   }
+        // } else {
+        //   if (!snackShown) {
+        //     ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        //     ScaffoldMessenger.of(
+        //       Get.overlayContext!,
+        //     ).showSnackBar(
+        //       const SnackBar(
+        //         backgroundColor: Colors.red,
+        //         content: Text(
+        //           "No driver found. Try again later",
+        //           style: TextStyle(
+        //             color: Colors.white,
+        //           ),
+        //         ),
+        //       ),
+        //     );
+        //     snackShown = true;
+        //   }
+        // }
       }
     }
   }
@@ -470,58 +470,58 @@ class HomeViewModel extends GMapViewModel {
             ongoingOrder = null;
             Get.until((route) => route.isFirst);
             if (apiResponse.allGood) {
-              AlertService().showLoading();
-              try {
-                snackShown = false;
-                availableDriver = null;
-                availableDriver = await taxiRequest.findAvailableDriver(
-                  types: vehicleTypes,
-                  pickup: pickupAddress,
-                  dropoff: dropoffAddress,
-                  vehicleTypeId: selectedVehicle!.id!,
-                );
-              } catch (_) {
-                availableDriver = null;
-              }
-              AlertService().stopLoading();
-              if (availableDriver?.driver != null &&
-                  availableDriver!.kmDistance != 0) {
-                if ((availableDriver?.pickupKm ?? 0.0) <
-                    (selectedVehicle?.pickupKmLimit ?? 0.0)) {
+              // AlertService().showLoading();
+              // try {
+              //   snackShown = false;
+              //   availableDriver = null;
+              //   availableDriver = await taxiRequest.findAvailableDriver(
+              //     types: vehicleTypes,
+              //     pickup: pickupAddress,
+              //     dropoff: dropoffAddress,
+              //     vehicleTypeId: selectedVehicle!.id!,
+              //   );
+              // } catch (_) {
+              //   availableDriver = null;
+              // }
+              // AlertService().stopLoading();
+              // if (availableDriver?.driver != null &&
+              //     availableDriver!.kmDistance != 0) {
+              //   if ((availableDriver?.pickupKm ?? 0.0) <
+              //       (selectedVehicle?.pickupKmLimit ?? 0.0)) {
                   placeNewOrder();
-                } else {
-                  AlertService().showAppAlert(
-                    title: "Driver is Distant",
-                    content:
-                        "Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up",
-                    hideCancel: false,
-                    confirmText: "Accept",
-                    confirmColor: Colors.red,
-                    confirmAction: () {
-                      Get.back();
-                      placeNewOrder();
-                    },
-                  );
-                }
-              } else {
-                if (!snackShown) {
-                  ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-                  ScaffoldMessenger.of(
-                    Get.overlayContext!,
-                  ).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(
-                        "No driver found. Try again later",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  );
-                  snackShown = true;
-                }
-              }
+              //   } else {
+              //     AlertService().showAppAlert(
+              //       title: "Driver is Distant",
+              //       content:
+              //           "Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up",
+              //       hideCancel: false,
+              //       confirmText: "Accept",
+              //       confirmColor: Colors.red,
+              //       confirmAction: () {
+              //         Get.back();
+              //         placeNewOrder();
+              //       },
+              //     );
+              //   }
+              // } else {
+              //   if (!snackShown) {
+              //     ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+              //     ScaffoldMessenger.of(
+              //       Get.overlayContext!,
+              //     ).showSnackBar(
+              //       const SnackBar(
+              //         backgroundColor: Colors.red,
+              //         content: Text(
+              //           "No driver found. Try again later",
+              //           style: TextStyle(
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ),
+              //     );
+              //     snackShown = true;
+              //   }
+              // }
             } else {
               throw apiResponse.message;
             }
