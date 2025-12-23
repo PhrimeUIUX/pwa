@@ -18,7 +18,9 @@ class GeocoderService extends HttpService {
   Future<List<Address>> findAddressesFromCoordinates(
       Coordinates coordinates) async {
     final apiResult = await get(
-      Api.geoCoordinates,
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? false)
+          ? Api.geoCoordinates
+          : "https://backrideph.online/api/geocoder/forward",
       queryParameters: {
         "lat": coordinates.latitude,
         "lng": coordinates.longitude,
@@ -77,7 +79,9 @@ class GeocoderService extends HttpService {
     } else {
       String latLng = "${initLatLng?.lat},${initLatLng?.lat}";
       final apiResult = await get(
-        Api.geoAddresses,
+        !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? false)
+            ? Api.geoAddresses
+            : "https://backrideph.online/api/geocoder/reserve",
         queryParameters: {
           "keyword": keyword,
           "location": latLng,
@@ -97,7 +101,9 @@ class GeocoderService extends HttpService {
 
   Future<Address> fetchPlaceDetails(Address address) async {
     final apiResult = await get(
-      Api.geoAddresses,
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? false)
+          ? Api.geoAddresses
+          : "https://backrideph.online/api/geocoder/reserve",
       queryParameters: {
         "place_id": address.gMapPlaceId,
       },

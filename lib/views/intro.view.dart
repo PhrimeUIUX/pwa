@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/views/login.view.dart';
 import 'package:pwa/constants/images.dart';
-import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/widgets/button.widget.dart';
-import 'package:pwa/widgets/upgrade.widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:pwa/widgets/page_indicator.widget.dart';
 
@@ -250,9 +248,6 @@ class _IntroViewState extends State<IntroView> {
               ),
             ),
           ),
-          !AuthService.shouldUpgrade()
-              ? const SizedBox.shrink()
-              : const UpgradeWidget(),
         ],
       ),
     );

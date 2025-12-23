@@ -332,7 +332,7 @@ class AlertService {
           ),
         );
       },
-      barrierColor: bg ?? const Color(0xFF030744).withOpacity(0.5),
+      barrierColor: bg ?? const Color(0xFF007BFF),
     );
   }
 

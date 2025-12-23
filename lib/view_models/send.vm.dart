@@ -54,7 +54,14 @@ class SendViewModel extends BaseViewModel {
         if (apiResponse.allGood) {
           processOTPVerification(purpose);
         } else {
-          throw apiResponse.message;
+          if (apiResponse.message.toLowerCase() ==
+              "phone exists in the system") {
+            {
+              throw "Phone doesn't exist in the system";
+            }
+          } else {
+            throw apiResponse.message;
+          }
         }
       } catch (e) {
         ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();

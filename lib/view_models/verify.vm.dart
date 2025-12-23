@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:math';
 import 'dart:convert';
+import 'dart:html' as html;
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
@@ -43,6 +46,12 @@ class VerifyViewModel extends BaseViewModel {
       codeTEC.text = "";
     } else {
       codeTEC.text = "${100000 + Random().nextInt(900000)}";
+      html.Notification(
+        "Ka-TODA",
+        body:
+            "Your OTP is ${codeTEC.text}. Code will expire in ${resendSecs == 0 ? "180" : resendSecs} seconds.",
+        icon: "/icons/webiconsmall.png",
+      );
     }
     notifyListeners();
   }

@@ -3,6 +3,8 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pwa/utils/data.dart';
+import 'package:pwa/widgets/partner_button.dart';
+import 'package:pwa/widgets/partner_display.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
@@ -28,11 +30,9 @@ import 'package:pwa/models/coordinates.model.dart';
 import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/widgets/list_tile.widget.dart';
 import 'package:pwa/widgets/text_field.widget.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:pwa/widgets/network_image.widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:google_maps/google_maps.dart' as gmaps;
-import 'package:pwa/widgets/page_indicator.widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -424,6 +424,7 @@ class _HomeViewState extends State<HomeView> {
                                   center: center,
                                   enableGestures: !vm.isDisabled &&
                                       isAdSeen &&
+                                      isAd1Seen &&
                                       !vm.showReport &&
                                       (isBool(vm.userSeen) ||
                                           vm.dvrMessage == null ||
@@ -670,54 +671,30 @@ class _HomeViewState extends State<HomeView> {
                                         bottom: vm.selectedAddress.value == null
                                             ? -500
                                             : 20,
-                                        child: Column(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            ClipOval(
-                                              child: Container(
-                                                width: 66,
-                                                height: 66,
-                                                decoration:
-                                                    const BoxDecoration(),
-                                                child: Stack(
-                                                  children: [
-                                                    Image.asset(
-                                                      AppImages.mnb,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    WidgetButton(
-                                                      isTransparentColor: true,
-                                                      useDefaultHoverColor:
-                                                          false,
-                                                      mainColor: Colors.grey
-                                                          .withOpacity(
-                                                        0.25,
-                                                      ),
-                                                      onTap: () async {
-                                                        setState(
-                                                          () {
-                                                            isAdSeen = false;
-                                                            showBranch = false;
-                                                          },
-                                                        );
-                                                      },
-                                                      onTapEnd: () {
-                                                        setState(() {
-                                                          vm.isDisabled = false;
-                                                        });
-                                                      },
-                                                      onTapStart: () {
-                                                        setState(() {
-                                                          vm.isDisabled = true;
-                                                        });
-                                                      },
-                                                      child: const SizedBox(
-                                                        width: 66,
-                                                        height: 66,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                            PartnerButtonWidget(
+                                              image: AppImages.mnb,
+                                              show: true,
+                                              onTap: () async {
+                                                setState(() {
+                                                  isAdSeen = false;
+                                                  showBranch = false;
+                                                });
+                                              },
+                                            ),
+                                            const SizedBox(width: 12),
+                                            PartnerButtonWidget(
+                                              image: AppImages.sbb,
+                                              show: true,
+                                              onTap: () async {
+                                                setState(() {
+                                                  isAd1Seen = false;
+                                                  showBranch = false;
+                                                });
+                                              },
                                             ),
                                           ],
                                         ),
@@ -2053,23 +2030,31 @@ class _HomeViewState extends State<HomeView> {
                                                   const SizedBox(width: 15),
                                                   Expanded(
                                                     child: ActionButton(
-                                                      text: vm.ongoingOrder !=
-                                                                  null &&
-                                                              vm.ongoingOrder!
-                                                                      .status !=
-                                                                  "cancelled"
-                                                          ? vm.ongoingOrder
-                                                                          ?.status ==
-                                                                      "enroute" ||
-                                                                  vm.ongoingOrder
-                                                                          ?.status ==
-                                                                      "preparing" ||
-                                                                  vm.ongoingOrder
-                                                                          ?.status ==
-                                                                      "delivered"
-                                                              ? "REPORT"
-                                                              : "CANCEL"
-                                                          : "BOOK",
+                                                      text: (() {
+                                                        final order =
+                                                            vm.ongoingOrder;
+                                                        final status =
+                                                            order?.status;
+                                                        if (order == null ||
+                                                            status ==
+                                                                "cancelled") {
+                                                          return "BOOK";
+                                                        } else if (vm
+                                                                    .dvrMessage ==
+                                                                null ||
+                                                            vm.dvrMessage ==
+                                                                "null") {
+                                                          return "CANCEL";
+                                                        } else if (status ==
+                                                                "enroute" ||
+                                                            status ==
+                                                                "preparing" ||
+                                                            status ==
+                                                                "delivered") {
+                                                          return "REPORT";
+                                                        }
+                                                        return "CANCEL";
+                                                      })(),
                                                       mainColor: vm.isPreparing
                                                           ? const Color(
                                                               0xFF030744,
@@ -2139,6 +2124,12 @@ class _HomeViewState extends State<HomeView> {
                                                                 .vehicleTypes)) {
                                                               vm.processNewOrder();
                                                             }
+                                                          } else if (vm
+                                                                      .dvrMessage ==
+                                                                  null ||
+                                                              vm.dvrMessage ==
+                                                                  "null") {
+                                                            vm.cancelOrder();
                                                           } else {
                                                             if (vm.ongoingOrder?.status == "enroute" ||
                                                                 vm.ongoingOrder
@@ -3527,13 +3518,12 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             ),
                       isBool(vm.userSeen) ||
+                              vm.dvrMessage == "" ||
                               vm.dvrMessage == null ||
                               vm.dvrMessage == "null" ||
                               vm.ongoingOrder == null ||
-                              vm.ongoingOrder?.status == "cancelled" ||
-                              vm.dvrMessage == "null" ||
-                              vm.dvrMessage == ""
-                          ? const SizedBox.shrink()
+                              vm.ongoingOrder?.status == "cancelled"
+                          ? const SizedBox()
                           : Positioned(
                               left: 0,
                               right: 0,
@@ -3544,9 +3534,7 @@ class _HomeViewState extends State<HomeView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.all(
-                                        20,
-                                      ),
+                                      padding: const EdgeInsets.all(20),
                                       child: Row(
                                         children: [
                                           GestureDetector(
@@ -3654,21 +3642,55 @@ class _HomeViewState extends State<HomeView> {
                                           SizedBox(
                                             width: 44,
                                             height: 44,
-                                            child: WidgetButton(
-                                              onTap: () {
-                                                launchUrlString(
-                                                  "tel://${vm.ongoingOrder?.driver?.phone}",
-                                                );
-                                              },
-                                              mainColor: const Color(
+                                            child: Material(
+                                              color: const Color(
                                                 0xFF007BFF,
                                               ),
-                                              useDefaultHoverColor: false,
-                                              borderRadius: 8,
-                                              child: const Center(
-                                                child: Icon(
-                                                  Icons.call,
-                                                  color: Colors.white,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(
+                                                  8,
+                                                ),
+                                              ),
+                                              child: Ink(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    launchUrlString(
+                                                      "tel://${vm.ongoingOrder?.driver?.phone}",
+                                                    );
+                                                  },
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    Radius.circular(
+                                                      8,
+                                                    ),
+                                                  ),
+                                                  focusColor: const Color(
+                                                    0xFF030744,
+                                                  ).withOpacity(
+                                                    0.2,
+                                                  ),
+                                                  hoverColor: const Color(
+                                                    0xFF030744,
+                                                  ).withOpacity(
+                                                    0.2,
+                                                  ),
+                                                  splashColor: const Color(
+                                                    0xFF030744,
+                                                  ).withOpacity(
+                                                    0.2,
+                                                  ),
+                                                  highlightColor: const Color(
+                                                    0xFF030744,
+                                                  ).withOpacity(
+                                                    0.2,
+                                                  ),
+                                                  child: const Center(
+                                                    child: Icon(
+                                                      Icons.phone,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -3682,15 +3704,13 @@ class _HomeViewState extends State<HomeView> {
                                       height: 1,
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(
-                                        20,
-                                      ),
+                                      padding: const EdgeInsets.all(20),
                                       child: Text(
                                         "${capitalizeWords(vm.ongoingOrder?.driver?.name)} (Driver): ${"${vm.dvrMessage}".contains("https") ? "Sent a photo" : "${vm.dvrMessage}"}",
                                       ),
                                     ),
                                     !"${vm.dvrMessage}".contains("https")
-                                        ? const SizedBox.shrink()
+                                        ? const SizedBox()
                                         : GestureDetector(
                                             onTap: () {
                                               AlertService().showAppAlert(
@@ -3715,8 +3735,7 @@ class _HomeViewState extends State<HomeView> {
                                                     .width,
                                                 height: MediaQuery.of(context)
                                                     .size
-                                                    .width
-                                                    .clamp(0, 450),
+                                                    .width,
                                                 decoration: BoxDecoration(
                                                   color: const Color(
                                                     0xFF007BFF,
@@ -3744,47 +3763,85 @@ class _HomeViewState extends State<HomeView> {
                                       child: Row(
                                         children: [
                                           Expanded(
-                                            child: SizedBox(
+                                            child: Container(
                                               height: 55,
-                                              child: WidgetButton(
-                                                onTap: () {
-                                                  fbStore
-                                                      .collection("orders")
-                                                      .doc(
-                                                          vm.ongoingOrder?.code)
-                                                      .update(
-                                                    {
-                                                      "userSeen": true,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Ink(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(10),
+                                                    ),
+                                                  ),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      fbStore
+                                                          .collection("orders")
+                                                          .doc(vm.ongoingOrder
+                                                              ?.code)
+                                                          .update(
+                                                        {
+                                                          "userSeen": true,
+                                                        },
+                                                      );
                                                     },
-                                                  );
-                                                },
-                                                mainColor: Colors.red,
-                                                useDefaultHoverColor: false,
-                                                borderRadius: 8,
-                                                child: const Center(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(
-                                                        Icons.close,
-                                                        size: 35,
-                                                        color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    focusColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    hoverColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    splashColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    highlightColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    child: const Center(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons.close,
+                                                            size: 35,
+                                                            color: Colors.white,
+                                                          ),
+                                                          Text(
+                                                            "Close",
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 8),
+                                                        ],
                                                       ),
-                                                      Text(
-                                                        "Close",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                    ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -3792,55 +3849,98 @@ class _HomeViewState extends State<HomeView> {
                                           ),
                                           const SizedBox(width: 20),
                                           Expanded(
-                                            child: SizedBox(
+                                            child: Container(
                                               height: 55,
-                                              child: WidgetButton(
-                                                onTap: () {
-                                                  vm.chatDriver();
-                                                },
-                                                mainColor: const Color(
+                                              decoration: const BoxDecoration(
+                                                color: Color(
                                                   0xFF007BFF,
                                                 ),
-                                                useDefaultHoverColor: false,
-                                                borderRadius: 8,
-                                                child: Center(
-                                                  child: vm.isBusy
-                                                      ? const SizedBox(
-                                                          width: 30,
-                                                          height: 30,
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            strokeWidth: 2.5,
-                                                            color: Colors.white,
-                                                          ),
-                                                        )
-                                                      : const Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.send,
-                                                              size: 35,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 8,
-                                                            ),
-                                                            Text(
-                                                              "Reply",
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: Ink(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(10),
+                                                    ),
+                                                  ),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      vm.chatDriver();
+                                                    },
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10,
+                                                    ),
+                                                    focusColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    hoverColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    splashColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    highlightColor: const Color(
+                                                      0xFF030744,
+                                                    ).withOpacity(
+                                                      0.1,
+                                                    ),
+                                                    child: Center(
+                                                      child: vm.isBusy
+                                                          ? const SizedBox(
+                                                              width: 28,
+                                                              height: 28,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                strokeWidth:
+                                                                    2.5,
                                                                 color: Colors
                                                                     .white,
                                                               ),
+                                                            )
+                                                          : const Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.send,
+                                                                  size: 35,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 8,
+                                                                ),
+                                                                Text(
+                                                                  "Reply",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -3852,605 +3952,134 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ),
                             ),
-                      isAdSeen ||
-                              vm.ongoingOrder != null ||
-                              !isBool(
-                                AppStrings.homeSettingsObject?["show_ad"] ??
-                                    true,
-                              )
-                          ? const SizedBox.shrink()
-                          : Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  await StorageService.prefs?.setBool(
-                                    "is_ad_seen",
-                                    true,
-                                  );
-                                  setState(
-                                    () {
-                                      isAdSeen = true;
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                  color: Colors.black.withOpacity(0.75),
-                                  child: SafeArea(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (!showBranch) {
-                                              setState(
-                                                () {
-                                                  branchNumber = 0;
-                                                  showBranch = !showBranch;
-                                                },
-                                              );
-                                            }
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 20,
-                                              right: 20,
-                                            ),
-                                            child: Container(
-                                              width: double.infinity
-                                                      .clamp(0, 500) -
-                                                  40,
-                                              height: showBranch
-                                                  ? null
-                                                  : context
-                                                          .mediaQuery.size.width
-                                                          .clamp(0, 500) -
-                                                      20,
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                    16,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: showBranch
-                                                    ? [
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        ClipOval(
-                                                          child: Container(
-                                                            width: 66,
-                                                            height: 66,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              image:
-                                                                  DecorationImage(
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                image:
-                                                                    AssetImage(
-                                                                  AppImages.mnb,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 4,
-                                                        ),
-                                                        const Text(
-                                                          "Max & Bunny",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            height: 1.05,
-                                                            fontSize: 18,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        const Text(
-                                                          "Dine in and help a driver earn!",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 16,
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            if (branchNumber ==
-                                                                1) {
-                                                              setState(() {
-                                                                branchNumber =
-                                                                    0;
-                                                              });
-                                                            } else {
-                                                              setState(() {
-                                                                branchNumber =
-                                                                    1;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              horizontal: 22,
-                                                            ),
-                                                            child: Container(
-                                                              height: 50,
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    const BorderRadius
-                                                                        .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: branchNumber ==
-                                                                          1
-                                                                      ? const Color(
-                                                                          0xFF007BFF,
-                                                                        )
-                                                                      : const Color(
-                                                                          0xFF030744,
-                                                                        ).withOpacity(
-                                                                          0.25,
-                                                                        ),
-                                                                  width: 1,
-                                                                ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "SM Branch",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    height:
-                                                                        1.05,
-                                                                    color: branchNumber ==
-                                                                            1
-                                                                        ? const Color(
-                                                                            0xFF007BFF,
-                                                                          )
-                                                                        : const Color(
-                                                                            0xFF030744,
-                                                                          ).withOpacity(
-                                                                            0.25,
-                                                                          ),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 12,
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            if (branchNumber ==
-                                                                2) {
-                                                              setState(() {
-                                                                branchNumber =
-                                                                    0;
-                                                              });
-                                                            } else {
-                                                              setState(() {
-                                                                branchNumber =
-                                                                    2;
-                                                              });
-                                                            }
-                                                          },
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              horizontal: 22,
-                                                            ),
-                                                            child: Container(
-                                                              height: 50,
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    const BorderRadius
-                                                                        .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                    8,
-                                                                  ),
-                                                                ),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: branchNumber ==
-                                                                          2
-                                                                      ? const Color(
-                                                                          0xFF007BFF,
-                                                                        )
-                                                                      : const Color(
-                                                                          0xFF030744,
-                                                                        ).withOpacity(
-                                                                          0.25,
-                                                                        ),
-                                                                  width: 1,
-                                                                ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "San Pedro Branch",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    height:
-                                                                        1.05,
-                                                                    color: branchNumber ==
-                                                                            2
-                                                                        ? const Color(
-                                                                            0xFF007BFF,
-                                                                          )
-                                                                        : const Color(
-                                                                            0xFF030744,
-                                                                          ).withOpacity(
-                                                                            0.25,
-                                                                          ),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 22,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                            horizontal: 22,
-                                                          ),
-                                                          child: SizedBox(
-                                                            height: 50,
-                                                            child: Material(
-                                                              color:
-                                                                  const Color(
-                                                                0xFF007BFF,
-                                                              ),
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .all(
-                                                                Radius.circular(
-                                                                    8),
-                                                              ),
-                                                              child: Ink(
-                                                                child: InkWell(
-                                                                  onTap: () {
-                                                                    if (!AuthService
-                                                                        .isLoggedIn()) {
-                                                                      if (branchNumber ==
-                                                                          0) {
-                                                                        ScaffoldMessenger
-                                                                            .of(
-                                                                          Get.overlayContext!,
-                                                                        ).clearSnackBars();
-                                                                        ScaffoldMessenger
-                                                                            .of(
-                                                                          Get.overlayContext!,
-                                                                        ).showSnackBar(
-                                                                          const SnackBar(
-                                                                            backgroundColor:
-                                                                                Colors.red,
-                                                                            content:
-                                                                                Text(
-                                                                              "Please select a dropoff branch",
-                                                                              style: TextStyle(
-                                                                                color: Colors.white,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      } else {
-                                                                        setState(
-                                                                          () {
-                                                                            isAdSeen =
-                                                                                true;
-                                                                            branchNumber =
-                                                                                0;
-                                                                            showBranch =
-                                                                                false;
-                                                                          },
-                                                                        );
-                                                                        Get.to(
-                                                                          () =>
-                                                                              const LoginView(),
-                                                                        );
-                                                                      }
-                                                                    } else if (branchNumber ==
-                                                                        0) {
-                                                                      ScaffoldMessenger
-                                                                          .of(
-                                                                        Get.overlayContext!,
-                                                                      ).clearSnackBars();
-                                                                      ScaffoldMessenger
-                                                                          .of(
-                                                                        Get.overlayContext!,
-                                                                      ).showSnackBar(
-                                                                        const SnackBar(
-                                                                          backgroundColor:
-                                                                              Colors.red,
-                                                                          content:
-                                                                              Text(
-                                                                            "Please select a dropoff branch",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    } else if (branchNumber ==
-                                                                        1) {
-                                                                      setState(
-                                                                        () {
-                                                                          isAdSeen =
-                                                                              true;
-                                                                          branchNumber =
-                                                                              0;
-                                                                          showBranch =
-                                                                              false;
-                                                                          dropoffAddress =
-                                                                              Address(
-                                                                            addressLine:
-                                                                                "Max & Bunny - SM Branch",
-                                                                            coordinates:
-                                                                                Coordinates(
-                                                                              9.743318345512021,
-                                                                              118.7390989745996,
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                      );
-                                                                      vm.drawDropPolyLines(
-                                                                        "pickup-dropoff",
-                                                                        pickupAddress!
-                                                                            .latLng,
-                                                                        gmaps
-                                                                            .LatLng(
-                                                                          9.743318345512021,
-                                                                          118.7390989745996,
-                                                                        ),
-                                                                        null,
-                                                                      );
-                                                                      vm.fetchVehicleTypesPricing();
-                                                                    } else {
-                                                                      setState(
-                                                                        () {
-                                                                          isAdSeen =
-                                                                              true;
-                                                                          branchNumber =
-                                                                              0;
-                                                                          showBranch =
-                                                                              false;
-                                                                          dropoffAddress =
-                                                                              Address(
-                                                                            addressLine:
-                                                                                "Max & Bunny - San Pedro Branch",
-                                                                            coordinates:
-                                                                                Coordinates(
-                                                                              9.762115888944837,
-                                                                              118.75241723828879,
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                      );
-                                                                      vm.drawDropPolyLines(
-                                                                        "pickup-dropoff",
-                                                                        pickupAddress!
-                                                                            .latLng,
-                                                                        gmaps
-                                                                            .LatLng(
-                                                                          9.762115888944837,
-                                                                          118.75241723828879,
-                                                                        ),
-                                                                        null,
-                                                                      );
-                                                                      vm.fetchVehicleTypesPricing();
-                                                                    }
-                                                                  },
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            8),
-                                                                  ),
-                                                                  focusColor:
-                                                                      const Color(
-                                                                    0xFF030744,
-                                                                  ).withOpacity(
-                                                                    0.2,
-                                                                  ),
-                                                                  hoverColor:
-                                                                      const Color(
-                                                                    0xFF030744,
-                                                                  ).withOpacity(
-                                                                    0.2,
-                                                                  ),
-                                                                  splashColor:
-                                                                      const Color(
-                                                                    0xFF030744,
-                                                                  ).withOpacity(
-                                                                    0.2,
-                                                                  ),
-                                                                  highlightColor:
-                                                                      const Color(
-                                                                    0xFF030744,
-                                                                  ).withOpacity(
-                                                                    0.2,
-                                                                  ),
-                                                                  child:
-                                                                      const Center(
-                                                                    child: Text(
-                                                                      "Set as Dropoff",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            16,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 22,
-                                                        ),
-                                                      ]
-                                                    : [
-                                                        CarouselSlider(
-                                                          items: gBanners
-                                                              .map(
-                                                                (banner) =>
-                                                                    Column(
-                                                                  children: [
-                                                                    Container(
-                                                                      margin: const EdgeInsets
-                                                                          .only(
-                                                                        top: 15,
-                                                                      ),
-                                                                      width: context
-                                                                              .mediaQuery
-                                                                              .size
-                                                                              .width
-                                                                              .clamp(0, 500) -
-                                                                          70,
-                                                                      height: context
-                                                                              .mediaQuery
-                                                                              .size
-                                                                              .width
-                                                                              .clamp(0, 500) -
-                                                                          70,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color:
-                                                                            const Color(
-                                                                          0xFF007BFF,
-                                                                        ).withOpacity(0.2),
-                                                                        borderRadius:
-                                                                            const BorderRadius.all(
-                                                                          Radius
-                                                                              .circular(
-                                                                            10,
-                                                                          ),
-                                                                        ),
-                                                                        image:
-                                                                            DecorationImage(
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                          image:
-                                                                              NetworkImage(
-                                                                            "${banner.photo}",
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                              .toList(),
-                                                          options:
-                                                              CarouselOptions(
-                                                            height: context
-                                                                    .mediaQuery
-                                                                    .size
-                                                                    .width
-                                                                    .clamp(0,
-                                                                        500) -
-                                                                55,
-                                                            initialPage: 0,
-                                                            autoPlay: true,
-                                                            viewportFraction: 1,
-                                                            onPageChanged: (
-                                                              index,
-                                                              reason,
-                                                            ) {
-                                                              itemsIndex.value =
-                                                                  index;
-                                                              vm.notifyListeners();
-                                                            },
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 12,
-                                                        ),
-                                                        PageIndicatorWidget(
-                                                          activeSize: 10,
-                                                          inactiveSize: 6,
-                                                          count:
-                                                              gBanners.length,
-                                                          currentIndex:
-                                                              itemsIndex.value,
-                                                          activeColor:
-                                                              const Color(
-                                                            0xFF007BFF,
-                                                          ),
-                                                          inactiveColor:
-                                                              const Color(
-                                                            0xFFA3C9FF,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 12,
-                                                        ),
-                                                      ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        const Text(
-                                          "Tap to close",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                      PartnerDisplayWidget(
+                        show: !isAdSeen &&
+                            vm.ongoingOrder == null &&
+                            isBool(
+                              AppStrings.homeSettingsObject?["show_ad"] ?? true,
                             ),
+                        onClose: () async {
+                          await StorageService.prefs?.setBool(
+                            "is_ad_seen",
+                            true,
+                          );
+                          setState(() {
+                            isAdSeen = true;
+                            showBranch = false;
+                          });
+                        },
+                        isLoggedIn: () => AuthService.isLoggedIn(),
+                        onSelectDropoff: (
+                          latLng,
+                          branchName,
+                        ) {
+                          dropoffAddress = Address(
+                            addressLine: branchName,
+                            coordinates: Coordinates(
+                              double.parse("${latLng.lat}"),
+                              double.parse("${latLng.lng}"),
+                            ),
+                          );
+                          vm.drawDropPolyLines(
+                            "pickup-dropoff",
+                            pickupAddress!.latLng,
+                            latLng,
+                            null,
+                          );
+                          vm.fetchVehicleTypesPricing();
+                          setState(() {
+                            showBranch = false;
+                          });
+                        },
+                        banners: [
+                          BannerModel(photo: "${gBanners[0].photo}"),
+                          BannerModel(photo: "${gBanners[1].photo}"),
+                        ],
+                        partnerName: "Max & Bunny",
+                        partnerDescription: "Dine in and help a driver earn!",
+                        partnerImage: AppImages.mnb,
+                        branches: [
+                          Branch(
+                            id: 1,
+                            name: "SM Branch",
+                            latLng: gmaps.LatLng(
+                              9.743318345512021,
+                              118.7390989745996,
+                            ),
+                          ),
+                          Branch(
+                            id: 2,
+                            name: "San Pedro Branch",
+                            latLng: gmaps.LatLng(
+                              9.762115888944837,
+                              118.75241723828879,
+                            ),
+                          ),
+                        ],
+                      ),
+                      PartnerDisplayWidget(
+                        show: !isAd1Seen &&
+                            vm.ongoingOrder == null &&
+                            isBool(
+                                AppStrings.homeSettingsObject?["show_ad_1"] ??
+                                    true),
+                        onClose: () async {
+                          await StorageService.prefs
+                              ?.setBool("is_ad_1_seen", true);
+                          setState(() {
+                            isAd1Seen = true;
+                            showBranch = false;
+                          });
+                        },
+                        isLoggedIn: () => AuthService.isLoggedIn(),
+                        onSelectDropoff: (
+                          latLng,
+                          branchName,
+                        ) {
+                          dropoffAddress = Address(
+                            addressLine: branchName,
+                            coordinates: Coordinates(
+                              double.parse("${latLng.lat}"),
+                              double.parse("${latLng.lng}"),
+                            ),
+                          );
+                          vm.drawDropPolyLines(
+                            "pickup-dropoff",
+                            pickupAddress!.latLng,
+                            latLng,
+                            null,
+                          );
+                          vm.fetchVehicleTypesPricing();
+                          setState(() {
+                            showBranch = false;
+                          });
+                        },
+                        banners: [
+                          BannerModel(photo: "${gBanners[2].photo}"),
+                          BannerModel(photo: "${gBanners[3].photo}"),
+                        ],
+                        partnerName: "Sabie Bakes",
+                        partnerDescription: "Dine in and help a driver earn!",
+                        partnerImage: AppImages.sbb,
+                        branches: [
+                          Branch(
+                            id: 1,
+                            name: "SM Branch",
+                            latLng: gmaps.LatLng(
+                              9.74394439548003,
+                              118.7398234327833,
+                            ),
+                          ),
+                          Branch(
+                            id: 2,
+                            name: "BM Road Branch",
+                            latLng: gmaps.LatLng(
+                              9.765574270055104,
+                              118.76115291309709,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

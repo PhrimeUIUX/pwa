@@ -25,6 +25,7 @@ String? versionCode;
 int branchNumber = 0;
 Uint8List? selfieFile;
 bool isAdSeen = false;
+bool isAd1Seen = false;
 bool isSharing = false;
 Address? pickupAddress;
 bool isTourist = false;
@@ -40,6 +41,7 @@ bool loadingPolylines = false;
 List<ChatMedia> mediaList = [];
 AvailableDriver? availableDriver;
 List<VehicleType> availableVehicles = [];
+String useExt = "enableFatchByLocation";
 String itexmo = "enableParcelVendorByLocation";
 gmaps.LatLng? initLatLng = gmaps.LatLng(9.7638, 118.7473);
 
@@ -57,10 +59,13 @@ RegExp nameRegex = RegExp(
 
 int bookingId = 0;
 int rebookSecs = 0;
+Timer? pickupCountdownTimer;
 Timer? resendCountdownTimer;
 Timer? rebookCountdownTimer;
+int pickupSecs = defaultPickupSeconds;
 int resendSecs = defaultCountdownSeconds;
 int maxResendSeconds = defaultCountdownSeconds;
+int defaultPickupSeconds = 4;
 int defaultCountdownSeconds =
     AppStrings.homeSettingsObject?["code_countdown_seconds"] ?? 120;
 

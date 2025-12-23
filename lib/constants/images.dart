@@ -1,4 +1,5 @@
 class AppImages {
+  static const sbb = "assets/images/sbb.png";
   static const mnb = "assets/images/mnb.png";
   static const load = "assets/images/load.png";
   static const auth = "assets/images/auth.png";

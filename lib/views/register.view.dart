@@ -294,75 +294,71 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       const SizedBox(height: 16),
                       !vm.isBirthdayActive
-                          ? InkWell(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
                               ),
-                              focusColor: Colors.black.withOpacity(
-                                0.1,
-                              ),
-                              hoverColor: Colors.black.withOpacity(
-                                0.1,
-                              ),
-                              splashColor: Colors.black.withOpacity(
-                                0.1,
-                              ),
-                              highlightColor: Colors.black.withOpacity(
-                                0.1,
-                              ),
-                              onTap: () async {
-                                if (selfieFile == null) {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  vm.processRegister();
-                                } else {
-                                  setState(() {
-                                    vm.isBirthdayActive = true;
-                                  });
-                                }
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width - 48,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(
-                                      10,
-                                    ),
-                                  ),
-                                  border: Border.all(
-                                    color: selfieFile == null
-                                        ? Colors.grey
-                                        : const Color(0xFF030744),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    const SizedBox(width: 17),
-                                    Text(
-                                      (vm.birthdayTEC.text == "" ||
-                                              vm.birthdayTEC.text == "null")
-                                          ? "Birthday"
-                                          : vm.birthdayTEC.text,
-                                      style: TextStyle(
-                                        height: 1,
-                                        fontSize: 14,
-                                        fontFamily: "Inter",
-                                        fontWeight: FontWeight.w500,
+                              child: SizedBox(
+                                width: double.infinity.clamp(0, 800),
+                                child: WidgetButton(
+                                  borderRadius: 10,
+                                  onTap: () async {
+                                    if (selfieFile == null) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      vm.processRegister();
+                                    } else {
+                                      setState(() {
+                                        vm.isBirthdayActive = true;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 48,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(
+                                          10,
+                                        ),
+                                      ),
+                                      border: Border.all(
                                         color: selfieFile == null
                                             ? Colors.grey
                                             : const Color(0xFF030744),
                                       ),
                                     ),
-                                    const Expanded(child: SizedBox()),
-                                    Icon(
-                                      Icons.calendar_month_outlined,
-                                      size: 24,
-                                      color: selfieFile == null
-                                          ? Colors.grey
-                                          : const Color(0xFF030744),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(width: 17),
+                                        Text(
+                                          (vm.birthdayTEC.text == "" ||
+                                                  vm.birthdayTEC.text == "null")
+                                              ? "Birthday"
+                                              : vm.birthdayTEC.text,
+                                          style: TextStyle(
+                                            height: 1,
+                                            fontSize: 14,
+                                            fontFamily: "Inter",
+                                            fontWeight: FontWeight.w500,
+                                            color: selfieFile == null
+                                                ? Colors.grey
+                                                : const Color(0xFF030744),
+                                          ),
+                                        ),
+                                        const Expanded(child: SizedBox()),
+                                        Icon(
+                                          Icons.calendar_month_outlined,
+                                          size: 24,
+                                          color: selfieFile == null
+                                              ? Colors.grey
+                                              : const Color(0xFF030744),
+                                        ),
+                                        const SizedBox(width: 12),
+                                      ],
                                     ),
-                                    const SizedBox(width: 12),
-                                  ],
+                                  ),
                                 ),
                               ),
                             )
@@ -373,6 +369,7 @@ class _RegisterViewState extends State<RegisterView> {
                                     horizontal: 24,
                                   ),
                                   child: Container(
+                                    width: double.infinity.clamp(0, 800),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         color: const Color(0xFF007BFF),
@@ -606,31 +603,34 @@ class _RegisterViewState extends State<RegisterView> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
                         ),
-                        child: TextFieldWidget(
-                          readOnly:
-                              selfieFile == null && !AuthService.inReviewMode(),
-                          onTap: () {
-                            if (selfieFile == null &&
-                                !AuthService.inReviewMode()) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              vm.processRegister();
-                            }
-                          },
-                          controller: vm.referralTEC,
-                          hintText: "Enter referral code",
-                          labelText: "Referral Code (Optional)",
-                          textCapitalization: TextCapitalization.characters,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          obscureText: false,
-                          showPrefix: true,
-                          showSuffix: false,
-                          prefixText: null,
-                          suffixIcon: null,
-                          onSuffixTap: null,
-                          autoFocus: false,
-                          minLines: null,
-                          maxLines: 1,
+                        child: SizedBox(
+                          width: double.infinity.clamp(0, 800),
+                          child: TextFieldWidget(
+                            readOnly:
+                                selfieFile == null && !AuthService.inReviewMode(),
+                            onTap: () {
+                              if (selfieFile == null &&
+                                  !AuthService.inReviewMode()) {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                vm.processRegister();
+                              }
+                            },
+                            controller: vm.referralTEC,
+                            hintText: "Enter referral code",
+                            labelText: "Referral Code (Optional)",
+                            textCapitalization: TextCapitalization.characters,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            obscureText: false,
+                            showPrefix: true,
+                            showSuffix: false,
+                            prefixText: null,
+                            suffixIcon: null,
+                            onSuffixTap: null,
+                            autoFocus: false,
+                            minLines: null,
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),

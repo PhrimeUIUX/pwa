@@ -42,7 +42,7 @@ class AppStrings {
 
   static bool get enableOrderTracking => env('enableOrderTracking') == '1';
 
-  static bool get enableFetchByLocation => env('enableFetchByLocation') ?? true;
+  static bool get enableFatchByLocation => env('enableFatchByLocation') ?? true;
 
   static bool get showVendorTypeImageOnly =>
       env('showVendorTypeImageOnly') == '1';
