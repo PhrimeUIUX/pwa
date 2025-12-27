@@ -129,8 +129,8 @@ bool isBool(dynamic value) {
 }
 
 String travelTime(double distanceKm) {
-  const double minSpeed = 35;
-  const double maxSpeed = 55;
+  const double minSpeed = 25;
+  const double maxSpeed = 40;
   int calculateSeconds(double speed) => ((distanceKm / speed) * 3600).round();
   String formatTimeRange(int minSeconds, int maxSeconds) {
     if (maxSeconds < 60) {

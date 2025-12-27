@@ -582,7 +582,7 @@ class _HomeViewState extends State<HomeView> {
                                                 vm.isPreparing = true;
                                               });
                                               if (vm.ongoingOrder == null) {
-                                                await vm.drawDropPolyLines(
+                                                vm.drawDropPolyLines(
                                                   "pickup-dropoff",
                                                   vm.ongoingOrder?.taxiOrder
                                                           ?.pickupLatLng ??
@@ -1690,8 +1690,7 @@ class _HomeViewState extends State<HomeView> {
                                                         setState(() {
                                                           vm.isPreparing = true;
                                                         });
-                                                        await vm
-                                                            .drawDropPolyLines(
+                                                        vm.drawDropPolyLines(
                                                           "pickup-dropoff",
                                                           vm
                                                                   .ongoingOrder
@@ -1854,8 +1853,7 @@ class _HomeViewState extends State<HomeView> {
                                                         setState(() {
                                                           vm.isPreparing = true;
                                                         });
-                                                        await vm
-                                                            .drawDropPolyLines(
+                                                        vm.drawDropPolyLines(
                                                           "pickup-dropoff",
                                                           vm
                                                                   .ongoingOrder
