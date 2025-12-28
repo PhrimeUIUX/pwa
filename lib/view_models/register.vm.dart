@@ -346,20 +346,44 @@ class RegisterViewModel extends BaseViewModel {
       }
     } catch (e) {
       AlertService().stopLoading();
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-      ScaffoldMessenger.of(
-        Get.overlayContext!,
-      ).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            e.toString(),
-            style: const TextStyle(
-              color: Colors.white,
+      if (lowerCase(e.toString()).contains("otp")) {
+        Navigator.push(
+          Get.overlayContext!,
+          PageRouteBuilder(
+            reverseTransitionDuration: Duration.zero,
+            transitionDuration: Duration.zero,
+            pageBuilder: (
+              context,
+              a,
+              b,
+            ) =>
+                VerifyView(
+              purpose: "register",
+              name: nameTEC.text.trim(),
+              email: emailTEC.text.trim(),
+              phone: phoneTEC.text.trim(),
+              birthday: birthdayTEC.text.trim(),
+              referral: referralTEC.text.trim(),
+              password: passwordTEC.text.trim(),
             ),
           ),
-        ),
-      );
+        );
+      } else {
+        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(
+          Get.overlayContext!,
+        ).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              e.toString(),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      }
     }
   }
 

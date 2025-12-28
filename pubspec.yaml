@@ -1,7 +1,7 @@
 name: pwa
 description: "PPC TODA (Beta)"
 publish_to: 'none'
-version: 1.0.19+39
+version: 1.0.0+40
 environment:
   sdk: ^3.5.0
 

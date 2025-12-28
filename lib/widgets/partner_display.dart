@@ -53,7 +53,7 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
       child: GestureDetector(
         onTap: widget.onClose,
         child: Container(
-          color: Colors.black.withOpacity(0.75),
+          color: Colors.black.withOpacity(0.5),
           child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
