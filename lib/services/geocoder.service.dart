@@ -47,70 +47,30 @@ class GeocoderService extends HttpService {
   }
 
   Future<List<Address>> findAddressesFromQuery(String keyword) async {
-    if (isBool(AppStrings.homeSettingsObject?["use_external"] ?? true)) {
-      final apiResult = await get(
-        !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
-            ? Api.geoAddresses
-            : "https://backrideph.online/api/geocoder/reserve",
-      );
-      final apiResponse = ApiResponse.fromResponse(apiResult);
-      if (apiResponse.allGood) {
-        List<dynamic> results = apiResponse.body["results"];
-        List<Address> finalAddresses = [];
-        for (var e in results) {
-          double? lat = e["geometry"]?["location"]?["lat"];
-          double? lng = e["geometry"]?["location"]?["lng"];
-          if (lat == null || lng == null) continue;
-          String? rawAddress = e["formatted_address"];
-          if (isReadableAddress(rawAddress)) {
-            final address = Address.fromServerMap(e);
-            address.gMapPlaceId = e["place_id"] ?? "";
-            finalAddresses.add(address);
-          } else {
-            final fallbackAddresses = await findAddressesFromCoordinates(
-              Coordinates(
-                lat,
-                lng,
-              ),
-            );
-            if (fallbackAddresses.isNotEmpty) {
-              final address = fallbackAddresses.first;
-              address.gMapPlaceId = e["place_id"] ?? "";
-              finalAddresses.add(address);
-            }
-          }
-        }
-        return finalAddresses;
-      }
-      return [];
-    } else {
-      String latLng = "${initLatLng?.lat},${initLatLng?.lat}";
-      final apiResult = await get(
-        !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? false)
-            ? Api.geoAddresses
-            : "https://backrideph.online/api/geocoder/reserve",
-        queryParameters: {
-          "keyword": keyword,
-          "location": latLng,
-        },
-      ).timeout(const Duration(seconds: 30));
-      final apiResponse = ApiResponse.fromResponse(apiResult);
-      if (apiResponse.allGood) {
-        return (apiResponse.data).map((e) {
+    String latLng = "${initLatLng?.lat},${initLatLng?.lat}";
+    final apiResult = await getExternal(
+      "https://corsproxy.io/${!isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true) ? Api.baseUrl + Api.geoAddresses : "https://backrideph.online/api/geocoder/reserve"}",
+      queryParameters: {
+        "keyword": keyword,
+        "location": latLng,
+      },
+    ).timeout(const Duration(seconds: 30));
+    final apiResponse = ApiResponse.fromResponse(apiResult);
+    if (apiResponse.allGood) {
+      return (apiResponse.data).map(
+        (e) {
           final address = Address.fromServerMap(e);
           address.gMapPlaceId = e["place_id"] ?? "";
           return address;
-        }).toList();
-      }
-      return [];
+        },
+      ).toList();
     }
+    return [];
   }
 
   Future<Address> fetchPlaceDetails(Address address) async {
-    final apiResult = await get(
-      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
-          ? Api.geoAddresses
-          : "https://backrideph.online/api/geocoder/reserve",
+    final apiResult = await getExternal(
+      "https://corsproxy.io/${!isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true) ? Api.baseUrl + Api.geoAddresses : "https://backrideph.online/api/geocoder/reserve"}",
       queryParameters: {
         "place_id": address.gMapPlaceId,
       },
@@ -153,42 +113,31 @@ class GeocoderService extends HttpService {
   }
 
   List<List<double>> decodeEncodedPolyline(String encoded) {
-    // --- SAME PREPROCESSING AS ANDROID ---
     try {
       encoded = jsonDecode('"$encoded"');
     } catch (_) {}
-
     try {
       encoded = Uri.decodeFull(encoded);
     } catch (_) {}
-
     List<List<double>> poly = [];
-
     int index = 0;
     final int len = encoded.length;
-
     double lat = 0.0;
     double lng = 0.0;
-
     while (index < len) {
       double result = 0.0;
       int shift = 0;
       int b;
-
       do {
         b = encoded.codeUnitAt(index++) - 63;
         result += (b & 0x1F) * pow(2, shift);
         shift += 5;
       } while (b >= 0x20);
-
       double dlat =
           (result % 2 != 0) ? -(result / 2 + 1).floorToDouble() : (result / 2);
-
       lat += dlat;
-
       result = 0.0;
       shift = 0;
-
       do {
         b = encoded.codeUnitAt(index++) - 63;
         result += (b & 0x1F) * pow(2, shift);

@@ -224,7 +224,8 @@ class GMapViewModel extends BaseViewModel {
         position: pickupLatLng,
         title: "Pickup Location",
       )..icon = gmaps.Icon(
-          url: 'https://storage.googleapis.com/ppc_toda_app/pickup.png',
+          url:
+              'https://storage.googleapis.com/ppctoda_website/ppctoda_pwa/pickup.png',
           scaledSize: gmaps.Size(50, 50),
         ),
     );
@@ -235,7 +236,8 @@ class GMapViewModel extends BaseViewModel {
         position: driverLatLng,
         title: "Driver Location",
       )..icon = gmaps.Icon(
-          url: 'https://storage.googleapis.com/ppc_toda_app/driver.png',
+          url:
+              'https://storage.googleapis.com/ppctoda_website/ppctoda_pwa/driver.png',
           scaledSize: gmaps.Size(35, 35),
         ),
     );
@@ -310,7 +312,8 @@ class GMapViewModel extends BaseViewModel {
         position: pickupLatLng,
         title: "Pickup Location",
       )..icon = gmaps.Icon(
-          url: 'https://storage.googleapis.com/ppc_toda_app/pickup.png',
+          url:
+              'https://storage.googleapis.com/ppctoda_website/ppctoda_pwa/pickup.png',
           scaledSize: gmaps.Size(50, 50),
         ),
     );
@@ -321,7 +324,8 @@ class GMapViewModel extends BaseViewModel {
         position: dropoffLatLng,
         title: "Dropoff Location",
       )..icon = gmaps.Icon(
-          url: 'https://storage.googleapis.com/ppc_toda_app/dropoff.png',
+          url:
+              'https://storage.googleapis.com/ppctoda_website/ppctoda_pwa/dropoff.png',
           scaledSize: gmaps.Size(50, 50),
         ),
     );
@@ -333,7 +337,8 @@ class GMapViewModel extends BaseViewModel {
           position: driverLatLng,
           title: "Driver Location",
         )..icon = gmaps.Icon(
-            url: 'https://storage.googleapis.com/ppc_toda_app/driver.png',
+            url:
+                'https://storage.googleapis.com/ppctoda_website/ppctoda_pwa/driver.png',
             scaledSize: gmaps.Size(35, 35),
           ),
       );
@@ -414,7 +419,8 @@ class GMapViewModel extends BaseViewModel {
           position: position,
           title: "Driver Location",
         )..icon = gmaps.Icon(
-            url: 'https://storage.googleapis.com/ppc_toda_app/driver.png',
+            url:
+                'https://storage.googleapis.com/ppctoda_website/ppctoda_pwa/driver.png',
             scaledSize: gmaps.Size(35, 35),
           ),
       );
