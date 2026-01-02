@@ -42,13 +42,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBp6_fzqtLoGmIeSyg3vtrHyJJfxVg902c',
-    appId: '1:462080229186:web:be7b5e37e13c33e09392db',
-    messagingSenderId: '462080229186',
-    projectId: 'ppc-toda',
-    authDomain: 'ppc-toda.firebaseapp.com',
-    databaseURL: 'https://ppc-toda-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'ppc-toda.firebasestorage.app',
-    measurementId: 'G-30S1M2THQW',
+    apiKey: 'AIzaSyA3tvPnJN8hy3HksAFLDkMHDAC6wMeXS-Q',
+    appId: '1:599344409686:web:7aa57f72d04043dd675ff7',
+    messagingSenderId: '599344409686',
+    projectId: 'toda-pal',
+    authDomain: 'toda-pal.firebaseapp.com',
+    databaseURL: 'https://toda-pal-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'toda-pal.firebasestorage.app',
   );
+
 }

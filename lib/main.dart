@@ -18,15 +18,13 @@ void main() async {
   }
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyBp6_fzqtLoGmIeSyg3vtrHyJJfxVg902c",
-      authDomain: "ppc-toda.firebaseapp.com",
-      databaseURL:
-          "https://ppc-toda-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "ppc-toda",
-      storageBucket: "ppc-toda.firebasestorage.app",
-      messagingSenderId: "462080229186",
-      appId: "1:462080229186:web:be7b5e37e13c33e09392db",
-      measurementId: "G-30S1M2THQW",
+      apiKey: "AIzaSyA3tvPnJN8hy3HksAFLDkMHDAC6wMeXS-Q",
+      authDomain: "toda-pal.firebaseapp.com",
+      databaseURL: "https://toda-pal-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "toda-pal",
+      storageBucket: "toda-pal.firebasestorage.app",
+      messagingSenderId: "599344409686",
+      appId: "1:599344409686:web:ae1f18c90ac11007675ff7",
     ),
   );
   await StorageService.getPrefs();

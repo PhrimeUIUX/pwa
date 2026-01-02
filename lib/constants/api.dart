@@ -11,9 +11,9 @@ class Api {
   static const homeConfigs = "/config/home";
 
   /// Geo
-  static const geoPolylines = "/geo/polylines";
-  static const geoAddresses = "/geo/addresses";
-  static const geoCoordinates = "/geo/coordinates";
+  static const geoPolylines = "/geo/v2/polylines";
+  static const geoAddresses = "/geo/v2/addresses";
+  static const geoCoordinates = "/geo/v2/coordinates";
 
   /// Load
   static const loadBuy = "/load/buy";

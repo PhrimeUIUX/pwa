@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 import 'package:pwa/utils/data.dart';
 import 'package:pwa/constants/api.dart';
 import 'package:singleton/singleton.dart';
@@ -18,7 +19,7 @@ class GeocoderService extends HttpService {
   Future<List<Address>> findAddressesFromCoordinates(
       Coordinates coordinates) async {
     final apiResult = await get(
-      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? false)
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
           ? Api.geoCoordinates
           : "https://backrideph.online/api/geocoder/forward",
       queryParameters: {
@@ -47,8 +48,10 @@ class GeocoderService extends HttpService {
 
   Future<List<Address>> findAddressesFromQuery(String keyword) async {
     if (isBool(AppStrings.homeSettingsObject?["use_external"] ?? true)) {
-      final apiResult = await getExternal(
-        "https://corsproxy.io/https://maps.googleapis.com/maps/api/place/textsearch/json?query=$keyword%20puerto%20princesa&location=${initLatLng?.lat ?? 9.7392},${initLatLng?.lat ?? 118.7353}&radius=15000&key=AIza${AppStrings.homeSettingsObject?["external_api"] ?? "SyAZ_QLjsiFZnrZr33sCqW-SlTtkIV7PTeM"}",
+      final apiResult = await get(
+        !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
+            ? Api.geoAddresses
+            : "https://backrideph.online/api/geocoder/reserve",
       );
       final apiResponse = ApiResponse.fromResponse(apiResult);
       if (apiResponse.allGood) {
@@ -64,8 +67,12 @@ class GeocoderService extends HttpService {
             address.gMapPlaceId = e["place_id"] ?? "";
             finalAddresses.add(address);
           } else {
-            final fallbackAddresses =
-                await findAddressesFromCoordinates(Coordinates(lat, lng));
+            final fallbackAddresses = await findAddressesFromCoordinates(
+              Coordinates(
+                lat,
+                lng,
+              ),
+            );
             if (fallbackAddresses.isNotEmpty) {
               final address = fallbackAddresses.first;
               address.gMapPlaceId = e["place_id"] ?? "";
@@ -101,7 +108,7 @@ class GeocoderService extends HttpService {
 
   Future<Address> fetchPlaceDetails(Address address) async {
     final apiResult = await get(
-      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? false)
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
           ? Api.geoAddresses
           : "https://backrideph.online/api/geocoder/reserve",
       queryParameters: {
@@ -125,7 +132,9 @@ class GeocoderService extends HttpService {
     String purpose,
   ) async {
     final apiResult = await get(
-      Api.geoPolylines,
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
+          ? Api.geoPolylines
+          : "https://backrideph.online/api/polylines",
       queryParameters: {
         "purpose": purpose,
         "key": AppStrings.googleMapApiKey,
@@ -144,37 +153,57 @@ class GeocoderService extends HttpService {
   }
 
   List<List<double>> decodeEncodedPolyline(String encoded) {
+    // --- SAME PREPROCESSING AS ANDROID ---
+    try {
+      encoded = jsonDecode('"$encoded"');
+    } catch (_) {}
+
+    try {
+      encoded = Uri.decodeFull(encoded);
+    } catch (_) {}
+
     List<List<double>> poly = [];
+
     int index = 0;
     final int len = encoded.length;
+
     double lat = 0.0;
     double lng = 0.0;
+
     while (index < len) {
       double result = 0.0;
       int shift = 0;
       int b;
+
       do {
         b = encoded.codeUnitAt(index++) - 63;
         result += (b & 0x1F) * pow(2, shift);
         shift += 5;
       } while (b >= 0x20);
-      double dlat = ((result % 2 != 0)
-          ? -(result / 2 + 1).floorToDouble()
-          : (result / 2));
+
+      double dlat =
+          (result % 2 != 0) ? -(result / 2 + 1).floorToDouble() : (result / 2);
+
       lat += dlat;
+
       result = 0.0;
       shift = 0;
+
       do {
         b = encoded.codeUnitAt(index++) - 63;
         result += (b & 0x1F) * pow(2, shift);
         shift += 5;
       } while (b >= 0x20);
-      double dlng = ((result % 2 != 0)
-          ? -(result / 2 + 1).floorToDouble()
-          : (result / 2));
+      double dlng =
+          (result % 2 != 0) ? -(result / 2 + 1).floorToDouble() : (result / 2);
       lng += dlng;
-      poly.add([lat / 1e5, lng / 1e5]);
+      poly.add([lat, lng]);
     }
-    return poly;
+    if (poly.isEmpty) return [];
+    final isPolyline6 = poly.any(
+      (p) => p[0].abs() > 9e6 || p[1].abs() > 18e6,
+    );
+    final precision = isPolyline6 ? 1e6 : 1e5;
+    return poly.map((p) => [p[0] / precision, p[1] / precision]).toList();
   }
 }
