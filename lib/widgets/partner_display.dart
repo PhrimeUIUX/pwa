@@ -236,10 +236,8 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
                 selectedBranch = 0;
                 showBranch = false;
               });
-
               await StorageService.prefs?.setBool("is_ad_seen", true);
               await StorageService.prefs?.setBool("is_ad_1_seen", true);
-
               setState(() {
                 isAdSeen = true;
                 isAd1Seen = true;

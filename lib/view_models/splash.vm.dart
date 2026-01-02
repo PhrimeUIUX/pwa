@@ -26,8 +26,8 @@ class SplashViewModel extends BaseViewModel {
     await getVehicles();
     subscribeToServer();
     startListeningToConfigs();
-    isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ??
-        !AuthService.isLoggedIn();
+    isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ?? !AuthService.isLoggedIn();
+    isAd1Seen = StorageService.prefs?.getBool("is_ad_1_seen") ?? !AuthService.isLoggedIn();
     await goToNextPage();
   }
 

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:pwa/requests/auth.request.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/utils/functions.dart';
@@ -42,11 +44,22 @@ class HomeViewModel extends GMapViewModel {
   List<VehicleType> vehicleTypes = [];
   StreamSubscription? userUpdateStream;
   StreamSubscription? orderUpdateStream;
+  AuthRequest authRequest = AuthRequest();
   TextEditingController reviewTEC = TextEditingController();
 
   initialise() async {
     isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ??
         !AuthService.isLoggedIn();
+    isAd1Seen = StorageService.prefs?.getBool("is_ad_1_seen") ??
+        !AuthService.isLoggedIn();
+    notifyListeners();
+    if (AuthService.isLoggedIn()) {
+      if (ongoingOrder == null) {
+        getOngoingOrder();
+      }
+      LoadViewModel().getLoadBalance();
+      startListeningToUser();
+    }
     notifyListeners();
   }
 
@@ -1039,6 +1052,63 @@ class HomeViewModel extends GMapViewModel {
     } else {
       globalTimer?.cancel();
     }
+  }
+
+  void startListeningToUser() async {
+    if (userUpdateStream != null && !userUpdateStream!.isPaused) {
+      return;
+    }
+    userUpdateStream = fbStore
+        .collection("users")
+        .doc("${AuthService.currentUser?.id}")
+        .snapshots()
+        .listen(
+      (event) async {
+        String userSyncedAt = StorageService.prefs?.getString(
+              "userSyncedAt",
+            ) ??
+            "Not Yet Synced";
+        try {
+          if (userSyncedAt != "${event.data()?["syncedAt"]}") {
+            AuthService.currentUser = await authRequest.getUser();
+            await AuthService().saveUserToStorage(
+              jsonEncode(
+                AuthService.currentUser,
+              ),
+            );
+            await AuthService.getUserFromStorage();
+            StorageService.prefs?.setString(
+              "userSyncedAt",
+              "${event.data()?["syncedAt"]}",
+            );
+            debugPrint(
+              "home userSyncedAt success",
+            );
+            Get.forceAppUpdate();
+          }
+        } catch (e) {
+          debugPrint(
+            "home userSyncedAt error: $e",
+          );
+        }
+      },
+    );
+    try {
+      final userDoc = await fbStore
+          .collection(
+            "users",
+          )
+          .doc(AuthService.currentUser?.id.toString())
+          .get();
+      final docRef = userDoc.reference;
+      if (userDoc.data() == null) {
+        docRef.set(
+          {
+            "id": AuthService.currentUser?.id,
+          },
+        );
+      }
+    } catch (_) {}
   }
 
   chatDriver() {
