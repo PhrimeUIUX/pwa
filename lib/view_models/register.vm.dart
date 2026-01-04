@@ -246,8 +246,12 @@ class RegisterViewModel extends BaseViewModel {
         } else {
           final gsi = GoogleSignIn(
             clientId:
-                "462080229186-560vcpm1uqvlc0pt5tl1qk5158lpd51h.apps.googleusercontent.com",
-            scopes: ['email', 'profile', 'openid'],
+                "599344409686-e8colg5jkq3o8qkrvpf8ri4r18pjuqb5.apps.googleusercontent.com",
+            scopes: [
+              'email',
+              'profile',
+              'openid',
+            ],
           );
           gsiAccount = await gsi.signInSilently();
           gsiAccount ??= await gsi.signIn();
