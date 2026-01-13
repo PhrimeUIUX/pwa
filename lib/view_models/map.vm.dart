@@ -118,7 +118,7 @@ class MapViewModel extends BaseViewModel {
     mapUnavailable = false;
     _debounce?.cancel();
     _debounce = Timer(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 2500),
       () async {
         if (!skipSelectedAddress) {
           selectedAddress.value = null;
@@ -134,7 +134,23 @@ class MapViewModel extends BaseViewModel {
               double.parse("${target?.lng ?? 118.7473}"),
             ),
           );
-          final Address address = addresses.first;
+          final Address address = Address(
+            addressLine: addresses.first.addressLine,
+            countryName: addresses.first.countryName,
+            countryCode: addresses.first.countryCode,
+            featureName: addresses.first.featureName,
+            postalCode: addresses.first.postalCode,
+            adminArea: addresses.first.adminArea,
+            subAdminArea: addresses.first.subAdminArea,
+            subLocality: addresses.first.subLocality,
+            thoroughfare: addresses.first.thoroughfare,
+            subThoroughfare: addresses.first.subThoroughfare,
+            gMapPlaceId: addresses.first.gMapPlaceId,
+            coordinates: Coordinates(
+              double.parse("${target?.lat ?? 9.7638}"),
+              double.parse("${target?.lng ?? 118.7473}"),
+            ),
+          );
           isLoading = false;
           await addressSelected(
             address,

@@ -3,8 +3,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pwa/utils/data.dart';
-import 'package:pwa/widgets/partner_button.dart';
-import 'package:pwa/widgets/partner_display.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
@@ -25,7 +23,10 @@ import 'package:pwa/view_models/home.vm.dart';
 import 'package:pwa/models/address.model.dart';
 import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/services/auth.service.dart';
+import 'package:pwa/view_models/splash.vm.dart';
 import 'package:pwa/services/alert.service.dart';
+import 'package:pwa/widgets/partner_button.dart';
+import 'package:pwa/widgets/partner_display.dart';
 import 'package:pwa/models/coordinates.model.dart';
 import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/widgets/list_tile.widget.dart';
@@ -679,6 +680,10 @@ class _HomeViewState extends State<HomeView> {
                                               image: AppImages.mnb,
                                               show: true,
                                               onTap: () async {
+                                                if (gBanners.isEmpty) {
+                                                  await SplashViewModel()
+                                                      .getBanners();
+                                                }
                                                 setState(() {
                                                   isAdSeen = false;
                                                   showBranch = false;
@@ -690,6 +695,10 @@ class _HomeViewState extends State<HomeView> {
                                               image: AppImages.sbb,
                                               show: true,
                                               onTap: () async {
+                                                if (gBanners.isEmpty) {
+                                                  await SplashViewModel()
+                                                      .getBanners();
+                                                }
                                                 setState(() {
                                                   isAd1Seen = false;
                                                   showBranch = false;
@@ -3950,134 +3959,149 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ),
                             ),
-                      PartnerDisplayWidget(
-                        show: !isAdSeen &&
-                            vm.ongoingOrder == null &&
-                            isBool(
-                              AppStrings.homeSettingsObject?["show_ad"] ?? true,
-                            ),
-                        onClose: () async {
-                          await StorageService.prefs?.setBool(
-                            "is_ad_seen",
-                            true,
+                      () {
+                        try {
+                          return PartnerDisplayWidget(
+                            show: !isAdSeen &&
+                                vm.ongoingOrder == null &&
+                                isBool(
+                                  AppStrings.homeSettingsObject?["show_ad"] ??
+                                      true,
+                                ),
+                            onClose: () async {
+                              await StorageService.prefs?.setBool(
+                                "is_ad_seen",
+                                true,
+                              );
+                              setState(() {
+                                isAdSeen = true;
+                                showBranch = false;
+                              });
+                            },
+                            isLoggedIn: () => AuthService.isLoggedIn(),
+                            onSelectDropoff: (
+                              latLng,
+                              branchName,
+                            ) {
+                              dropoffAddress = Address(
+                                addressLine: branchName,
+                                coordinates: Coordinates(
+                                  double.parse("${latLng.lat}"),
+                                  double.parse("${latLng.lng}"),
+                                ),
+                              );
+                              vm.drawDropPolyLines(
+                                "pickup-dropoff",
+                                pickupAddress!.latLng,
+                                latLng,
+                                null,
+                              );
+                              vm.fetchVehicleTypesPricing();
+                              setState(() {
+                                showBranch = false;
+                              });
+                            },
+                            banners: [
+                              BannerModel(photo: "${gBanners[0].photo}"),
+                              BannerModel(photo: "${gBanners[1].photo}"),
+                            ],
+                            partnerName: "Max & Bunny",
+                            partnerDescription:
+                                "Dine in and help a driver earn!",
+                            partnerImage: AppImages.mnb,
+                            branches: [
+                              Branch(
+                                id: 1,
+                                name: "SM Branch",
+                                latLng: gmaps.LatLng(
+                                  9.743318345512021,
+                                  118.7390989745996,
+                                ),
+                              ),
+                              Branch(
+                                id: 2,
+                                name: "San Pedro Branch",
+                                latLng: gmaps.LatLng(
+                                  9.762115888944837,
+                                  118.75241723828879,
+                                ),
+                              ),
+                            ],
                           );
-                          setState(() {
-                            isAdSeen = true;
-                            showBranch = false;
-                          });
-                        },
-                        isLoggedIn: () => AuthService.isLoggedIn(),
-                        onSelectDropoff: (
-                          latLng,
-                          branchName,
-                        ) {
-                          dropoffAddress = Address(
-                            addressLine: branchName,
-                            coordinates: Coordinates(
-                              double.parse("${latLng.lat}"),
-                              double.parse("${latLng.lng}"),
-                            ),
-                          );
-                          vm.drawDropPolyLines(
-                            "pickup-dropoff",
-                            pickupAddress!.latLng,
-                            latLng,
-                            null,
-                          );
-                          vm.fetchVehicleTypesPricing();
-                          setState(() {
-                            showBranch = false;
-                          });
-                        },
-                        banners: [
-                          BannerModel(photo: "${gBanners[0].photo}"),
-                          BannerModel(photo: "${gBanners[1].photo}"),
-                        ],
-                        partnerName: "Max & Bunny",
-                        partnerDescription: "Dine in and help a driver earn!",
-                        partnerImage: AppImages.mnb,
-                        branches: [
-                          Branch(
-                            id: 1,
-                            name: "SM Branch",
-                            latLng: gmaps.LatLng(
-                              9.743318345512021,
-                              118.7390989745996,
-                            ),
-                          ),
-                          Branch(
-                            id: 2,
-                            name: "San Pedro Branch",
-                            latLng: gmaps.LatLng(
-                              9.762115888944837,
-                              118.75241723828879,
-                            ),
-                          ),
-                        ],
-                      ),
-                      PartnerDisplayWidget(
-                        show: !isAd1Seen &&
-                            vm.ongoingOrder == null &&
-                            isBool(
-                                AppStrings.homeSettingsObject?["show_ad_1"] ??
+                        } catch (_) {
+                          return const SizedBox();
+                        }
+                      }(),
+                      () {
+                        try {
+                          return PartnerDisplayWidget(
+                            show: !isAd1Seen &&
+                                vm.ongoingOrder == null &&
+                                isBool(AppStrings
+                                        .homeSettingsObject?["show_ad_1"] ??
                                     true),
-                        onClose: () async {
-                          await StorageService.prefs
-                              ?.setBool("is_ad_1_seen", true);
-                          setState(() {
-                            isAd1Seen = true;
-                            showBranch = false;
-                          });
-                        },
-                        isLoggedIn: () => AuthService.isLoggedIn(),
-                        onSelectDropoff: (
-                          latLng,
-                          branchName,
-                        ) {
-                          dropoffAddress = Address(
-                            addressLine: branchName,
-                            coordinates: Coordinates(
-                              double.parse("${latLng.lat}"),
-                              double.parse("${latLng.lng}"),
-                            ),
+                            onClose: () async {
+                              await StorageService.prefs
+                                  ?.setBool("is_ad_1_seen", true);
+                              setState(() {
+                                isAd1Seen = true;
+                                showBranch = false;
+                              });
+                            },
+                            isLoggedIn: () => AuthService.isLoggedIn(),
+                            onSelectDropoff: (
+                              latLng,
+                              branchName,
+                            ) {
+                              dropoffAddress = Address(
+                                addressLine: branchName,
+                                coordinates: Coordinates(
+                                  double.parse("${latLng.lat}"),
+                                  double.parse("${latLng.lng}"),
+                                ),
+                              );
+                              vm.drawDropPolyLines(
+                                "pickup-dropoff",
+                                pickupAddress!.latLng,
+                                latLng,
+                                null,
+                              );
+                              vm.fetchVehicleTypesPricing();
+                              setState(() {
+                                showBranch = false;
+                              });
+                            },
+                            banners: [
+                              BannerModel(photo: "${gBanners[2].photo}"),
+                              BannerModel(photo: "${gBanners[3].photo}"),
+                            ],
+                            partnerName: "Sabie Bakes",
+                            partnerDescription:
+                                "Dine in and help a driver earn!",
+                            partnerImage: AppImages.sbb,
+                            branches: [
+                              Branch(
+                                id: 1,
+                                name: "SM Branch",
+                                latLng: gmaps.LatLng(
+                                  9.74394439548003,
+                                  118.7398234327833,
+                                ),
+                              ),
+                              Branch(
+                                id: 2,
+                                name: "BM Road Branch",
+                                latLng: gmaps.LatLng(
+                                  9.765574270055104,
+                                  118.76115291309709,
+                                ),
+                              ),
+                            ],
                           );
-                          vm.drawDropPolyLines(
-                            "pickup-dropoff",
-                            pickupAddress!.latLng,
-                            latLng,
-                            null,
-                          );
-                          vm.fetchVehicleTypesPricing();
-                          setState(() {
-                            showBranch = false;
-                          });
-                        },
-                        banners: [
-                          BannerModel(photo: "${gBanners[2].photo}"),
-                          BannerModel(photo: "${gBanners[3].photo}"),
-                        ],
-                        partnerName: "Sabie Bakes",
-                        partnerDescription: "Dine in and help a driver earn!",
-                        partnerImage: AppImages.sbb,
-                        branches: [
-                          Branch(
-                            id: 1,
-                            name: "SM Branch",
-                            latLng: gmaps.LatLng(
-                              9.74394439548003,
-                              118.7398234327833,
-                            ),
-                          ),
-                          Branch(
-                            id: 2,
-                            name: "BM Road Branch",
-                            latLng: gmaps.LatLng(
-                              9.765574270055104,
-                              118.76115291309709,
-                            ),
-                          ),
-                        ],
-                      ),
+                        } catch (_) {
+                          return const SizedBox();
+                        }
+                      }(),
                     ],
                   ),
                 ),

@@ -725,7 +725,7 @@ class HomeViewModel extends GMapViewModel {
       debounceTimer?.cancel();
     }
     debounceTimer = Timer(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 2500),
       () async {
         orderUpdateStream = fbStore
             .collection("orders")
