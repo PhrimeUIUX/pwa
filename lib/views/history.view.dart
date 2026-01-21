@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
+import 'package:pwa/view_models/home.vm.dart';
 import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/view_models/history.vm.dart';
@@ -8,7 +9,12 @@ import 'package:pwa/widgets/list_view.widget.dart';
 import 'package:pwa/widgets/order_list_item.widget.dart';
 
 class HistoryView extends StatefulWidget {
-  const HistoryView({super.key});
+  const HistoryView(
+      this.hvm, {
+        super.key,
+      });
+
+  final HomeViewModel hvm;
 
   @override
   State<HistoryView> createState() => _HistoryViewState();
@@ -133,6 +139,7 @@ class _HistoryViewState extends State<HistoryView> {
                                   itemBuilder: (context, order, index) {
                                     return OrderListItem(
                                       order: order,
+                                      hvm: widget.hvm,
                                       onTap: () {
                                         if (!AuthService.inReviewMode()) {
                                           vm.openOrderDetails(order: order);

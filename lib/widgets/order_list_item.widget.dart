@@ -1,21 +1,28 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pwa/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/utils/functions.dart';
 import 'package:pwa/constants/images.dart';
 import 'package:pwa/models/order.model.dart';
+import 'package:pwa/view_models/home.vm.dart';
+import 'package:pwa/models/address.model.dart';
 import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/widgets/button.widget.dart';
+import 'package:pwa/models/coordinates.model.dart';
 
 class OrderListItem extends StatefulWidget {
   const OrderListItem({
+    required this.hvm,
     required this.order,
     required this.onTap,
     super.key,
   });
 
   final Order order;
+  final HomeViewModel hvm;
   final VoidCallback onTap;
 
   @override
@@ -219,6 +226,139 @@ class _OrderListItemState extends State<OrderListItem> {
               ],
             ),
             const SizedBox(height: 12),
+            AuthService.inReviewMode()
+                ? const SizedBox()
+                : SizedBox(
+                    height: 32,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              pickupAddress = Address(
+                                addressLine:
+                                    widget.order.taxiOrder?.pickupAddress,
+                                coordinates: Coordinates(
+                                  widget.order.taxiOrder?.pickupLatitude ??
+                                      double.parse("${initLatLng!.lat}"),
+                                  widget.order.taxiOrder?.pickupLongitude ??
+                                      double.parse("${initLatLng!.lng}"),
+                                ),
+                              );
+                              dropoffAddress = Address(
+                                addressLine:
+                                    widget.order.taxiOrder?.dropoffAddress,
+                                coordinates: Coordinates(
+                                  widget.order.taxiOrder?.dropoffLatitude ??
+                                      double.parse("${initLatLng!.lat}"),
+                                  widget.order.taxiOrder?.dropoffLongitude ??
+                                      double.parse("${initLatLng!.lng}"),
+                                ),
+                              );
+                              Get.until(
+                                (route) => route.isFirst,
+                              );
+                              Get.back();
+
+                              widget.hvm.drawDropPolyLines(
+                                "pickup-dropoff",
+                                pickupAddress!.latLng,
+                                dropoffAddress!.latLng,
+                                null,
+                              );
+                              await widget.hvm.fetchVehicleTypesPricing();
+                            },
+                            style: const ButtonStyle(
+                              backgroundColor: WidgetStateColor.transparent,
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ),
+                              ),
+                              elevation: WidgetStatePropertyAll(
+                                0,
+                              ),
+                            ),
+                            child: const Text(
+                              "Repeat",
+                              style: TextStyle(
+                                height: 1.05,
+                                color: Color(
+                                  0xFF007BFF,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        VerticalDivider(
+                          width: 1,
+                          thickness: 1,
+                          color: const Color(0xFF030744).withOpacity(0.15),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              dropoffAddress = Address(
+                                addressLine:
+                                    widget.order.taxiOrder?.pickupAddress,
+                                coordinates: Coordinates(
+                                  widget.order.taxiOrder?.pickupLatitude ??
+                                      double.parse("${initLatLng!.lat}"),
+                                  widget.order.taxiOrder?.pickupLongitude ??
+                                      double.parse("${initLatLng!.lng}"),
+                                ),
+                              );
+                              pickupAddress = Address(
+                                addressLine:
+                                    widget.order.taxiOrder?.dropoffAddress,
+                                coordinates: Coordinates(
+                                  widget.order.taxiOrder?.dropoffLatitude ??
+                                      double.parse("${initLatLng!.lat}"),
+                                  widget.order.taxiOrder?.dropoffLongitude ??
+                                      double.parse("${initLatLng!.lng}"),
+                                ),
+                              );
+                              Get.until(
+                                (route) => route.isFirst,
+                              );
+                              Get.back();
+
+                              widget.hvm.drawDropPolyLines(
+                                "pickup-dropoff",
+                                pickupAddress!.latLng,
+                                dropoffAddress!.latLng,
+                                null,
+                              );
+                              await widget.hvm.fetchVehicleTypesPricing();
+                            },
+                            style: const ButtonStyle(
+                              backgroundColor: WidgetStateColor.transparent,
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero,
+                                ),
+                              ),
+                              elevation: WidgetStatePropertyAll(
+                                0,
+                              ),
+                            ),
+                            child: const Text(
+                              "Reverse",
+                              style: TextStyle(
+                                height: 1.05,
+                                color: Color(
+                                  0xFF007BFF,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+            AuthService.inReviewMode()
+                ? const SizedBox()
+                : const SizedBox(height: 14),
             Divider(
               height: 1,
               thickness: 1,

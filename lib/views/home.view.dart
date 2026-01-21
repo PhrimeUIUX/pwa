@@ -277,7 +277,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     onTap: () {
                       _navigateWithoutTransition(
-                        const HistoryView(),
+                        HistoryView(vm),
                       );
                     },
                   ),

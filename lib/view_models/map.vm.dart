@@ -13,6 +13,7 @@ import 'package:google_maps/google_maps.dart' as gmaps;
 class MapViewModel extends BaseViewModel {
   gmaps.Map? _map;
   Timer? _debounce;
+  bool isHolding = false;
   bool isLoading = false;
   bool skipCamera = false;
   TaxiRequest taxiRequest = TaxiRequest();

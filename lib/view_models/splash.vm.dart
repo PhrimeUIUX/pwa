@@ -9,14 +9,17 @@ import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/views/intro.view.dart';
 import 'package:pwa/constants/strings.dart';
+import 'package:pwa/models/address.model.dart';
 import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/requests/taxi.request.dart';
+import 'package:pwa/models/coordinates.model.dart';
 import 'package:pwa/services/storage.service.dart';
 import 'package:pwa/models/api_response.model.dart';
 import 'package:pwa/requests/settings.request.dart';
 
 class SplashViewModel extends BaseViewModel {
   StreamSubscription? configStream;
+  StreamSubscription? hotspotStream;
   TaxiRequest taxiRequest = TaxiRequest();
   SettingsRequest settingsRequest = SettingsRequest();
 
@@ -26,8 +29,11 @@ class SplashViewModel extends BaseViewModel {
     await getVehicles();
     subscribeToServer();
     startListeningToConfigs();
-    isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ?? !AuthService.isLoggedIn();
-    isAd1Seen = StorageService.prefs?.getBool("is_ad_1_seen") ?? !AuthService.isLoggedIn();
+    startListeningToHotspots();
+    isAdSeen = StorageService.prefs?.getBool("is_ad_seen") ??
+        !AuthService.isLoggedIn();
+    isAd1Seen = StorageService.prefs?.getBool("is_ad_1_seen") ??
+        !AuthService.isLoggedIn();
     await goToNextPage();
   }
 
@@ -35,8 +41,8 @@ class SplashViewModel extends BaseViewModel {
     await AuthService.getUserFromStorage();
     await AuthService.getTokenFromStorage();
     try {
-      version = "1.0.26";
-      versionCode = "46";
+      version = "1.0.28";
+      versionCode = "48";
     } catch (e) {
       debugPrint(
         "getAppInfo error: $e",
@@ -91,6 +97,7 @@ class SplashViewModel extends BaseViewModel {
       }
     } catch (_) {}
     startListeningToConfigs();
+    startListeningToHotspots();
   }
 
   getBanners() async {
@@ -197,6 +204,47 @@ class SplashViewModel extends BaseViewModel {
             await AppStrings.getHomeSettingsFromStorage();
           }
         } catch (_) {}
+      },
+    );
+  }
+
+  void startListeningToHotspots() {
+    if (hotspotStream != null && !hotspotStream!.isPaused) {
+      return;
+    }
+    hotspotStream = fbStore
+        .collection("hotspots")
+        .doc("puerto-princesa")
+        .snapshots()
+        .listen(
+      (event) async {
+        try {
+          final List hotspots = event.data()?["places"] ?? [];
+          gSpots = hotspots
+              .map(
+                (e) => Address(
+                  addressLine: e?["add"],
+                  coordinates: Coordinates(
+                    double.parse(e?["lat"]),
+                    double.parse(e?["lng"]),
+                  ),
+                ),
+              )
+              .toList();
+        } catch (_) {
+          gSpots = [];
+        }
+        // print("xyz ${jsonEncode(
+        //   gSpots
+        //       .map(
+        //         (e) => {
+        //           'add': e.addressLine,
+        //           'lat': e.coordinates.latitude,
+        //           'lng': e.coordinates.longitude,
+        //         },
+        //       )
+        //       .toList(),
+        // )}");
       },
     );
   }
