@@ -47,7 +47,7 @@ class GeocoderService extends HttpService {
   }
 
   Future<List<Address>> findAddressesFromQuery(String keyword) async {
-    String latLng = "${initLatLng?.lat},${initLatLng?.lat}";
+    String latLng = "${initLatLng?.lat},${initLatLng?.lng}";
     final apiResult = await getExternal(
       "https://corsproxy.io/${!isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true) ? Api.baseUrl + Api.geoAddresses : "https://backrideph.online/api/geocoder/reserve"}",
       queryParameters: {

@@ -57,7 +57,7 @@ class MapViewModel extends BaseViewModel {
                 addressLine: pickupAddress!.addressLine,
                 coordinates: Coordinates(
                   double.parse(
-                      "${pickupAddress?.latLng.lat ?? initLatLng?.lat}"),
+                      "${pickupAddress?.latLng.lat ?? initLatLng?.lng}"),
                   double.parse(
                       "${pickupAddress?.latLng.lng ?? initLatLng?.lng}"),
                 ),
@@ -68,7 +68,7 @@ class MapViewModel extends BaseViewModel {
                     dropoffAddress?.addressLine ?? pickupAddress!.addressLine,
                 coordinates: Coordinates(
                   double.parse(
-                      "${dropoffAddress?.latLng.lat ?? pickupAddress?.latLng.lat ?? initLatLng?.lat}"),
+                      "${dropoffAddress?.latLng.lat ?? pickupAddress?.latLng.lat ?? initLatLng?.lng}"),
                   double.parse(
                       "${dropoffAddress?.latLng.lng ?? pickupAddress?.latLng.lng ?? initLatLng?.lng}"),
                 ),

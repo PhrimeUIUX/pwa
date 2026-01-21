@@ -173,7 +173,7 @@ class _MapViewState extends State<MapView> {
                                   child: child,
                                 ),
                                 suggestionsCallback: (keyword) async {
-                                  if (keyword.trim().isEmpty) return null;
+                                  if (keyword.trim().isEmpty) return [];
                                   return await vm.fetchPlaces(keyword);
                                 },
                                 itemSeparatorBuilder: (context, index) =>
