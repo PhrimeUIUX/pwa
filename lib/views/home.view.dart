@@ -1491,7 +1491,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                     );
                                                                                   } else {
                                                                                     setState(() {
-                                                                                      vm.paymentMethodId = 2;
+                                                                                      vm.paymentMethodId = 8;
                                                                                     });
                                                                                   }
                                                                                 },
@@ -3016,8 +3016,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             .shrink(),
                                                                       ),
                                                                       Text(
-                                                                        vm.ongoingOrder?.paymentMethodId ==
-                                                                                1
+                                                                        vm.ongoingOrder?.paymentMethodId == 1
                                                                             ? "Cash"
                                                                             : "Load",
                                                                         style:
