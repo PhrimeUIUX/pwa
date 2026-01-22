@@ -1,6 +1,6 @@
 class Coordinates {
-  final double latitude;
-  final double longitude;
+  double latitude;
+  double longitude;
 
   Coordinates(this.latitude, this.longitude);
 

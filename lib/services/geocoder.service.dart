@@ -47,9 +47,11 @@ class GeocoderService extends HttpService {
   }
 
   Future<List<Address>> findAddressesFromQuery(String keyword) async {
-    String latLng = "${initLatLng?.lat},${initLatLng?.lat}";
-    final apiResult = await getExternal(
-      "https://corsproxy.io/${!isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true) ? Api.baseUrl + Api.geoAddresses : "https://backrideph.online/api/geocoder/reserve"}",
+    String latLng = "${initLatLng?.lat},${initLatLng?.lng}";
+    final apiResult = await get(
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
+          ? Api.baseUrl + Api.geoAddresses
+          : "https://backrideph.online/api/geocoder/reserve",
       queryParameters: {
         "keyword": keyword,
         "location": latLng,
@@ -69,8 +71,10 @@ class GeocoderService extends HttpService {
   }
 
   Future<Address> fetchPlaceDetails(Address address) async {
-    final apiResult = await getExternal(
-      "https://corsproxy.io/${!isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true) ? Api.baseUrl + Api.geoAddresses : "https://backrideph.online/api/geocoder/reserve"}",
+    final apiResult = await get(
+      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
+          ? Api.baseUrl + Api.geoAddresses
+          : "https://backrideph.online/api/geocoder/reserve",
       queryParameters: {
         "place_id": address.gMapPlaceId,
       },

@@ -13,6 +13,7 @@ import 'package:google_maps/google_maps.dart' as gmaps;
 class MapViewModel extends BaseViewModel {
   gmaps.Map? _map;
   Timer? _debounce;
+  bool isHolding = false;
   bool isLoading = false;
   bool skipCamera = false;
   TaxiRequest taxiRequest = TaxiRequest();
@@ -57,7 +58,7 @@ class MapViewModel extends BaseViewModel {
                 addressLine: pickupAddress!.addressLine,
                 coordinates: Coordinates(
                   double.parse(
-                      "${pickupAddress?.latLng.lat ?? initLatLng?.lat}"),
+                      "${pickupAddress?.latLng.lat ?? initLatLng?.lng}"),
                   double.parse(
                       "${pickupAddress?.latLng.lng ?? initLatLng?.lng}"),
                 ),
@@ -68,7 +69,7 @@ class MapViewModel extends BaseViewModel {
                     dropoffAddress?.addressLine ?? pickupAddress!.addressLine,
                 coordinates: Coordinates(
                   double.parse(
-                      "${dropoffAddress?.latLng.lat ?? pickupAddress?.latLng.lat ?? initLatLng?.lat}"),
+                      "${dropoffAddress?.latLng.lat ?? pickupAddress?.latLng.lat ?? initLatLng?.lng}"),
                   double.parse(
                       "${dropoffAddress?.latLng.lng ?? pickupAddress?.latLng.lng ?? initLatLng?.lng}"),
                 ),
@@ -118,7 +119,7 @@ class MapViewModel extends BaseViewModel {
     mapUnavailable = false;
     _debounce?.cancel();
     _debounce = Timer(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 2500),
       () async {
         if (!skipSelectedAddress) {
           selectedAddress.value = null;
@@ -134,7 +135,23 @@ class MapViewModel extends BaseViewModel {
               double.parse("${target?.lng ?? 118.7473}"),
             ),
           );
-          final Address address = addresses.first;
+          final Address address = Address(
+            addressLine: addresses.first.addressLine,
+            countryName: addresses.first.countryName,
+            countryCode: addresses.first.countryCode,
+            featureName: addresses.first.featureName,
+            postalCode: addresses.first.postalCode,
+            adminArea: addresses.first.adminArea,
+            subAdminArea: addresses.first.subAdminArea,
+            subLocality: addresses.first.subLocality,
+            thoroughfare: addresses.first.thoroughfare,
+            subThoroughfare: addresses.first.subThoroughfare,
+            gMapPlaceId: addresses.first.gMapPlaceId,
+            coordinates: Coordinates(
+              double.parse("${target?.lat ?? 9.7638}"),
+              double.parse("${target?.lng ?? 118.7473}"),
+            ),
+          );
           isLoading = false;
           await addressSelected(
             address,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
@@ -6,7 +7,9 @@ import 'package:pwa/utils/functions.dart';
 import 'package:pwa/view_models/map.vm.dart';
 import 'package:pwa/widgets/gmap.widget.dart';
 import 'package:pwa/models/address.model.dart';
+import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/widgets/button.widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class MapView extends StatefulWidget {
@@ -173,7 +176,7 @@ class _MapViewState extends State<MapView> {
                                   child: child,
                                 ),
                                 suggestionsCallback: (keyword) async {
-                                  if (keyword.trim().isEmpty) return null;
+                                  if (keyword.trim().isEmpty) return [];
                                   return await vm.fetchPlaces(keyword);
                                 },
                                 itemSeparatorBuilder: (context, index) =>
@@ -242,7 +245,7 @@ class _MapViewState extends State<MapView> {
                             children: [
                               GoogleMapWidget(
                                 center: initLatLng!,
-                                enableGestures: !vm.isLoading,
+                                enableGestures: !vm.isLoading && !vm.isHolding,
                                 onMapCreated: (map) => vm.setMap(
                                   isPickup: widget.isPickup,
                                   map: map,
@@ -269,6 +272,119 @@ class _MapViewState extends State<MapView> {
                                   }
                                 },
                               ),
+                              AuthService.inReviewMode() || gSpots.isEmpty
+                                  ? const SizedBox()
+                                  : Positioned(
+                                      top: 20,
+                                      left: 20,
+                                      right: 85,
+                                      child: Container(
+                                        width: 45,
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(1000),
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: const Color(0xFF030744)
+                                                  .withOpacity(0.25),
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(
+                                              1000,
+                                            ),
+                                          ),
+                                          child: Listener(
+                                            behavior:
+                                                HitTestBehavior.translucent,
+                                            onPointerDown: (_) {
+                                              setState(() {
+                                                vm.isHolding = true;
+                                              });
+                                            },
+                                            onPointerUp: (_) {
+                                              setState(() {
+                                                vm.isHolding = false;
+                                              });
+                                            },
+                                            onPointerCancel: (_) {
+                                              setState(() {
+                                                vm.isHolding = false;
+                                              });
+                                            },
+                                            child: CarouselSlider(
+                                              items: gSpots.map((spot) {
+                                                return WidgetButton(
+                                                  onTap: () async {
+                                                    setState(() {
+                                                      vm.skipCamera = true;
+                                                    });
+                                                    await vm.addressSelected(
+                                                      spot,
+                                                      animate: true,
+                                                      isPickup: widget.isPickup,
+                                                    );
+                                                    await Future.delayed(
+                                                      const Duration(
+                                                        milliseconds: 500,
+                                                      ),
+                                                    );
+                                                    setState(() {
+                                                      vm.skipCamera = false;
+                                                    });
+                                                  },
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 12,
+                                                      ),
+                                                      child: Text(
+                                                        spot.addressLine?.split(
+                                                                ",")[0] ??
+                                                            'Unknown',
+                                                        style: const TextStyle(
+                                                          height: 1.05,
+                                                          fontSize: 15,
+                                                          color:
+                                                              Color(0xFF030744),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              options: CarouselOptions(
+                                                height: 45,
+                                                autoPlay: true,
+                                                viewportFraction: 1,
+                                                autoPlayInterval:
+                                                    const Duration(
+                                                  seconds: 5,
+                                                ),
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                enableInfiniteScroll:
+                                                    gSpots.length > 1,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                               Positioned(
                                 top: 20,
                                 right: 20,

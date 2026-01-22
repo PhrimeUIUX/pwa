@@ -606,8 +606,8 @@ class _RegisterViewState extends State<RegisterView> {
                         child: SizedBox(
                           width: double.infinity.clamp(0, 800),
                           child: TextFieldWidget(
-                            readOnly:
-                                selfieFile == null && !AuthService.inReviewMode(),
+                            readOnly: selfieFile == null &&
+                                !AuthService.inReviewMode(),
                             onTap: () {
                               if (selfieFile == null &&
                                   !AuthService.inReviewMode()) {

@@ -69,6 +69,7 @@ int defaultPickupSeconds = 4;
 int defaultCountdownSeconds =
     AppStrings.homeSettingsObject?["code_countdown_seconds"] ?? 120;
 
+List<Address> gSpots = [];
 List<Banner> gBanners = [];
 List<VehicleType> gVehicleTypes = [];
 
