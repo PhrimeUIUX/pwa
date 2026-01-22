@@ -1491,7 +1491,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                     );
                                                                                   } else {
                                                                                     setState(() {
-                                                                                      vm.paymentMethodId = 8;
+                                                                                      vm.paymentMethodId = 2;
                                                                                     });
                                                                                   }
                                                                                 },

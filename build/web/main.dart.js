@@ -118430,8 +118430,8 @@ while(true)switch(s){case 0:s=2
 return A.j(A.ul(),$async$wC)
 case 2:s=3
 return A.j(A.EF(),$async$wC)
-case 3:try{$.b5D="1.0.28"
-$.b0p="48"}catch(o){q=A.M(o)
+case 3:try{$.b5D="1.0.29"
+$.b0p="49"}catch(o){q=A.M(o)
 A.bI().$1("getAppInfo error: "+A.d(q))}return A.n(null,r)}})
 return A.o($async$wC,r)},
 mr(a){var s=0,r=A.p(t.z),q=1,p,o=this,n,m,l,k,j,i,h,g,f,e,d,c
@@ -120247,7 +120247,7 @@ A.aNp.prototype={
 $3(a,b,c){return B.bY},
 $S:46}
 A.aNq.prototype={
-$0(){this.a.rx=8},
+$0(){this.a.rx=2},
 $S:0}
 A.aNV.prototype={
 $0(){var s=this.a,r=t.z
