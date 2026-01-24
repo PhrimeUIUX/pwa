@@ -110,7 +110,7 @@ class UpgradeWidget extends StatelessWidget {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               launchUrlString(
-                                "sms://+639122078420",
+                                "sms://+639686410532",
                               );
                             },
                         ),

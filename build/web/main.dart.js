@@ -119438,7 +119438,7 @@ else return B.q}else if(r==="delivered")return B.bb
 else return B.b_},
 $S:71}
 A.aLc.prototype={
-$0(){A.oa("sms://+639122078420",B.du)},
+$0(){A.oa("sms://+639686410532",B.du)},
 $S:0}
 A.GY.prototype={
 a2(){var s=t.S
@@ -119596,7 +119596,7 @@ if(!A.dO())s.xT(B.bY)
 else s.xT(B.W_)},
 $S:0}
 A.aOC.prototype={
-$0(){A.oa("sms://+639122078420",B.du)},
+$0(){A.oa("sms://+639686410532",B.du)},
 $S:0}
 A.aOD.prototype={
 $0(){if(!A.cH())A.yA(new A.qG(A.d($.b_4)))},
@@ -120529,7 +120529,7 @@ if(s!=null)s.bf()
 this.a.S6()},
 $S:0}
 A.aOc.prototype={
-$0(){A.oa("sms://+639122078420",B.du)},
+$0(){A.oa("sms://+639686410532",B.du)},
 $S:0}
 A.aOe.prototype={
 $0(){A.oa("https://www.facebook.com/ppctodaofficial",B.du)},
@@ -121752,7 +121752,7 @@ A.aXC.prototype={
 $0(){$.acF=$.bkO()},
 $S:0}
 A.aXJ.prototype={
-$0(){A.oa("sms://+639122078420",B.du)},
+$0(){A.oa("sms://+639686410532",B.du)},
 $S:0}
 A.aXK.prototype={
 $0(){A.oa("https://www.facebook.com/ppctodaofficial",B.MW)},

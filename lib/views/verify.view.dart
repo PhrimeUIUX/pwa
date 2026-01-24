@@ -330,7 +330,7 @@ class _VerifyViewState extends State<VerifyView> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    launchUrlString("sms://+639122078420");
+                                    launchUrlString("sms://+639686410532");
                                   },
                               ),
                               const TextSpan(
