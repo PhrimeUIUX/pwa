@@ -54,6 +54,7 @@ class _VerifyViewState extends State<VerifyView> {
 
   @override
   Widget build(BuildContext context) {
+    try {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -373,7 +374,18 @@ class _VerifyViewState extends State<VerifyView> {
           );
         },
       ),
-    );
+    );} catch (e) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          toolbarHeight: 0,
+        ),
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Text(e.toString()),
+        ),
+      );
+    }
   }
 
   startCountDown() {
