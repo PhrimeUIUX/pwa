@@ -27,7 +27,7 @@ async function checkIfInstalled() {
     const found = relatedApps.some(
       (app) =>
       app.platform === "webapp" &&
-      app.url.includes("/build/web/manifest.json") // replace if your manifest has another path
+      app.url.includes("manifest.json") // replace if your manifest has another path
     );
     if (found) {
       setOpenApp();
