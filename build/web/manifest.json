@@ -1,8 +1,7 @@
 {
   "name": "PPC TODA (Beta)",
   "short_name": "PPC TODA (Beta)",
-  "start_url": "build/web/index.html",
-  "scope": "build/web/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
@@ -41,3 +40,4 @@
   ],
   "gcm_sender_id": "462080229186"
 }
+
