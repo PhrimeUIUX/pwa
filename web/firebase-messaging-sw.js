@@ -4,13 +4,13 @@ importScripts("https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"
 importScripts("https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js");
 
 firebase.initializeApp({
- apiKey: "AIzaSyA3tvPnJN8hy3HksAFLDkMHDAC6wMeXS-Q",
+  apiKey: "AIzaSyA3tvPnJN8hy3HksAFLDkMHDAC6wMeXS-Q",
   authDomain: "toda-pal.firebaseapp.com",
   databaseURL: "https://toda-pal-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "toda-pal",
   storageBucket: "toda-pal.firebasestorage.app",
   messagingSenderId: "599344409686",
-  appId: "1:599344409686:web:ae1f18c90ac11007675ff7
+  appId: "1:599344409686:web:ae1f18c90ac11007675ff7"
 });
 
 const messaging = firebase.messaging();
