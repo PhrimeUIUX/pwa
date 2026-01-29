@@ -326,7 +326,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   onTap: () {
                     launchUrlString(
-                      "sms://+639122078420",
+                      "sms://+639686410532",
                     );
                   },
                 ),
@@ -3422,7 +3422,7 @@ class _HomeViewState extends State<HomeView> {
                                                                           ..onTap =
                                                                               () {
                                                                             launchUrlString(
-                                                                              "sms://+639122078420",
+                                                                              "sms://+639686410532",
                                                                             );
                                                                           },
                                                                   ),

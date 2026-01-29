@@ -721,7 +721,7 @@ class _DetailsViewState extends State<DetailsView> {
                           mainColor: const Color(0xFFEAF1FE),
                           onTap: () {
                             launchUrlString(
-                              "sms://+639122078420",
+                              "sms://+639686410532",
                             );
                           },
                         ),
