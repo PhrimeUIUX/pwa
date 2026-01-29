@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
+import 'package:pwa/views/login.view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/utils/functions.dart';
@@ -336,15 +337,16 @@ class RegisterViewModel extends BaseViewModel {
               a,
               b,
             ) =>
-                VerifyView(
-              purpose: "register",
-              name: nameTEC.text.trim(),
-              email: emailTEC.text.trim(),
-              phone: phoneTEC.text.trim(),
-              birthday: birthdayTEC.text.trim(),
-              referral: referralTEC.text.trim(),
-              password: passwordTEC.text.trim(),
-            ),
+                const LoginView(),
+            //     VerifyView(
+            //   purpose: "register",
+            //   name: nameTEC.text.trim(),
+            //   email: emailTEC.text.trim(),
+            //   phone: phoneTEC.text.trim(),
+            //   birthday: birthdayTEC.text.trim(),
+            //   referral: referralTEC.text.trim(),
+            //   password: passwordTEC.text.trim(),
+            // ),
           ),
         );
       } else {
@@ -363,15 +365,16 @@ class RegisterViewModel extends BaseViewModel {
               a,
               b,
             ) =>
-                VerifyView(
-              purpose: "register",
-              name: nameTEC.text.trim(),
-              email: emailTEC.text.trim(),
-              phone: phoneTEC.text.trim(),
-              birthday: birthdayTEC.text.trim(),
-              referral: referralTEC.text.trim(),
-              password: passwordTEC.text.trim(),
-            ),
+                const LoginView(),
+            //     VerifyView(
+            //   purpose: "register",
+            //   name: nameTEC.text.trim(),
+            //   email: emailTEC.text.trim(),
+            //   phone: phoneTEC.text.trim(),
+            //   birthday: birthdayTEC.text.trim(),
+            //   referral: referralTEC.text.trim(),
+            //   password: passwordTEC.text.trim(),
+            // ),
           ),
         );
       } else {
