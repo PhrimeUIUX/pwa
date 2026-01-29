@@ -57,9 +57,7 @@ class _VerifyViewState extends State<VerifyView> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
+        if (didPop) return;
         AlertService().showAppAlert(
           title: "Are you sure?",
           content: "You're about to leave this page",
@@ -94,10 +92,10 @@ class _VerifyViewState extends State<VerifyView> {
               backgroundColor: Colors.white,
               body: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      MediaQuery.of(context).padding.bottom,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height,
+                  ),
                   child: Column(
                     children: [
                       const SizedBox(height: 12),
@@ -155,6 +153,13 @@ class _VerifyViewState extends State<VerifyView> {
                           child: Image.asset(
                             AppImages.verify,
                             fit: BoxFit.fitWidth,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: ColoredBox(color: Colors.grey),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -202,11 +207,8 @@ class _VerifyViewState extends State<VerifyView> {
                             horizontal: 24,
                           ),
                           child: SizedBox(
-                            height: (MediaQuery.of(context)
-                                        .size
-                                        .width
-                                        .clamp(0, 800) -
-                                    106) /
+                            height: (MediaQuery.of(context).size.width.clamp(0, 800) -
+                                106) /
                                 6,
                             width: double.infinity.clamp(0, 800),
                             child: PinCodeTextField(
@@ -220,27 +222,17 @@ class _VerifyViewState extends State<VerifyView> {
                               pinTheme: PinTheme(
                                 shape: PinCodeFieldShape.box,
                                 borderRadius: BorderRadius.circular(10),
-                                fieldHeight: (MediaQuery.of(context)
-                                            .size
-                                            .width
-                                            .clamp(0, 800) -
-                                        106) /
+                                fieldHeight: (MediaQuery.of(context).size.width
+                                    .clamp(0, 800) -
+                                    106) /
                                     6,
-                                fieldWidth: (MediaQuery.of(context)
-                                            .size
-                                            .width
-                                            .clamp(0, 800) -
-                                        106) /
+                                fieldWidth: (MediaQuery.of(context).size.width
+                                    .clamp(0, 800) -
+                                    106) /
                                     6,
-                                activeColor: const Color(
-                                  0xFF007BFF,
-                                ),
-                                selectedColor: const Color(
-                                  0xFF007BFF,
-                                ),
-                                inactiveColor: const Color(
-                                  0xFF030744,
-                                ),
+                                activeColor: const Color(0xFF007BFF),
+                                selectedColor: const Color(0xFF007BFF),
+                                inactiveColor: const Color(0xFF030744),
                                 activeFillColor: Colors.white,
                                 selectedFillColor: Colors.white,
                                 inactiveFillColor: Colors.white,
@@ -256,9 +248,7 @@ class _VerifyViewState extends State<VerifyView> {
                       ),
                       const SizedBox(height: 24),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: ActionButton(
                           text: "Verify",
                           onTap: () {
@@ -354,7 +344,7 @@ class _VerifyViewState extends State<VerifyView> {
                                       "https://www.facebook.com/ppctodaofficial",
                                       mode: AuthService.device() == "android"
                                           ? LaunchMode
-                                              .externalNonBrowserApplication
+                                          .externalNonBrowserApplication
                                           : LaunchMode.externalApplication,
                                     );
                                   },
@@ -387,18 +377,13 @@ class _VerifyViewState extends State<VerifyView> {
   }
 
   startCountDown() {
-    if (resendCountdownTimer != null && resendCountdownTimer!.isActive) {
-      return;
-    }
+    if (resendCountdownTimer != null && resendCountdownTimer!.isActive) return;
+
     resendCountdownTimer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) {
+          (timer) {
         if (resendSecs > 0) {
-          if (mounted) {
-            setState(() {
-              resendSecs -= 1;
-            });
-          }
+          if (mounted) setState(() => resendSecs -= 1);
         } else {
           timer.cancel();
         }
