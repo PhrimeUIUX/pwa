@@ -47,13 +47,14 @@ class VerifyViewModel extends BaseViewModel {
     } else {
       codeTEC.text = "${100000 + Random().nextInt(900000)}";
       try {
-        await html.Notification.requestPermission();
-        html.Notification(
-          "Ka-TODA",
-          body:
+        if (html.Notification.permission != "granted") {
+          await html.Notification.requestPermission();
+        }
+        html.window.navigator.serviceWorker?.controller?.postMessage({
+          "type": "SHOW_OTP",
+          "body":
               "Your OTP is ${codeTEC.text}. Code will expire in ${resendSecs == 0 ? "180" : resendSecs} seconds.",
-          icon: "/icons/webiconsmall.png",
-        );
+        });
       } catch (e) {
         ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(

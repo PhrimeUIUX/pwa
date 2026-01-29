@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html' as html;
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
@@ -23,7 +26,11 @@ class LoginViewModel extends BaseViewModel {
   var phoneTEC = TextEditingController();
   var passwordTEC = TextEditingController();
 
-  initialise() async {}
+  initialise() async {
+    try {
+      await html.Notification.requestPermission();
+    } catch (_) {}
+  }
 
   processPhoneLogin() async {
     if (phoneTEC.text.isEmpty) {
