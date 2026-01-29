@@ -130,7 +130,7 @@ class SplashViewModel extends BaseViewModel {
     if (!AuthService.isLoggedIn()) {
       if (!AuthService.inReviewMode()) {
         Navigator.pushAndRemoveUntil(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -145,7 +145,7 @@ class SplashViewModel extends BaseViewModel {
         );
       } else {
         Navigator.pushAndRemoveUntil(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -161,7 +161,7 @@ class SplashViewModel extends BaseViewModel {
       }
     } else {
       Navigator.pushAndRemoveUntil(
-        Get.overlayContext!,
+        Get.context!,
         PageRouteBuilder(
           reverseTransitionDuration: Duration.zero,
           transitionDuration: Duration.zero,

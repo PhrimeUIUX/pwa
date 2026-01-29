@@ -34,9 +34,9 @@ class RegisterViewModel extends BaseViewModel {
     String provider = "custom",
   }) async {
     if (selfieFile == null && !AuthService.inReviewMode()) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -49,9 +49,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (nameTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -64,9 +64,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (!nameRegex.hasMatch(nameTEC.text.trim())) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -79,9 +79,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (provider == "custom" && emailTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -94,9 +94,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (birthdayTEC.text.trim().isEmpty || isBirthdayActive) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -110,9 +110,9 @@ class RegisterViewModel extends BaseViewModel {
       );
     } else if (provider == "custom" &&
         !emailRegex.hasMatch(emailTEC.text.trim())) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -125,9 +125,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (provider == "custom" && phoneTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -141,9 +141,9 @@ class RegisterViewModel extends BaseViewModel {
       );
     } else if (provider == "custom" &&
         !phoneRegex.hasMatch(phoneTEC.text.trim())) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -156,9 +156,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (provider == "custom" && passwordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -171,9 +171,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (provider == "custom" && passwordTEC.text.trim().length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -186,9 +186,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (provider == "custom" && cPasswordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -202,9 +202,9 @@ class RegisterViewModel extends BaseViewModel {
       );
     } else if (provider == "custom" &&
         cPasswordTEC.text.trim() != passwordTEC.text.trim()) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -217,9 +217,9 @@ class RegisterViewModel extends BaseViewModel {
         ),
       );
     } else if (!agreed) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -281,9 +281,11 @@ class RegisterViewModel extends BaseViewModel {
             );
           }
         } else {
+          AlertService().stopLoading();
           showError(apiResponse.message);
         }
       } catch (e) {
+        AlertService().stopLoading();
         showError(
           "There was an error while processing your request. Please try again later",
         );
@@ -307,9 +309,9 @@ class RegisterViewModel extends BaseViewModel {
               apiResponse.body!["data"]["countdown_remaining"].toString(),
             );
             AlertService().stopLoading();
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(
-              Get.overlayContext!,
+              Get.context!,
             ).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
@@ -325,7 +327,7 @@ class RegisterViewModel extends BaseViewModel {
         }
         AlertService().stopLoading();
         Navigator.push(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -352,7 +354,7 @@ class RegisterViewModel extends BaseViewModel {
       AlertService().stopLoading();
       if (lowerCase(e.toString()).contains("otp")) {
         Navigator.push(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -373,9 +375,9 @@ class RegisterViewModel extends BaseViewModel {
           ),
         );
       } else {
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(
-          Get.overlayContext!,
+          Get.context!,
         ).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -466,7 +468,7 @@ class RegisterViewModel extends BaseViewModel {
         await AuthService.getUserFromStorage();
         await AuthService.getTokenFromStorage();
         Navigator.pushAndRemoveUntil(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -482,9 +484,9 @@ class RegisterViewModel extends BaseViewModel {
       }
     } catch (e) {
       AlertService().stopLoading();
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,

@@ -27,7 +27,7 @@ class AlertService {
     FocusManager.instance.primaryFocus?.unfocus();
     return showDialog<bool?>(
       barrierDismissible: dismissible,
-      context: Get.overlayContext!,
+      context: Get.context!,
       builder: (BuildContext context) {
         return PopScope(
           canPop: dismissible,
@@ -277,7 +277,7 @@ class AlertService {
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
-      context: Get.overlayContext!,
+      context: Get.context!,
       builder: (BuildContext context) {
         return PopScope(
           canPop: dismissible,

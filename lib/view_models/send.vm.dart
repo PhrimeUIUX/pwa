@@ -15,9 +15,9 @@ class SendViewModel extends BaseViewModel {
 
   sendCode(String purpose) async {
     if (phoneTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -30,9 +30,9 @@ class SendViewModel extends BaseViewModel {
         ),
       );
     } else if (!phoneRegex.hasMatch(phoneTEC.text)) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -64,9 +64,9 @@ class SendViewModel extends BaseViewModel {
           }
         }
       } catch (e) {
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(
-          Get.overlayContext!,
+          Get.context!,
         ).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -97,9 +97,9 @@ class SendViewModel extends BaseViewModel {
             resendSecs = int.parse(
               apiResponse.body!["data"]["countdown_remaining"].toString(),
             );
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(
-              Get.overlayContext!,
+              Get.context!,
             ).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
@@ -114,7 +114,7 @@ class SendViewModel extends BaseViewModel {
           }
         }
         Navigator.push(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -139,9 +139,9 @@ class SendViewModel extends BaseViewModel {
       }
     } catch (e) {
       AlertService().stopLoading();
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -154,7 +154,7 @@ class SendViewModel extends BaseViewModel {
         ),
       );
       Navigator.push(
-        Get.overlayContext!,
+        Get.context!,
         PageRouteBuilder(
           reverseTransitionDuration: Duration.zero,
           transitionDuration: Duration.zero,

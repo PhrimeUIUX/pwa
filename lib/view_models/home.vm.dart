@@ -149,9 +149,9 @@ class HomeViewModel extends GMapViewModel {
     if (ongoingOrder == null) {
       if (showSnack) {
         if (!snackShown) {
-          ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+          ScaffoldMessenger.of(Get.context!).clearSnackBars();
           ScaffoldMessenger.of(
-            Get.overlayContext!,
+            Get.context!,
           ).showSnackBar(
             const SnackBar(
               backgroundColor: Colors.red,
@@ -176,10 +176,10 @@ class HomeViewModel extends GMapViewModel {
   processNewOrder() async {
     if (pickupAddress == null) {
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -192,9 +192,9 @@ class HomeViewModel extends GMapViewModel {
         ),
       );
     } else if (dropoffAddress == null) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -209,9 +209,9 @@ class HomeViewModel extends GMapViewModel {
     } else if ((pickupAddress?.latLng == dropoffAddress?.latLng ||
             travelTime(selectedVehicle?.kmDistance ?? 0) == "0 secs") &&
         !AuthService.inReviewMode()) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -226,9 +226,9 @@ class HomeViewModel extends GMapViewModel {
         ),
       );
     } else if (selectedVehicle == null) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -245,7 +245,7 @@ class HomeViewModel extends GMapViewModel {
     } else {
       if (AuthService.inReviewMode()) {
         showDialog(
-          context: Get.overlayContext!,
+          context: Get.context!,
           barrierDismissible: false,
           builder: (BuildContext context) {
             return PopScope(
@@ -347,10 +347,10 @@ class HomeViewModel extends GMapViewModel {
               confirmAction: () {
                 if (pickupSecs != 0) {
                   ScaffoldMessenger.of(
-                    Get.overlayContext!,
+                    Get.context!,
                   ).clearSnackBars();
                   ScaffoldMessenger.of(
-                    Get.overlayContext!,
+                    Get.context!,
                   ).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red,
@@ -371,9 +371,9 @@ class HomeViewModel extends GMapViewModel {
           }
         } else {
           if (!snackShown) {
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(
-              Get.overlayContext!,
+              Get.context!,
             ).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.red,
@@ -443,9 +443,9 @@ class HomeViewModel extends GMapViewModel {
         notifyListeners();
         await getOngoingOrder();
       } else {
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(
-          Get.overlayContext!,
+          Get.context!,
         ).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -460,9 +460,9 @@ class HomeViewModel extends GMapViewModel {
       }
     } catch (e) {
       AlertService().stopLoading();
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -491,10 +491,10 @@ class HomeViewModel extends GMapViewModel {
       thirdAction: () async {
         if (rebookSecs != 0) {
           ScaffoldMessenger.of(
-            Get.overlayContext!,
+            Get.context!,
           ).clearSnackBars();
           ScaffoldMessenger.of(
-            Get.overlayContext!,
+            Get.context!,
           ).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
@@ -550,10 +550,10 @@ class HomeViewModel extends GMapViewModel {
                     confirmAction: () {
                       if (pickupSecs != 0) {
                         ScaffoldMessenger.of(
-                          Get.overlayContext!,
+                          Get.context!,
                         ).clearSnackBars();
                         ScaffoldMessenger.of(
-                          Get.overlayContext!,
+                          Get.context!,
                         ).showSnackBar(
                           SnackBar(
                             backgroundColor: Colors.red,
@@ -574,9 +574,9 @@ class HomeViewModel extends GMapViewModel {
                 }
               } else {
                 if (!snackShown) {
-                  ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+                  ScaffoldMessenger.of(Get.context!).clearSnackBars();
                   ScaffoldMessenger.of(
-                    Get.overlayContext!,
+                    Get.context!,
                   ).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.red,
@@ -596,8 +596,8 @@ class HomeViewModel extends GMapViewModel {
             }
           } catch (e) {
             Get.until((route) => route.isFirst);
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-            ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
+            ScaffoldMessenger.of(Get.context!).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
                 content: Text(
@@ -615,10 +615,10 @@ class HomeViewModel extends GMapViewModel {
       confirmAction: () async {
         if (rebookSecs != 0) {
           ScaffoldMessenger.of(
-            Get.overlayContext!,
+            Get.context!,
           ).clearSnackBars();
           ScaffoldMessenger.of(
-            Get.overlayContext!,
+            Get.context!,
           ).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
@@ -683,8 +683,8 @@ class HomeViewModel extends GMapViewModel {
               }
             } catch (e) {
               Get.until((route) => route.isFirst);
-              ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-              ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
+              ScaffoldMessenger.of(Get.context!).clearSnackBars();
+              ScaffoldMessenger.of(Get.context!).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.red,
                   content: Text(
@@ -940,9 +940,9 @@ class HomeViewModel extends GMapViewModel {
 
   reportDriver() async {
     if (reviewTEC.text == "" || reviewTEC.text == "null") {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -955,9 +955,9 @@ class HomeViewModel extends GMapViewModel {
         ),
       );
     } else if (reviewTEC.text.length <= 5) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -996,9 +996,9 @@ class HomeViewModel extends GMapViewModel {
                 content: "Driver has been reported",
               );
             } else {
-              ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+              ScaffoldMessenger.of(Get.context!).clearSnackBars();
               ScaffoldMessenger.of(
-                Get.overlayContext!,
+                Get.context!,
               ).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.red,
@@ -1015,9 +1015,9 @@ class HomeViewModel extends GMapViewModel {
             showReport = true;
             notifyListeners();
             AlertService().stopLoading();
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(
-              Get.overlayContext!,
+              Get.context!,
             ).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
@@ -1165,7 +1165,7 @@ class HomeViewModel extends GMapViewModel {
       title: "Chat with driver",
     );
     Navigator.push(
-      Get.overlayContext!,
+      Get.context!,
       PageRouteBuilder(
         reverseTransitionDuration: Duration.zero,
         transitionDuration: Duration.zero,

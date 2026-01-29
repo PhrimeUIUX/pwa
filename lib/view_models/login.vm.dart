@@ -27,9 +27,9 @@ class LoginViewModel extends BaseViewModel {
 
   processPhoneLogin() async {
     if (phoneTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -42,9 +42,9 @@ class LoginViewModel extends BaseViewModel {
         ),
       );
     } else if (!phoneRegex.hasMatch(phoneTEC.text)) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -57,9 +57,9 @@ class LoginViewModel extends BaseViewModel {
         ),
       );
     } else if (passwordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -72,9 +72,9 @@ class LoginViewModel extends BaseViewModel {
         ),
       );
     } else if (passwordTEC.text.length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -96,9 +96,9 @@ class LoginViewModel extends BaseViewModel {
         await handleDeviceLogin(apiResponse);
       } catch (e) {
         AlertService().stopLoading();
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(
-          Get.overlayContext!,
+          Get.context!,
         ).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -225,7 +225,7 @@ class LoginViewModel extends BaseViewModel {
         );
       }
       Navigator.pushAndRemoveUntil(
-        Get.overlayContext!,
+        Get.context!,
         PageRouteBuilder(
           reverseTransitionDuration: Duration.zero,
           transitionDuration: Duration.zero,

@@ -97,7 +97,7 @@ class AuthService {
     subscribeToServer();
     if (!AuthService.inReviewMode()) {
       Navigator.pushAndRemoveUntil(
-        Get.overlayContext!,
+        Get.context!,
         PageRouteBuilder(
           reverseTransitionDuration: Duration.zero,
           transitionDuration: Duration.zero,
@@ -112,7 +112,7 @@ class AuthService {
       );
     } else {
       Navigator.pushAndRemoveUntil(
-        Get.overlayContext!,
+        Get.context!,
         PageRouteBuilder(
           reverseTransitionDuration: Duration.zero,
           transitionDuration: Duration.zero,

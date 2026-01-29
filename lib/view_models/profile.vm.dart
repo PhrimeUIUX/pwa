@@ -57,9 +57,9 @@ class ProfileViewModel extends BaseViewModel {
       );
     } catch (e) {
       AlertService().stopLoading();
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,

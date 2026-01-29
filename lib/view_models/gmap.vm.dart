@@ -146,9 +146,9 @@ class GMapViewModel extends BaseViewModel {
           if (!apiResponse.allGood) {
             locUnavailable = true;
           }
-          ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+          ScaffoldMessenger.of(Get.context!).clearSnackBars();
           ScaffoldMessenger.of(
-            Get.overlayContext!,
+            Get.context!,
           ).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,

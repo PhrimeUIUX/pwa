@@ -114,10 +114,10 @@ class _HomeViewState extends State<HomeView> {
                       );
                       Get.back();
                       ScaffoldMessenger.of(
-                        Get.overlayContext!,
+                        Get.context!,
                       ).clearSnackBars();
                       ScaffoldMessenger.of(
-                        Get.overlayContext!,
+                        Get.context!,
                       ).showSnackBar(
                         SnackBar(
                           margin: const EdgeInsets.all(
@@ -500,10 +500,10 @@ class _HomeViewState extends State<HomeView> {
                                           vm.zoomToCurrentLocation();
                                         } else {
                                           ScaffoldMessenger.of(
-                                            Get.overlayContext!,
+                                            Get.context!,
                                           ).clearSnackBars();
                                           ScaffoldMessenger.of(
-                                            Get.overlayContext!,
+                                            Get.context!,
                                           ).showSnackBar(
                                             const SnackBar(
                                               backgroundColor: Colors.red,
@@ -1414,7 +1414,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 onTap: () {
                                                                                   if (!AuthService.isLoggedIn()) {
                                                                                     Navigator.push(
-                                                                                      Get.overlayContext!,
+                                                                                      Get.context!,
                                                                                       PageRouteBuilder(
                                                                                         reverseTransitionDuration: Duration.zero,
                                                                                         transitionDuration: Duration.zero,
@@ -1477,7 +1477,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 onTap: () {
                                                                                   if (!AuthService.isLoggedIn()) {
                                                                                     Navigator.push(
-                                                                                      Get.overlayContext!,
+                                                                                      Get.context!,
                                                                                       PageRouteBuilder(
                                                                                         reverseTransitionDuration: Duration.zero,
                                                                                         transitionDuration: Duration.zero,
@@ -2104,11 +2104,11 @@ class _HomeViewState extends State<HomeView> {
                                                                   "cancelled") {
                                                             ScaffoldMessenger
                                                                 .of(
-                                                              Get.overlayContext!,
+                                                              Get.context!,
                                                             ).clearSnackBars();
                                                             ScaffoldMessenger
                                                                 .of(
-                                                              Get.overlayContext!,
+                                                              Get.context!,
                                                             ).showSnackBar(
                                                               const SnackBar(
                                                                 backgroundColor:

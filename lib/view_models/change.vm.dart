@@ -22,9 +22,9 @@ class ChangeViewModel extends BaseViewModel {
 
   resetPassword() async {
     if (nPasswordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -37,9 +37,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (nPasswordTEC.text.length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -52,9 +52,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (cPasswordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -67,9 +67,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (cPasswordTEC.text != nPasswordTEC.text) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -91,7 +91,7 @@ class ChangeViewModel extends BaseViewModel {
         if (apiResponse.allGood) {
           Get.until((route) => route.isFirst);
           Navigator.push(
-            Get.overlayContext!,
+            Get.context!,
             PageRouteBuilder(
               reverseTransitionDuration: Duration.zero,
               transitionDuration: Duration.zero,
@@ -113,9 +113,9 @@ class ChangeViewModel extends BaseViewModel {
         }
       } catch (e) {
         AlertService().stopLoading();
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(
-          Get.overlayContext!,
+          Get.context!,
         ).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -133,9 +133,9 @@ class ChangeViewModel extends BaseViewModel {
 
   changePassword() async {
     if (passwordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -148,9 +148,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (passwordTEC.text.length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -163,9 +163,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (nPasswordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -178,9 +178,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (nPasswordTEC.text.length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -193,9 +193,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (passwordTEC.text == nPasswordTEC.text) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -208,9 +208,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (cPasswordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -223,9 +223,9 @@ class ChangeViewModel extends BaseViewModel {
         ),
       );
     } else if (cPasswordTEC.text != nPasswordTEC.text) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -258,9 +258,9 @@ class ChangeViewModel extends BaseViewModel {
         }
       } catch (e) {
         AlertService().stopLoading();
-        ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+        ScaffoldMessenger.of(Get.context!).clearSnackBars();
         ScaffoldMessenger.of(
-          Get.overlayContext!,
+          Get.context!,
         ).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,

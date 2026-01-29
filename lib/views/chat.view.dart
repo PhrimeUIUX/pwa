@@ -876,10 +876,10 @@ class _ChatViewState extends State<ChatView> {
                                                 chatFile = null;
                                               } catch (e) {
                                                 ScaffoldMessenger.of(
-                                                        Get.overlayContext!)
+                                                        Get.context!)
                                                     .clearSnackBars();
                                                 ScaffoldMessenger.of(
-                                                  Get.overlayContext!,
+                                                  Get.context!,
                                                 ).showSnackBar(
                                                   SnackBar(
                                                     backgroundColor: Colors.red,

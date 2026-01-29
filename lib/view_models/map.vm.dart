@@ -174,8 +174,8 @@ class MapViewModel extends BaseViewModel {
           if (!apiResponse.allGood) {
             mapUnavailable = true;
           }
-          ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
-          ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
+          ScaffoldMessenger.of(Get.context!).clearSnackBars();
+          ScaffoldMessenger.of(Get.context!).showSnackBar(
             SnackBar(
               backgroundColor: Colors.red,
               content: Text(

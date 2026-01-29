@@ -273,10 +273,10 @@ class _DetailsViewState extends State<DetailsView> {
                                         borderRadius: 8,
                                         onTap: () {
                                           ScaffoldMessenger.of(
-                                            Get.overlayContext!,
+                                            Get.context!,
                                           ).clearSnackBars();
                                           ScaffoldMessenger.of(
-                                            Get.overlayContext!,
+                                            Get.context!,
                                           ).showSnackBar(
                                             const SnackBar(
                                               backgroundColor: Colors.red,
@@ -309,10 +309,10 @@ class _DetailsViewState extends State<DetailsView> {
                                         borderRadius: 8,
                                         onTap: () {
                                           ScaffoldMessenger.of(
-                                            Get.overlayContext!,
+                                            Get.context!,
                                           ).clearSnackBars();
                                           ScaffoldMessenger.of(
-                                            Get.overlayContext!,
+                                            Get.context!,
                                           ).showSnackBar(
                                             const SnackBar(
                                               backgroundColor: Colors.red,

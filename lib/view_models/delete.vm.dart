@@ -16,9 +16,9 @@ class DeleteViewModel extends BaseViewModel {
 
   processAccountDeletion() async {
     if (passwordTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -31,9 +31,9 @@ class DeleteViewModel extends BaseViewModel {
         ),
       );
     } else if (passwordTEC.text.length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -46,9 +46,9 @@ class DeleteViewModel extends BaseViewModel {
         ),
       );
     } else if (reasonTEC.text.isEmpty) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -61,9 +61,9 @@ class DeleteViewModel extends BaseViewModel {
         ),
       );
     } else if (reasonTEC.text.length < 6) {
-      ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+      ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
-        Get.overlayContext!,
+        Get.context!,
       ).showSnackBar(
         const SnackBar(
           backgroundColor: Colors.red,
@@ -102,9 +102,9 @@ class DeleteViewModel extends BaseViewModel {
             }
           } catch (e) {
             AlertService().stopLoading();
-            ScaffoldMessenger.of(Get.overlayContext!).clearSnackBars();
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(
-              Get.overlayContext!,
+              Get.context!,
             ).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,

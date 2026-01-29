@@ -356,10 +356,10 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                               );
                               ScaffoldMessenger.of(
-                                Get.overlayContext!,
+                                Get.context!,
                               ).clearSnackBars();
                               ScaffoldMessenger.of(
-                                Get.overlayContext!,
+                                Get.context!,
                               ).showSnackBar(
                                 SnackBar(
                                   margin: const EdgeInsets.all(

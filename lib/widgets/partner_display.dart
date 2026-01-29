@@ -198,7 +198,6 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
     );
   }
 
-  /// ---------------- CTA
   Widget _setDropoffButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22),
@@ -211,27 +210,34 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
             borderRadius: BorderRadius.circular(8),
             onTap: () async {
               if (!widget.isLoggedIn()) {
-                Get.to(() => const LoginView());
+                Navigator.push(
+                  Get.context!,
+                  PageRouteBuilder(
+                    reverseTransitionDuration: Duration.zero,
+                    transitionDuration: Duration.zero,
+                    pageBuilder: (
+                      context,
+                      a,
+                      b,
+                    ) =>
+                        const LoginView(),
+                  ),
+                );
                 return;
               }
-
               if (selectedBranch == 0) {
-                ScaffoldMessenger.of(Get.overlayContext!)
-                    .showSnackBar(const SnackBar(
+                ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
                   backgroundColor: Colors.red,
                   content: Text("Please select a dropoff branch"),
                 ));
                 return;
               }
-
               final branch =
                   widget.branches.firstWhere((b) => b.id == selectedBranch);
-
               widget.onSelectDropoff(
                 branch.latLng,
                 "${widget.partnerName} ${branch.name}",
               );
-
               setState(() {
                 selectedBranch = 0;
                 showBranch = false;

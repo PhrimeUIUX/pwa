@@ -47,7 +47,7 @@ class HistoryViewModel extends BaseViewModel {
 
   openOrderDetails({required Order order}) {
     Navigator.push(
-      Get.overlayContext!,
+      Get.context!,
       PageRouteBuilder(
         reverseTransitionDuration: Duration.zero,
         transitionDuration: Duration.zero,

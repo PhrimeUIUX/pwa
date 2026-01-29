@@ -131,7 +131,7 @@ class _CameraWidgetState extends State<CameraWidget> {
   }
 
  _showError(String msg) {
-    final ctx = Get.overlayContext;
+    final ctx = Get.context;
     if (ctx != null) {
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
@@ -674,7 +674,7 @@ class CameraImageWidget extends StatelessWidget {
       Get.until((route) => route.isFirst);
       if (!isEdit) {
         Navigator.push(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -687,7 +687,7 @@ class CameraImageWidget extends StatelessWidget {
           ),
         );
         Navigator.push(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,
@@ -701,7 +701,7 @@ class CameraImageWidget extends StatelessWidget {
         );
       } else {
         Navigator.push(
-          Get.overlayContext!,
+          Get.context!,
           PageRouteBuilder(
             reverseTransitionDuration: Duration.zero,
             transitionDuration: Duration.zero,

@@ -375,7 +375,7 @@ openWebview(String title, String url) {
     return;
   }
   Navigator.push(
-    Get.overlayContext!,
+    Get.context!,
     PageRouteBuilder(
       reverseTransitionDuration: Duration.zero,
       transitionDuration: Duration.zero,
@@ -393,7 +393,7 @@ showCameraSource({
 }) async {
   try {
     Navigator.push(
-      Get.overlayContext!,
+      Get.context!,
       PageRouteBuilder(
         reverseTransitionDuration: Duration.zero,
         transitionDuration: Duration.zero,
@@ -422,7 +422,7 @@ Future<dynamic> showImageSource({
   String cameraType = "profile",
 }) async {
   return showModalBottomSheet(
-    context: Get.overlayContext!,
+    context: Get.context!,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.zero,
     ),
@@ -486,10 +486,10 @@ share(String text) async {
       ),
     );
     ScaffoldMessenger.of(
-      Get.overlayContext!,
+      Get.context!,
     ).clearSnackBars();
     ScaffoldMessenger.of(
-      Get.overlayContext!,
+      Get.context!,
     ).showSnackBar(
       SnackBar(
         margin: const EdgeInsets.all(
@@ -512,7 +512,7 @@ share(String text) async {
 }
 
 showError(Object error) {
-  final context = Get.overlayContext;
+  final context = Get.context;
   if (context == null) return;
   String message = error.toString();
   if (message.startsWith("Exception: ")) {
