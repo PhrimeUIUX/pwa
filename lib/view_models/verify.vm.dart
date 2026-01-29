@@ -50,27 +50,7 @@ class VerifyViewModel extends BaseViewModel {
         if (html.Notification.permission != "granted") {
           await html.Notification.requestPermission();
         }
-        html.window.navigator.serviceWorker?.controller?.postMessage({
-          "type": "SHOW_OTP",
-          "body":
-              "Your OTP is ${codeTEC.text}. Code will expire in ${resendSecs == 0 ? "180" : resendSecs} seconds.",
-        });
-      } catch (e) {
-        ScaffoldMessenger.of(Get.context!).clearSnackBars();
-        ScaffoldMessenger.of(
-          Get.context!,
-        ).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              e.toString(),
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        );
-      }
+      } catch (_) {}
     }
     notifyListeners();
   }

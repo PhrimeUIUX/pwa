@@ -45,16 +45,3 @@ self.addEventListener('notificationclick', function(event) {
     })
   );
 });
-
-self.addEventListener("message", (event) => {
-  if (!event.data || !event.data.type) return;
-
-  if (event.data.type === "SHOW_OTP") {
-    self.registration.showNotification("Ka-TODA", {
-      body: event.data.body,
-      icon: "/icons/webiconsmall.png",
-      tag: "otp-notification",
-      renotify: true,
-    });
-  }
-});
