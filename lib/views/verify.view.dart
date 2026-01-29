@@ -70,8 +70,26 @@ class _VerifyViewState extends State<VerifyView> {
           },
         );
       },
-      child: const Scaffold(
-        backgroundColor: Colors.pink,
+      child: ViewModelBuilder<VerifyViewModel>.reactive(
+        viewModelBuilder: () => verifyViewModel,
+        onViewModelReady: (vm) => vm.initialise(
+          name: widget.name ?? "",
+          email: widget.email ?? "",
+          phone: widget.phone ?? "",
+          birthday: widget.birthday ?? "",
+          referral: widget.referral ?? "",
+          password: widget.password ?? "",
+        ),
+        builder: (context, vm, child) {
+          return GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: const Scaffold(
+              backgroundColor: Colors.pink,
+            ),
+          );
+        },
       ),
     );
     return PopScope(
@@ -223,10 +241,10 @@ class _VerifyViewState extends State<VerifyView> {
                           ),
                           child: SizedBox(
                             height: (MediaQuery.of(context)
-                                .size
-                                .width
-                                .clamp(0, 800) -
-                                106) /
+                                        .size
+                                        .width
+                                        .clamp(0, 800) -
+                                    106) /
                                 6,
                             width: double.infinity.clamp(0, 800),
                             child: PinCodeTextField(
@@ -241,16 +259,16 @@ class _VerifyViewState extends State<VerifyView> {
                                 shape: PinCodeFieldShape.box,
                                 borderRadius: BorderRadius.circular(10),
                                 fieldHeight: (MediaQuery.of(context)
-                                    .size
-                                    .width
-                                    .clamp(0, 800) -
-                                    106) /
+                                            .size
+                                            .width
+                                            .clamp(0, 800) -
+                                        106) /
                                     6,
                                 fieldWidth: (MediaQuery.of(context)
-                                    .size
-                                    .width
-                                    .clamp(0, 800) -
-                                    106) /
+                                            .size
+                                            .width
+                                            .clamp(0, 800) -
+                                        106) /
                                     6,
                                 activeColor: const Color(
                                   0xFF007BFF,
@@ -409,7 +427,7 @@ class _VerifyViewState extends State<VerifyView> {
     }
     resendCountdownTimer = Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
+      (timer) {
         if (resendSecs > 0) {
           if (mounted) {
             setState(() {
