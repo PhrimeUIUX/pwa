@@ -72,14 +72,16 @@ class _VerifyViewState extends State<VerifyView> {
       },
       child: ViewModelBuilder<VerifyViewModel>.reactive(
         viewModelBuilder: () => verifyViewModel,
-        onViewModelReady: (vm) => vm.initialise(
-          name: widget.name ?? "",
-          email: widget.email ?? "",
-          phone: widget.phone ?? "",
-          birthday: widget.birthday ?? "",
-          referral: widget.referral ?? "",
-          password: widget.password ?? "",
-        ),
+        onViewModelReady: (vm) {
+          vm.initialise(
+            name: widget.name,
+            email: widget.email,
+            phone: widget.phone,
+            birthday: widget.birthday,
+            referral: widget.referral,
+            password: widget.password,
+          );
+        },
         builder: (context, vm, child) {
           return GestureDetector(
             onTap: () {
