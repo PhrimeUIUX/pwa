@@ -5,7 +5,6 @@ import 'package:stacked/stacked.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/constants/images.dart';
-import 'package:pwa/services/auth.service.dart';
 import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/view_models/verify.vm.dart';
 import 'package:pwa/services/alert.service.dart';
@@ -54,336 +53,336 @@ class _VerifyViewState extends State<VerifyView> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
-        AlertService().showAppAlert(
-          title: "Are you sure?",
-          content: "You're about to leave this page",
-          hideCancel: false,
-          confirmText: "Go back",
-          confirmAction: () {
-            Get.back();
-            Get.back();
-          },
-        );
-      },
-      child: ViewModelBuilder<VerifyViewModel>.reactive(
-        viewModelBuilder: () => verifyViewModel,
-        onViewModelReady: (vm) => vm.initialise(
-          name: widget.name,
-          email: widget.email,
-          phone: widget.phone,
-          birthday: widget.birthday,
-          referral: widget.referral,
-          password: widget.password,
-        ),
-        builder: (context, vm, child) {
-          return GestureDetector(
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
-            child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                toolbarHeight: 0,
-              ),
-              backgroundColor: Colors.white,
-              body: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      MediaQuery.of(context).padding.bottom,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          const SizedBox(width: 4),
-                          WidgetButton(
-                            onTap: () {
-                              AlertService().showAppAlert(
-                                title: "Are you sure?",
-                                content: "You're about to leave this page",
-                                hideCancel: false,
-                                confirmText: "Go back",
-                                confirmAction: () {
-                                  Get.back();
-                                  Get.back();
-                                },
-                              );
-                            },
-                            child: const SizedBox(
-                              width: 58,
-                              height: 58,
-                              child: Center(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 2,
-                                    right: 4,
-                                    bottom: 2,
-                                  ),
-                                  child: Icon(
-                                    Icons.chevron_left,
-                                    color: Color(0xFF030744),
-                                    size: 38,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 2),
-                          const Text(
-                            "Verify Code",
-                            style: TextStyle(
-                              height: 1,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF030744),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Image.asset(
-                            AppImages.verify,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 32,
-                          left: 24,
-                          right: 24,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity.clamp(0, 800),
-                          child: Center(
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  const TextSpan(
-                                    text: "We have sent a 6-digit code to ",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: "Inter",
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF030744),
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: "0${widget.phone}",
-                                    style: const TextStyle(
-                                      height: 1,
-                                      fontSize: 14,
-                                      fontFamily: "Inter",
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF007BFF),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                          ),
-                          child: SizedBox(
-                            height: (MediaQuery.of(context)
-                                        .size
-                                        .width
-                                        .clamp(0, 800) -
-                                    106) /
-                                6,
-                            width: double.infinity.clamp(0, 800),
-                            child: PinCodeTextField(
-                              appContext: context,
-                              length: 6,
-                              controller: vm.codeTEC,
-                              keyboardType: TextInputType.number,
-                              animationType: AnimationType.none,
-                              autoFocus: true,
-                              enableActiveFill: true,
-                              pinTheme: PinTheme(
-                                shape: PinCodeFieldShape.box,
-                                borderRadius: BorderRadius.circular(10),
-                                fieldHeight: (MediaQuery.of(context)
-                                            .size
-                                            .width
-                                            .clamp(0, 800) -
-                                        106) /
-                                    6,
-                                fieldWidth: (MediaQuery.of(context)
-                                            .size
-                                            .width
-                                            .clamp(0, 800) -
-                                        106) /
-                                    6,
-                                activeColor: const Color(
-                                  0xFF007BFF,
-                                ),
-                                selectedColor: const Color(
-                                  0xFF007BFF,
-                                ),
-                                inactiveColor: const Color(
-                                  0xFF030744,
-                                ),
-                                activeFillColor: Colors.white,
-                                selectedFillColor: Colors.white,
-                                inactiveFillColor: Colors.white,
-                              ),
-                              textStyle: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        child: ActionButton(
-                          text: "Verify",
-                          onTap: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            vm.verifyCode("${widget.purpose}");
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Didn't receive the code?"),
-                          Visibility(
-                            visible: resendSecs > 0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: Text(
-                                "($resendSecs)",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: resendSecs == 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                vm.resendCode();
-                                setState(() {
-                                  resendSecs = maxResendSeconds;
-                                });
-                                startCountDown();
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(4),
-                                child: Text(
-                                  "Resend",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF007BFF),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "Need help? ",
-                                style: TextStyle(
-                                  height: 1.15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFF030744),
-                                ),
-                              ),
-                              TextSpan(
-                                text: "Contact",
-                                style: const TextStyle(
-                                  height: 1.15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF007BFF),
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    launchUrlString("sms://+639686410532");
-                                  },
-                              ),
-                              const TextSpan(
-                                text: " or ",
-                                style: TextStyle(
-                                  height: 1.15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFF030744),
-                                ),
-                              ),
-                              TextSpan(
-                                text: "Message",
-                                style: const TextStyle(
-                                  height: 1.15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF007BFF),
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    launchUrlString(
-                                      "https://www.facebook.com/ppctodaofficial",
-                                      mode: AuthService.device() == "android"
-                                          ? LaunchMode
-                                              .externalNonBrowserApplication
-                                          : LaunchMode.externalApplication,
-                                    );
-                                  },
-                              ),
-                              const TextSpan(
-                                text: " us!",
-                                style: TextStyle(
-                                  height: 1.15,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFF030744),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Expanded(
-                        flex: 1,
-                        child: SizedBox(height: 24),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+    return const Scaffold(
+      backgroundColor: Colors.blue,
     );
+    // return PopScope(
+    //   canPop: false,
+    //   onPopInvokedWithResult: (didPop, result) async {
+    //     if (didPop) {
+    //       return;
+    //     }
+    //     AlertService().showAppAlert(
+    //       title: "Are you sure?",
+    //       content: "You're about to leave this page",
+    //       hideCancel: false,
+    //       confirmText: "Go back",
+    //       confirmAction: () {
+    //         Get.back();
+    //         Get.back();
+    //       },
+    //     );
+    //   },
+    //   child: ViewModelBuilder<VerifyViewModel>.reactive(
+    //     viewModelBuilder: () => verifyViewModel,
+    //     onViewModelReady: (vm) => vm.initialise(
+    //       name: widget.name,
+    //       email: widget.email,
+    //       phone: widget.phone,
+    //       birthday: widget.birthday,
+    //       referral: widget.referral,
+    //       password: widget.password,
+    //     ),
+    //     builder: (context, vm, child) {
+    //       return GestureDetector(
+    //         onTap: () {
+    //           FocusManager.instance.primaryFocus?.unfocus();
+    //         },
+    //         child: Scaffold(
+    //           appBar: AppBar(
+    //             backgroundColor: Colors.white,
+    //             toolbarHeight: 0,
+    //           ),
+    //           backgroundColor: Colors.white,
+    //           body: SingleChildScrollView(
+    //             physics: const BouncingScrollPhysics(),
+    //             child: SizedBox(
+    //               height: MediaQuery.of(context).size.height -
+    //                   MediaQuery.of(context).padding.top -
+    //                   MediaQuery.of(context).padding.bottom,
+    //               child: Column(
+    //                 children: [
+    //                   const SizedBox(height: 12),
+    //                   Row(
+    //                     children: [
+    //                       const SizedBox(width: 4),
+    //                       WidgetButton(
+    //                         onTap: () {
+    //                           AlertService().showAppAlert(
+    //                             title: "Are you sure?",
+    //                             content: "You're about to leave this page",
+    //                             hideCancel: false,
+    //                             confirmText: "Go back",
+    //                             confirmAction: () {
+    //                               Get.back();
+    //                               Get.back();
+    //                             },
+    //                           );
+    //                         },
+    //                         child: const SizedBox(
+    //                           width: 58,
+    //                           height: 58,
+    //                           child: Center(
+    //                             child: Padding(
+    //                               padding: EdgeInsets.only(
+    //                                 top: 2,
+    //                                 right: 4,
+    //                                 bottom: 2,
+    //                               ),
+    //                               child: Icon(
+    //                                 Icons.chevron_left,
+    //                                 color: Color(0xFF030744),
+    //                                 size: 38,
+    //                               ),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       const SizedBox(width: 2),
+    //                       const Text(
+    //                         "Verify Code",
+    //                         style: TextStyle(
+    //                           height: 1,
+    //                           fontSize: 25,
+    //                           fontWeight: FontWeight.w500,
+    //                           color: Color(0xFF030744),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                   const SizedBox(height: 24),
+    //                   Expanded(
+    //                     flex: 2,
+    //                     child: Center(
+    //                       child: Image.asset(
+    //                         AppImages.verify,
+    //                         fit: BoxFit.fitWidth,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   Padding(
+    //                     padding: const EdgeInsets.only(
+    //                       top: 32,
+    //                       left: 24,
+    //                       right: 24,
+    //                     ),
+    //                     child: SizedBox(
+    //                       width: double.infinity.clamp(0, 800),
+    //                       child: Center(
+    //                         child: RichText(
+    //                           text: TextSpan(
+    //                             children: [
+    //                               const TextSpan(
+    //                                 text: "We have sent a 6-digit code to ",
+    //                                 style: TextStyle(
+    //                                   fontSize: 14,
+    //                                   fontFamily: "Inter",
+    //                                   fontWeight: FontWeight.w400,
+    //                                   color: Color(0xFF030744),
+    //                                 ),
+    //                               ),
+    //                               TextSpan(
+    //                                 text: "0${widget.phone}",
+    //                                 style: const TextStyle(
+    //                                   height: 1,
+    //                                   fontSize: 14,
+    //                                   fontFamily: "Inter",
+    //                                   fontWeight: FontWeight.w700,
+    //                                   color: Color(0xFF007BFF),
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   const SizedBox(height: 24),
+    //                   Center(
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.symmetric(
+    //                         horizontal: 24,
+    //                       ),
+    //                       child: SizedBox(
+    //                         height: (MediaQuery.of(context)
+    //                             .size
+    //                             .width
+    //                             .clamp(0, 800) -
+    //                             106) /
+    //                             6,
+    //                         width: double.infinity.clamp(0, 800),
+    //                         child: PinCodeTextField(
+    //                           appContext: context,
+    //                           length: 6,
+    //                           controller: vm.codeTEC,
+    //                           keyboardType: TextInputType.number,
+    //                           animationType: AnimationType.none,
+    //                           autoFocus: true,
+    //                           enableActiveFill: true,
+    //                           pinTheme: PinTheme(
+    //                             shape: PinCodeFieldShape.box,
+    //                             borderRadius: BorderRadius.circular(10),
+    //                             fieldHeight: (MediaQuery.of(context)
+    //                                 .size
+    //                                 .width
+    //                                 .clamp(0, 800) -
+    //                                 106) /
+    //                                 6,
+    //                             fieldWidth: (MediaQuery.of(context)
+    //                                 .size
+    //                                 .width
+    //                                 .clamp(0, 800) -
+    //                                 106) /
+    //                                 6,
+    //                             activeColor: const Color(
+    //                               0xFF007BFF,
+    //                             ),
+    //                             selectedColor: const Color(
+    //                               0xFF007BFF,
+    //                             ),
+    //                             inactiveColor: const Color(
+    //                               0xFF030744,
+    //                             ),
+    //                             activeFillColor: Colors.white,
+    //                             selectedFillColor: Colors.white,
+    //                             inactiveFillColor: Colors.white,
+    //                           ),
+    //                           textStyle: const TextStyle(
+    //                             fontSize: 14,
+    //                             fontWeight: FontWeight.bold,
+    //                           ),
+    //                           onChanged: (value) {},
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   const SizedBox(height: 24),
+    //                   Padding(
+    //                     padding: const EdgeInsets.symmetric(
+    //                       horizontal: 24,
+    //                     ),
+    //                     child: ActionButton(
+    //                       text: "Verify",
+    //                       onTap: () {
+    //                         FocusManager.instance.primaryFocus?.unfocus();
+    //                         vm.verifyCode("${widget.purpose}");
+    //                       },
+    //                     ),
+    //                   ),
+    //                   const SizedBox(height: 24),
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     children: [
+    //                       const Text("Didn't receive the code?"),
+    //                       Visibility(
+    //                         visible: resendSecs > 0,
+    //                         child: Padding(
+    //                           padding: const EdgeInsets.all(4),
+    //                           child: Text(
+    //                             "($resendSecs)",
+    //                             style: const TextStyle(
+    //                               fontWeight: FontWeight.bold,
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       Visibility(
+    //                         visible: resendSecs == 0,
+    //                         child: GestureDetector(
+    //                           onTap: () {
+    //                             vm.resendCode();
+    //                             setState(() {
+    //                               resendSecs = maxResendSeconds;
+    //                             });
+    //                             startCountDown();
+    //                           },
+    //                           child: const Padding(
+    //                             padding: EdgeInsets.all(4),
+    //                             child: Text(
+    //                               "Resend",
+    //                               style: TextStyle(
+    //                                 fontWeight: FontWeight.bold,
+    //                                 color: Color(0xFF007BFF),
+    //                               ),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                   const SizedBox(height: 20),
+    //                   Center(
+    //                     child: RichText(
+    //                       text: TextSpan(
+    //                         children: [
+    //                           const TextSpan(
+    //                             text: "Need help? ",
+    //                             style: TextStyle(
+    //                               height: 1.15,
+    //                               fontWeight: FontWeight.w400,
+    //                               color: Color(0xFF030744),
+    //                             ),
+    //                           ),
+    //                           TextSpan(
+    //                             text: "Contact",
+    //                             style: const TextStyle(
+    //                               height: 1.15,
+    //                               fontWeight: FontWeight.bold,
+    //                               color: Color(0xFF007BFF),
+    //                             ),
+    //                             recognizer: TapGestureRecognizer()
+    //                               ..onTap = () {
+    //                                 launchUrlString("sms://+639686410532");
+    //                               },
+    //                           ),
+    //                           const TextSpan(
+    //                             text: " or ",
+    //                             style: TextStyle(
+    //                               height: 1.15,
+    //                               fontWeight: FontWeight.w400,
+    //                               color: Color(0xFF030744),
+    //                             ),
+    //                           ),
+    //                           TextSpan(
+    //                             text: "Message",
+    //                             style: const TextStyle(
+    //                               height: 1.15,
+    //                               fontWeight: FontWeight.bold,
+    //                               color: Color(0xFF007BFF),
+    //                             ),
+    //                             recognizer: TapGestureRecognizer()
+    //                               ..onTap = () {
+    //                                 launchUrlString(
+    //                                   "https://www.facebook.com/ppctodaofficial",
+    //                                   mode: LaunchMode.externalApplication,
+    //                                 );
+    //                               },
+    //                           ),
+    //                           const TextSpan(
+    //                             text: " us!",
+    //                             style: TextStyle(
+    //                               height: 1.15,
+    //                               fontWeight: FontWeight.w400,
+    //                               color: Color(0xFF030744),
+    //                             ),
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   const Expanded(
+    //                     flex: 1,
+    //                     child: SizedBox(height: 24),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 
   startCountDown() {
@@ -392,7 +391,7 @@ class _VerifyViewState extends State<VerifyView> {
     }
     resendCountdownTimer = Timer.periodic(
       const Duration(seconds: 1),
-      (timer) {
+          (timer) {
         if (resendSecs > 0) {
           if (mounted) {
             setState(() {
