@@ -46,12 +46,16 @@ class VerifyViewModel extends BaseViewModel {
       codeTEC.text = "";
     } else {
       codeTEC.text = "${100000 + Random().nextInt(900000)}";
-      html.Notification(
-        "Ka-TODA",
-        body:
-            "Your OTP is ${codeTEC.text}. Code will expire in ${resendSecs == 0 ? "180" : resendSecs} seconds.",
-        icon: "/icons/webiconsmall.png",
-      );
+      try {
+        html.Notification(
+          "Ka-TODA",
+          body:
+              "Your OTP is ${codeTEC.text}. Code will expire in ${resendSecs == 0 ? "180" : resendSecs} seconds.",
+          icon: "/icons/webiconsmall.png",
+        );
+      } catch (e) {
+        throw e.toString();
+      }
     }
     notifyListeners();
   }
