@@ -86,7 +86,7 @@ class _VerifyViewState extends State<VerifyView> {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             child: const Scaffold(
-              backgroundColor: Colors.pink,
+              backgroundColor: Colors.green,
             ),
           );
         },
