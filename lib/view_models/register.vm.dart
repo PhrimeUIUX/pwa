@@ -33,7 +33,9 @@ class RegisterViewModel extends BaseViewModel {
 
   initialise() async {
     try {
-      await html.Notification.requestPermission();
+      if (html.Notification.permission != "granted") {
+        await html.Notification.requestPermission();
+      }
     } catch (_) {}
   }
 
