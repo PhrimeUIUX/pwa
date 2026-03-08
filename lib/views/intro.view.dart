@@ -154,7 +154,7 @@ class _IntroViewState extends State<IntroView> {
                                         }(),
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),

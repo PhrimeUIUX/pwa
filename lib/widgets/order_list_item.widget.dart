@@ -226,7 +226,8 @@ class _OrderListItemState extends State<OrderListItem> {
               ],
             ),
             const SizedBox(height: 12),
-            AuthService.inReviewMode()
+            AuthService.inReviewMode() ||
+                    isBool(AuthService.currentUser?.isProvider)
                 ? const SizedBox()
                 : SizedBox(
                     height: 32,
@@ -235,38 +236,55 @@ class _OrderListItemState extends State<OrderListItem> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              pickupAddress = Address(
-                                addressLine:
-                                    widget.order.taxiOrder?.pickupAddress,
-                                coordinates: Coordinates(
-                                  widget.order.taxiOrder?.pickupLatitude ??
-                                      double.parse("${initLatLng!.lat}"),
-                                  widget.order.taxiOrder?.pickupLongitude ??
-                                      double.parse("${initLatLng!.lng}"),
-                                ),
-                              );
-                              dropoffAddress = Address(
-                                addressLine:
-                                    widget.order.taxiOrder?.dropoffAddress,
-                                coordinates: Coordinates(
-                                  widget.order.taxiOrder?.dropoffLatitude ??
-                                      double.parse("${initLatLng!.lat}"),
-                                  widget.order.taxiOrder?.dropoffLongitude ??
-                                      double.parse("${initLatLng!.lng}"),
-                                ),
-                              );
-                              Get.until(
-                                (route) => route.isFirst,
-                              );
-                              Get.back();
-
-                              widget.hvm.drawDropPolyLines(
-                                "pickup-dropoff",
-                                pickupAddress!.latLng,
-                                dropoffAddress!.latLng,
-                                null,
-                              );
-                              await widget.hvm.fetchVehicleTypesPricing();
+                              if (widget.hvm.ongoingOrder == null) {
+                                pickupAddress = Address(
+                                  addressLine:
+                                      widget.order.taxiOrder?.pickupAddress,
+                                  coordinates: Coordinates(
+                                    widget.order.taxiOrder?.pickupLatitude ??
+                                        double.parse("${initLatLng!.lat}"),
+                                    widget.order.taxiOrder?.pickupLongitude ??
+                                        double.parse("${initLatLng!.lng}"),
+                                  ),
+                                );
+                                dropoffAddress = Address(
+                                  addressLine:
+                                      widget.order.taxiOrder?.dropoffAddress,
+                                  coordinates: Coordinates(
+                                    widget.order.taxiOrder?.dropoffLatitude ??
+                                        double.parse("${initLatLng!.lat}"),
+                                    widget.order.taxiOrder?.dropoffLongitude ??
+                                        double.parse("${initLatLng!.lng}"),
+                                  ),
+                                );
+                                Get.until(
+                                  (route) => route.isFirst,
+                                );
+                                Get.back();
+                                widget.hvm.drawDropPolyLines(
+                                  "pickup-dropoff",
+                                  pickupAddress!.latLng,
+                                  dropoffAddress!.latLng,
+                                  null,
+                                );
+                                await widget.hvm.fetchVehicleTypesPricing();
+                              } else {
+                                ScaffoldMessenger.of(Get.context!)
+                                    .clearSnackBars();
+                                ScaffoldMessenger.of(
+                                  Get.context!,
+                                ).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                      "You have an ongoing booking",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             style: const ButtonStyle(
                               backgroundColor: WidgetStateColor.transparent,
@@ -298,38 +316,55 @@ class _OrderListItemState extends State<OrderListItem> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              dropoffAddress = Address(
-                                addressLine:
-                                    widget.order.taxiOrder?.pickupAddress,
-                                coordinates: Coordinates(
-                                  widget.order.taxiOrder?.pickupLatitude ??
-                                      double.parse("${initLatLng!.lat}"),
-                                  widget.order.taxiOrder?.pickupLongitude ??
-                                      double.parse("${initLatLng!.lng}"),
-                                ),
-                              );
-                              pickupAddress = Address(
-                                addressLine:
-                                    widget.order.taxiOrder?.dropoffAddress,
-                                coordinates: Coordinates(
-                                  widget.order.taxiOrder?.dropoffLatitude ??
-                                      double.parse("${initLatLng!.lat}"),
-                                  widget.order.taxiOrder?.dropoffLongitude ??
-                                      double.parse("${initLatLng!.lng}"),
-                                ),
-                              );
-                              Get.until(
-                                (route) => route.isFirst,
-                              );
-                              Get.back();
-
-                              widget.hvm.drawDropPolyLines(
-                                "pickup-dropoff",
-                                pickupAddress!.latLng,
-                                dropoffAddress!.latLng,
-                                null,
-                              );
-                              await widget.hvm.fetchVehicleTypesPricing();
+                              if (widget.hvm.ongoingOrder == null) {
+                                dropoffAddress = Address(
+                                  addressLine:
+                                      widget.order.taxiOrder?.pickupAddress,
+                                  coordinates: Coordinates(
+                                    widget.order.taxiOrder?.pickupLatitude ??
+                                        double.parse("${initLatLng!.lat}"),
+                                    widget.order.taxiOrder?.pickupLongitude ??
+                                        double.parse("${initLatLng!.lng}"),
+                                  ),
+                                );
+                                pickupAddress = Address(
+                                  addressLine:
+                                      widget.order.taxiOrder?.dropoffAddress,
+                                  coordinates: Coordinates(
+                                    widget.order.taxiOrder?.dropoffLatitude ??
+                                        double.parse("${initLatLng!.lat}"),
+                                    widget.order.taxiOrder?.dropoffLongitude ??
+                                        double.parse("${initLatLng!.lng}"),
+                                  ),
+                                );
+                                Get.until(
+                                  (route) => route.isFirst,
+                                );
+                                Get.back();
+                                widget.hvm.drawDropPolyLines(
+                                  "pickup-dropoff",
+                                  pickupAddress!.latLng,
+                                  dropoffAddress!.latLng,
+                                  null,
+                                );
+                                await widget.hvm.fetchVehicleTypesPricing();
+                              } else {
+                                ScaffoldMessenger.of(Get.context!)
+                                    .clearSnackBars();
+                                ScaffoldMessenger.of(
+                                  Get.context!,
+                                ).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                      "You have an ongoing booking",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                             style: const ButtonStyle(
                               backgroundColor: WidgetStateColor.transparent,
@@ -356,7 +391,8 @@ class _OrderListItemState extends State<OrderListItem> {
                       ],
                     ),
                   ),
-            AuthService.inReviewMode()
+            AuthService.inReviewMode() ||
+                    isBool(AuthService.currentUser?.isProvider)
                 ? const SizedBox()
                 : const SizedBox(height: 14),
             Divider(
@@ -376,7 +412,7 @@ class _OrderListItemState extends State<OrderListItem> {
                       capitalizeWords(
                         widget.order.driver?.vehicle?.vehicleType?.name == null
                             ? null
-                            : "ride",
+                            : "Via App",
                         alt: "Failed",
                       ),
                       style: TextStyle(
@@ -425,7 +461,11 @@ class _OrderListItemState extends State<OrderListItem> {
                             ),
                           )
                         : Text(
-                            "₱${((widget.order.subTotal ?? 0) + (widget.order.taxiOrder?.pickupFee ?? 0)).toStringAsFixed(0)}",
+                            isBool(AuthService.currentUser?.isProvider)
+                                ? widget.order.discount == 0
+                                    ? "Guest"
+                                    : "Staff"
+                                : "₱${widget.order.total?.toStringAsFixed(0)}",
                             style: TextStyle(
                               height: 1.05,
                               color: () {

@@ -191,13 +191,13 @@ class _MapViewState extends State<MapView> {
                                   focusNode: focusNode,
                                   controller: controller,
                                   style: const TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Color(0xFF030744),
                                   ),
                                   decoration: InputDecoration(
                                     hintStyle: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       color: const Color(0xFF030744)
                                           .withOpacity(0.5),
                                       fontWeight: FontWeight.w500,
@@ -352,7 +352,7 @@ class _MapViewState extends State<MapView> {
                                                             'Unknown',
                                                         style: const TextStyle(
                                                           height: 1.05,
-                                                          fontSize: 15,
+                                                          fontSize: 14,
                                                           color:
                                                               Color(0xFF030744),
                                                           fontWeight:
@@ -550,7 +550,7 @@ class _MapViewState extends State<MapView> {
                                                           TextOverflow.ellipsis,
                                                       style: const TextStyle(
                                                         height: 1.05,
-                                                        fontSize: 15,
+                                                        fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color:

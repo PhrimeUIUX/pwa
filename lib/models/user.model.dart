@@ -27,6 +27,7 @@ class User {
   double? lng;
   double? rating;
   bool? isTest;
+  bool? isProvider;
   int? maxCancelCount;
   bool? isVerified;
   bool isSuspended;
@@ -58,6 +59,7 @@ class User {
     this.lng,
     this.rating,
     this.isTest,
+    this.isProvider,
     this.maxCancelCount,
     this.isVerified,
     this.isSuspended = false,
@@ -168,6 +170,10 @@ class User {
           json?["is_test"] ?? json?["is_dev"],
           "is_dev",
         ),
+        isProvider: parseBool(
+          json?["is_provider"] ?? json?["is_prv"],
+          "is_provider",
+        ),
         maxCancelCount: parseInt(
           json?["max_cancel_count"] ?? json?["cancellation_limit"],
           "cancellation_limit",
@@ -240,6 +246,8 @@ class User {
         "rating": rating,
         "is_dev": isBool(isTest),
         "is_test": isBool(isTest),
+        "is_provider": isBool(isProvider),
+        "is_prv": isBool(isProvider),
         "max_cancel_count": maxCancelCount,
         "cancellation_limit": maxCancelCount,
         "is_kyc": isBool(isVerified),

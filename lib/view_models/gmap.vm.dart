@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'dart:js_util' as js_util;
 import 'package:pwa/utils/data.dart';
+import 'package:pwa/utils/functions.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/models/address.model.dart';
@@ -16,6 +17,9 @@ import 'package:google_maps/google_maps.dart' as gmaps;
 class GMapViewModel extends BaseViewModel {
   gmaps.Map? _map;
   Timer? _debounce;
+  double? total = 0.0;
+  double? subTotal = 0.0;
+  double? discount = 0.0;
   bool isLoading = false;
   bool isInitializing = false;
   List<WebMarker> markers = [];
@@ -48,6 +52,7 @@ class GMapViewModel extends BaseViewModel {
   gmaps.Map? get map => _map;
 
   zoomToCurrentLocation({double zoom = 16}) async {
+    await getMyLatLng();
     if (_map != null) {
       final target = initLatLng;
       _map!.panTo(target!);

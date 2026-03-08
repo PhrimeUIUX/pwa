@@ -197,7 +197,7 @@ class WebViewWidgetState extends State<WebViewWidget> {
                       "An error occurred. Try again later",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         color: Color(0x80030744),
                         fontWeight: FontWeight.bold,
                       ),

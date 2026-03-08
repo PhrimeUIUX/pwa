@@ -20,7 +20,8 @@ void main() async {
     options: const FirebaseOptions(
       apiKey: "AIzaSyA3tvPnJN8hy3HksAFLDkMHDAC6wMeXS-Q",
       authDomain: "toda-pal.firebaseapp.com",
-      databaseURL: "https://toda-pal-default-rtdb.asia-southeast1.firebasedatabase.app",
+      databaseURL:
+          "https://toda-pal-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "toda-pal",
       storageBucket: "toda-pal.firebasestorage.app",
       messagingSenderId: "599344409686",

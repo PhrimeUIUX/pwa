@@ -16,7 +16,7 @@ class ActionButton extends StatefulWidget {
     required this.text,
     required this.onTap,
     this.style = const TextStyle(
-      fontSize: 16,
+      fontSize: 14,
       color: Colors.white,
       fontWeight: FontWeight.bold,
     ),
@@ -77,6 +77,7 @@ class _ActionButtonState extends State<ActionButton> {
                 child: Text(
                   widget.text,
                   style: widget.style,
+                  textAlign: TextAlign.center,
                 ),
               ),
             );

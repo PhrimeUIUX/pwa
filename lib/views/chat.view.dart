@@ -522,7 +522,7 @@ class _ChatViewState extends State<ChatView> {
                                                                   .text,
                                                               style:
                                                                   const TextStyle(
-                                                                fontSize: 15,
+                                                                fontSize: 14,
                                                                 height: 1.15,
                                                                 color: Colors
                                                                     .white,
@@ -824,7 +824,7 @@ class _ChatViewState extends State<ChatView> {
                                                 Text(
                                                   "Cancel",
                                                   style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.white,
                                                   ),
@@ -925,7 +925,7 @@ class _ChatViewState extends State<ChatView> {
                                                       Text(
                                                         "Send",
                                                         style: TextStyle(
-                                                          fontSize: 18,
+                                                          fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           color: Colors.white,

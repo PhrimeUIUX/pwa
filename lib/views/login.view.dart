@@ -310,7 +310,7 @@ class _LoginViewState extends State<LoginView> {
                                       const Text(
                                         "Sign in with Google",
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Color(0xFF030744),
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -325,7 +325,7 @@ class _LoginViewState extends State<LoginView> {
                       const Text(
                         "or",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Color(0xFF030744),
                           fontWeight: FontWeight.bold,
                         ),

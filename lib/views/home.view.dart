@@ -100,13 +100,6 @@ class _HomeViewState extends State<HomeView> {
                   },
                   onLongPress: () {
                     if (AuthService.isLoggedIn()) {
-                      // Clipboard.setData(
-                      //   ClipboardData(
-                      //     text: lowerCase(
-                      //       AuthService.currentUser?.code,
-                      //     ),
-                      //   ),
-                      // );
                       copyToClipboardWeb(
                         lowerCase(
                           AuthService.currentUser?.code,
@@ -197,7 +190,7 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                 style: const TextStyle(
                                   height: 1.05,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Color(
                                     0xFF030744,
@@ -423,10 +416,11 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 GoogleMapWidget(
                                   center: center,
-                                  enableGestures: !vm.isDisabled &&
-                                      isAdSeen &&
+                                  enableGestures: isAdSeen &&
                                       isAd1Seen &&
                                       !vm.showReport &&
+                                      !vm.isDisabled &&
+                                      !vm.showAnalytics &&
                                       (isBool(vm.userSeen) ||
                                           vm.dvrMessage == null ||
                                           vm.dvrMessage == "null" ||
@@ -478,44 +472,49 @@ class _HomeViewState extends State<HomeView> {
                                 Positioned(
                                   top: 20,
                                   left: 20,
-                                  child: _FloatingButton(
+                                  child: FloatingButton(
                                     icon: Icons.menu,
                                     onTap: () {
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
                                   ),
                                 ),
+                                !isBool(
+                                  AuthService.currentUser?.isProvider,
+                                )
+                                    ? const SizedBox()
+                                    : Positioned(
+                                        top: 20,
+                                        left: 20,
+                                        right: 20,
+                                        child: Center(
+                                          child: FloatingButton(
+                                            icon: vm.showAnalytics
+                                                ? Icons.close
+                                                : Icons.analytics_outlined,
+                                            iconColor: vm.showAnalytics
+                                                ? Colors.red
+                                                : const Color(0xFF007BFF),
+                                            onTap: () {
+                                              setState(() {
+                                                vm.showAnalytics =
+                                                    !vm.showAnalytics;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                 Positioned(
                                   top: 20,
                                   right: 20,
-                                  child: _FloatingButton(
+                                  child: FloatingButton(
                                     icon: Icons.my_location_outlined,
                                     onTap: () async {
                                       final a = vm.disposed;
                                       final b = vm.markers;
                                       final c = vm.selectedAddress.value;
                                       if (b.isEmpty) {
-                                        if (initLatLng?.lat != 9.7638 &&
-                                            initLatLng?.lng != 118.7473) {
-                                          vm.zoomToCurrentLocation();
-                                        } else {
-                                          ScaffoldMessenger.of(
-                                            Get.context!,
-                                          ).clearSnackBars();
-                                          ScaffoldMessenger.of(
-                                            Get.context!,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              backgroundColor: Colors.red,
-                                              content: Text(
-                                                "There was a problem with your location detection",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }
+                                        vm.zoomToCurrentLocation();
                                       } else {
                                         if (vm.ongoingOrder == null) {
                                           vm.drawDropPolyLines(
@@ -547,7 +546,7 @@ class _HomeViewState extends State<HomeView> {
                                   bottom: 20,
                                   child: Column(
                                     children: [
-                                      _FloatingButton(
+                                      FloatingButton(
                                         icon: Icons.cached_outlined,
                                         onTap: () async {
                                           if (!AuthService.isLoggedIn()) {
@@ -607,7 +606,7 @@ class _HomeViewState extends State<HomeView> {
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      _FloatingButton(
+                                      FloatingButton(
                                         icon: Icons.share,
                                         onTap: () {
                                           share(
@@ -623,7 +622,7 @@ class _HomeViewState extends State<HomeView> {
                                   bottom: 20,
                                   child: Column(
                                     children: [
-                                      _FloatingButton(
+                                      FloatingButton(
                                         icon: Icons.add,
                                         onTap: () async {
                                           final a = vm.disposed;
@@ -641,7 +640,7 @@ class _HomeViewState extends State<HomeView> {
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      _FloatingButton(
+                                      FloatingButton(
                                         icon: Icons.remove,
                                         onTap: () async {
                                           final a = vm.disposed;
@@ -690,7 +689,9 @@ class _HomeViewState extends State<HomeView> {
                                                 });
                                               },
                                             ),
-                                            const SizedBox(width: 12),
+                                            const SizedBox(
+                                              width: 12,
+                                            ),
                                             PartnerButtonWidget(
                                               image: AppImages.sbb,
                                               show: true,
@@ -719,6 +720,420 @@ class _HomeViewState extends State<HomeView> {
                                               0xFF007BFF,
                                             ),
                                             size: 50,
+                                          ),
+                                        ),
+                                      ),
+                                !vm.showAnalytics ||
+                                        !isBool(
+                                          AuthService.currentUser?.isProvider,
+                                        )
+                                    ? const SizedBox()
+                                    : Positioned(
+                                        top: 80,
+                                        left: 16,
+                                        right: 16,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(8),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(
+                                                  0xFF030744,
+                                                ).withOpacity(0.25),
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(
+                                                16,
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 72,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                8,
+                                                              ),
+                                                            ),
+                                                            border: Border.all(
+                                                              color:
+                                                                  const Color(
+                                                                0xFF030744,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons
+                                                                    .today_outlined,
+                                                                size: 32,
+                                                                color: Color(
+                                                                  0xFF030744,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 2,
+                                                              ),
+                                                              Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "₱${vm.user?["today_amount"] ?? 0}",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const Text(
+                                                                    "Today",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          11,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 16,
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 72,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                8,
+                                                              ),
+                                                            ),
+                                                            border: Border.all(
+                                                              color:
+                                                                  const Color(
+                                                                0xFF030744,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons
+                                                                    .calendar_month_outlined,
+                                                                size: 32,
+                                                                color: Color(
+                                                                  0xFF030744,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 2,
+                                                              ),
+                                                              Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "₱${vm.user?["month_amount"] ?? 0}",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    DateFormat(
+                                                                      "MMMM",
+                                                                    ).format(
+                                                                      DateTime
+                                                                          .now(),
+                                                                    ),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          11,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 16),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 72,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                8,
+                                                              ),
+                                                            ),
+                                                            border: Border.all(
+                                                              color:
+                                                                  const Color(
+                                                                0xFF030744,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons.list_alt,
+                                                                size: 32,
+                                                                color: Color(
+                                                                  0xFF030744,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 2,
+                                                              ),
+                                                              Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "₱${vm.user?["total_amount"] ?? 0}",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const Text(
+                                                                    "Total",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          11,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 16,
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 72,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                8,
+                                                              ),
+                                                            ),
+                                                            border: Border.all(
+                                                              color:
+                                                                  const Color(
+                                                                0xFF030744,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                Icons
+                                                                    .add_chart_outlined,
+                                                                size: 32,
+                                                                color: Color(
+                                                                  0xFF030744,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 2,
+                                                              ),
+                                                              Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "₱${vm.user?["markup_amount"] ?? 0}",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const Text(
+                                                                    "Markup",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      height:
+                                                                          1.05,
+                                                                      fontSize:
+                                                                          11,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color:
+                                                                          Color(
+                                                                        0xFF030744,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1335,7 +1750,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 ),
                                                                                 style: const TextStyle(
                                                                                   height: 1.05,
-                                                                                  fontSize: 16,
+                                                                                  fontSize: 14,
                                                                                   color: Color(
                                                                                     0xFF007BFF,
                                                                                   ),
@@ -1377,7 +1792,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             Expanded(
                                                                               child: WidgetButton(
                                                                                 borderRadius: 8,
-                                                                                mainColor: vm.paymentMethodId == 1
+                                                                                mainColor: vm.paymentId == 1
                                                                                     ? const Color(
                                                                                         0xFF007BFF,
                                                                                       )
@@ -1398,11 +1813,15 @@ class _HomeViewState extends State<HomeView> {
                                                                                   ),
                                                                                   child: Center(
                                                                                     child: Text(
-                                                                                      "Cash",
+                                                                                      isBool(
+                                                                                        AuthService.currentUser?.isProvider,
+                                                                                      )
+                                                                                          ? "Guest"
+                                                                                          : "Cash",
                                                                                       textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                         fontWeight: FontWeight.bold,
-                                                                                        color: vm.paymentMethodId == 1
+                                                                                        color: vm.paymentId == 1
                                                                                             ? Colors.white
                                                                                             : const Color(
                                                                                                 0xFF007BFF,
@@ -1428,8 +1847,13 @@ class _HomeViewState extends State<HomeView> {
                                                                                     );
                                                                                   } else {
                                                                                     setState(() {
-                                                                                      vm.paymentMethodId = 1;
+                                                                                      vm.paymentId = 1;
                                                                                     });
+                                                                                    if (isBool(
+                                                                                      AuthService.currentUser?.isProvider,
+                                                                                    )) {
+                                                                                      vm.calculateTotalAmount();
+                                                                                    }
                                                                                   }
                                                                                 },
                                                                               ),
@@ -1440,7 +1864,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             Expanded(
                                                                               child: WidgetButton(
                                                                                 borderRadius: 8,
-                                                                                mainColor: vm.paymentMethodId != 1
+                                                                                mainColor: vm.paymentId != 1
                                                                                     ? const Color(
                                                                                         0xFF007BFF,
                                                                                       )
@@ -1461,11 +1885,15 @@ class _HomeViewState extends State<HomeView> {
                                                                                   ),
                                                                                   child: Center(
                                                                                     child: Text(
-                                                                                      "Load",
+                                                                                      isBool(
+                                                                                        AuthService.currentUser?.isProvider,
+                                                                                      )
+                                                                                          ? "Staff"
+                                                                                          : "Load",
                                                                                       textAlign: TextAlign.center,
                                                                                       style: TextStyle(
                                                                                         fontWeight: FontWeight.bold,
-                                                                                        color: vm.paymentMethodId != 1
+                                                                                        color: vm.paymentId != 1
                                                                                             ? Colors.white
                                                                                             : const Color(
                                                                                                 0xFF007BFF,
@@ -1491,8 +1919,13 @@ class _HomeViewState extends State<HomeView> {
                                                                                     );
                                                                                   } else {
                                                                                     setState(() {
-                                                                                      vm.paymentMethodId = 8;
+                                                                                      vm.paymentId = 8;
                                                                                     });
+                                                                                    if (isBool(
+                                                                                      AuthService.currentUser?.isProvider,
+                                                                                    )) {
+                                                                                      vm.calculateTotalAmount();
+                                                                                    }
                                                                                   }
                                                                                 },
                                                                               ),
@@ -1597,7 +2030,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                   "₱${gLoad == null ? AuthService.isLoggedIn() ? "•••" : "0" : gLoad?.balance?.toStringAsFixed(0)}",
                                                                                   style: const TextStyle(
                                                                                     height: 1.05,
-                                                                                    fontSize: 16,
+                                                                                    fontSize: 14,
                                                                                     color: Color(
                                                                                       0xFF007BFF,
                                                                                     ),
@@ -1606,6 +2039,7 @@ class _HomeViewState extends State<HomeView> {
                                                                                 ),
                                                                                 const Text(
                                                                                   "TODA Load",
+                                                                                  textAlign: TextAlign.center,
                                                                                   style: TextStyle(
                                                                                     height: 1.05,
                                                                                     fontSize: 12,
@@ -2163,7 +2597,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         .status !=
                                                                     "cancelled"
                                                             ? null
-                                                            : 18,
+                                                            : 16,
                                                         color: vm.ongoingOrder !=
                                                                     null &&
                                                                 vm.ongoingOrder!
@@ -2224,7 +2658,7 @@ class _HomeViewState extends State<HomeView> {
                                                                     : vm
                                                                             .isPreparing
                                                                         ? "•••"
-                                                                        : "${((vm.ongoingOrder!.subTotal ?? 0) + (vm.ongoingOrder!.taxiOrder?.pickupFee ?? 0)).toStringAsFixed(0)} ${vm.ongoingOrder!.paymentMethodId == 1 ? "Cash" : "Load"}"
+                                                                        : "${isBool(AuthService.currentUser?.isProvider) ? "₱" : ""}${((vm.ongoingOrder?.total ?? 0) + (isBool(AuthService.currentUser?.isProvider) && (vm.ongoingOrder?.discount ?? 0) == 0 ? (vm.user?["markup_amount"] ?? 0) : 0)).toStringAsFixed(0)}${isBool(AuthService.currentUser?.isProvider) ? "" : " "}${isBool(AuthService.currentUser?.isProvider) ? "" : vm.ongoingOrder!.paymentMethodId == 1 ? "Cash" : "Load"}"
                                                                 : vm.selectedVehicle ==
                                                                         null
                                                                     ? AuthService
@@ -2241,7 +2675,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             : "${vm.selectedVehicle?.kmDistance?.toStringAsFixed(1)} km"
                                                                         : vm.isPreparing
                                                                             ? "•••"
-                                                                            : "${vm.selectedVehicle?.total?.toStringAsFixed(0)} ${vm.paymentMethodId == 1 ? "Cash" : "Load"}",
+                                                                            : "${isBool(AuthService.currentUser?.isProvider) ? "₱" : ""}${vm.total?.toStringAsFixed(0)}${isBool(AuthService.currentUser?.isProvider) ? "" : " "}${isBool(AuthService.currentUser?.isProvider) ? "" : vm.paymentId == 1 ? "Cash" : "Load"}",
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style:
@@ -2969,7 +3403,7 @@ class _HomeViewState extends State<HomeView> {
                                                                             .shrink(),
                                                                       ),
                                                                       Text(
-                                                                        "₱${((vm.ongoingOrder?.subTotal ?? 0) + (vm.ongoingOrder?.taxiOrder?.pickupFee ?? 0)).toStringAsFixed(0)}",
+                                                                        "₱${((vm.ongoingOrder?.total ?? 0) + (isBool(AuthService.currentUser?.isProvider) && (vm.ongoingOrder?.discount ?? 0) == 0 ? (vm.user?["markup_amount"] ?? 0) : 0)).toStringAsFixed(0)}",
                                                                         style:
                                                                             const TextStyle(
                                                                           color:
@@ -3016,7 +3450,8 @@ class _HomeViewState extends State<HomeView> {
                                                                             .shrink(),
                                                                       ),
                                                                       Text(
-                                                                        vm.ongoingOrder?.paymentMethodId == 1
+                                                                        vm.ongoingOrder?.paymentMethodId ==
+                                                                                1
                                                                             ? "Cash"
                                                                             : "Load",
                                                                         style:
@@ -3062,7 +3497,7 @@ class _HomeViewState extends State<HomeView> {
                                                               style:
                                                                   const TextStyle(
                                                                 height: 1,
-                                                                fontSize: 15,
+                                                                fontSize: 14,
                                                                 color: Color(
                                                                   0xFF007BFF,
                                                                 ),
@@ -3256,7 +3691,7 @@ class _HomeViewState extends State<HomeView> {
                                                                 style:
                                                                     const TextStyle(
                                                                   height: 1.15,
-                                                                  fontSize: 16,
+                                                                  fontSize: 14,
                                                                   fontFamily:
                                                                       "Inter",
                                                                   fontWeight:
@@ -3365,7 +3800,7 @@ class _HomeViewState extends State<HomeView> {
                                                                     "Report Driver",
                                                                 style:
                                                                     const TextStyle(
-                                                                  fontSize: 15,
+                                                                  fontSize: 14,
                                                                   color: Colors
                                                                       .white,
                                                                   fontWeight:
@@ -3836,7 +4271,7 @@ class _HomeViewState extends State<HomeView> {
                                                           Text(
                                                             "Close",
                                                             style: TextStyle(
-                                                              fontSize: 18,
+                                                              fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -3935,7 +4370,7 @@ class _HomeViewState extends State<HomeView> {
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
-                                                                        18,
+                                                                        16,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -4113,11 +4548,14 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
-class _FloatingButton extends StatelessWidget {
+class FloatingButton extends StatelessWidget {
   final IconData icon;
+  final Color? iconColor;
   final VoidCallback onTap;
 
-  const _FloatingButton({
+  const FloatingButton({
+    super.key,
+    this.iconColor = const Color(0xFF030744),
     required this.icon,
     required this.onTap,
   });
@@ -4145,9 +4583,7 @@ class _FloatingButton extends StatelessWidget {
         child: Center(
           child: Icon(
             icon,
-            color: const Color(
-              0xFF030744,
-            ),
+            color: iconColor,
           ),
         ),
       ),

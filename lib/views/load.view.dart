@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
+import 'package:pwa/utils/functions.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/view_models/load.vm.dart';
@@ -152,7 +153,7 @@ class _LoadViewState extends State<LoadView> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             height: 1.05,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w400,
                                             color: Color(
                                               0xFF09244B,
@@ -255,6 +256,121 @@ class _LoadViewState extends State<LoadView> {
                                           ],
                                         ),
                                       ),
+                                      !isBool(AuthService.currentUser?.isProvider)
+                                          ? const SizedBox()
+                                          : Column(
+                                              children: [
+                                                const SizedBox(height: 24),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 24,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 38,
+                                                          child: WidgetButton(
+                                                            onTap: () {
+                                                              Get.back();
+                                                              vm.initiateLoadTopUp(
+                                                                "1000",
+                                                              );
+                                                            },
+                                                            borderRadius: 8,
+                                                            mainColor:
+                                                                const Color(
+                                                              0xFF007BFF,
+                                                            ),
+                                                            useDefaultHoverColor:
+                                                                false,
+                                                            child: const Center(
+                                                              child: Text(
+                                                                "₱1000",
+                                                                style:
+                                                                    TextStyle(
+                                                                  height: 1,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 16),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 38,
+                                                          child: WidgetButton(
+                                                            onTap: () {
+                                                              Get.back();
+                                                              vm.initiateLoadTopUp(
+                                                                "3000",
+                                                              );
+                                                            },
+                                                            borderRadius: 8,
+                                                            mainColor:
+                                                                const Color(
+                                                              0xFF007BFF,
+                                                            ),
+                                                            useDefaultHoverColor:
+                                                                false,
+                                                            child: const Center(
+                                                              child: Text(
+                                                                "₱3000",
+                                                                style:
+                                                                    TextStyle(
+                                                                  height: 1,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 16),
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          height: 38,
+                                                          child: WidgetButton(
+                                                            onTap: () {
+                                                              Get.back();
+                                                              vm.initiateLoadTopUp(
+                                                                "5000",
+                                                              );
+                                                            },
+                                                            borderRadius: 8,
+                                                            mainColor:
+                                                                const Color(
+                                                              0xFF007BFF,
+                                                            ),
+                                                            useDefaultHoverColor:
+                                                                false,
+                                                            child: const Center(
+                                                              child: Text(
+                                                                "₱5000",
+                                                                style:
+                                                                    TextStyle(
+                                                                  height: 1,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                       const SizedBox(height: 24),
                                     ],
                                   ),

@@ -48,26 +48,70 @@ class GeocoderService extends HttpService {
 
   Future<List<Address>> findAddressesFromQuery(String keyword) async {
     String latLng = "${initLatLng?.lat},${initLatLng?.lng}";
-    final apiResult = await get(
-      !isBool(AppStrings.appSettingsObject?["strings"][useExt] ?? true)
-          ? Api.baseUrl + Api.geoAddresses
-          : "https://backrideph.online/api/geocoder/reserve",
-      queryParameters: {
-        "keyword": keyword,
-        "location": latLng,
-      },
-    ).timeout(const Duration(seconds: 30));
-    final apiResponse = ApiResponse.fromResponse(apiResult);
-    if (apiResponse.allGood) {
-      return (apiResponse.data).map(
-        (e) {
-          final address = Address.fromServerMap(e);
-          address.gMapPlaceId = e["place_id"] ?? "";
-          return address;
-        },
-      ).toList();
+    bool useExternal = isBool(
+      AppStrings.appSettingsObject?["strings"][useExt] ?? true,
+    );
+    List<Address> results = [];
+    if (useExternal) {
+      try {
+        final response = await get(
+          "https://backrideph.online/api/geocoder/reserve",
+          queryParameters: {
+            "keyword": keyword,
+            "location": latLng,
+          },
+        ).timeout(const Duration(seconds: 30));
+        final apiResponse = ApiResponse.fromResponse(response);
+        if (apiResponse.allGood) {
+          return (apiResponse.data).map((e) {
+            final address = Address.fromServerMap(e);
+            address.gMapPlaceId = e["place_id"] ?? "";
+            return address;
+          }).toList();
+        }
+      } catch (_) {}
+      return [];
     }
-    return [];
+    try {
+      final mainResponse = await get(
+        Api.geoAddresses,
+        queryParameters: {
+          "keyword": keyword,
+          "location": latLng,
+        },
+      ).timeout(const Duration(seconds: 30));
+      final apiResponse = ApiResponse.fromResponse(mainResponse);
+      if (apiResponse.allGood) {
+        results.addAll(
+          (apiResponse.data).map((e) {
+            final address = Address.fromServerMap(e);
+            address.gMapPlaceId = e["place_id"] ?? "";
+            return address;
+          }),
+        );
+      }
+    } catch (_) {}
+    try {
+      final backrideResponse = await get(
+        "https://backrideph.online/api/geocoder/reserve",
+        queryParameters: {
+          "keyword": keyword,
+          "location": latLng,
+        },
+      ).timeout(const Duration(seconds: 30));
+
+      final apiResponse = ApiResponse.fromResponse(backrideResponse);
+      if (apiResponse.allGood) {
+        results.addAll(
+          (apiResponse.data).map((e) {
+            final address = Address.fromServerMap(e);
+            address.gMapPlaceId = e["place_id"] ?? "";
+            return address;
+          }),
+        );
+      }
+    } catch (_) {}
+    return results;
   }
 
   Future<Address> fetchPlaceDetails(Address address) async {

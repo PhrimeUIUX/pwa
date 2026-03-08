@@ -427,7 +427,7 @@ class _RegisterViewState extends State<RegisterView> {
                                         child: const Text(
                                           "Set",
                                           style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -793,7 +793,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       const Text(
                                         "Sign up with Google",
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           color: Color(0xFF030744),
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -808,7 +808,7 @@ class _RegisterViewState extends State<RegisterView> {
                       const Text(
                         "or",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Color(0xFF030744),
                           fontWeight: FontWeight.bold,
                         ),

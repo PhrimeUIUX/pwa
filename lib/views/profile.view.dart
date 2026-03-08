@@ -269,7 +269,7 @@ class _ProfileViewState extends State<ProfileView> {
                               Text(
                                 "Account Information",
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF030744),
                                 ),

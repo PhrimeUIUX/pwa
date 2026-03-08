@@ -34,7 +34,7 @@ class _DetailsViewState extends State<DetailsView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<DetailsViewModel>.reactive(
       viewModelBuilder: () => detailsViewModel,
-      onViewModelReady: (vm) => vm.initialise(),
+      onViewModelReady: (vm) => vm.initialise(widget.order),
       builder: (context, vm, child) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -527,9 +527,9 @@ class _DetailsViewState extends State<DetailsView> {
                                     ),
                                   ),
                                 ),
-                                const Text(
-                                  "Via App",
-                                  style: TextStyle(
+                                Text(
+                                  "Via App${isBool(AuthService.currentUser?.isProvider) ? " | ${widget.order.discount == 0 ? "Guest" : "Staff"}" : ""}",
+                                  style: const TextStyle(
                                     height: 1,
                                     fontSize: 14,
                                     color: Colors.green,
@@ -656,7 +656,7 @@ class _DetailsViewState extends State<DetailsView> {
                                       ),
                                       const Expanded(child: SizedBox.shrink()),
                                       Text(
-                                        "₱${((widget.order.subTotal ?? 0) + (widget.order.taxiOrder?.pickupFee ?? 0)).toStringAsFixed(0)}",
+                                        "₱${((widget.order.total ?? 0) + (isBool(AuthService.currentUser?.isProvider) && (widget.order.discount ?? 0) == 0 ? (vm.orderData?["markup_amount"] ?? 0) : 0)).toStringAsFixed(0)}",
                                         style: const TextStyle(
                                           color: Colors.green,
                                         ),
@@ -714,7 +714,7 @@ class _DetailsViewState extends State<DetailsView> {
                           text: "Report an issue",
                           style: const TextStyle(
                             height: 1,
-                            fontSize: 15,
+                            fontSize: 14,
                             color: Color(0xFF007BFF),
                             fontWeight: FontWeight.bold,
                           ),

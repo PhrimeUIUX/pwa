@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
+import 'package:pwa/utils/functions.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/models/address.model.dart';
@@ -86,6 +87,7 @@ class MapViewModel extends BaseViewModel {
   gmaps.Map? get map => _map;
 
   zoomToCurrentLocation({double zoom = 16}) async {
+    await getMyLatLng();
     if (_map != null) {
       final target = initLatLng;
       _map!.panTo(target!);

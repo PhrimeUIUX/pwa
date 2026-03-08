@@ -1,6 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/utils/functions.dart';
@@ -14,7 +17,6 @@ import 'package:pwa/models/address.model.dart';
 import 'package:pwa/requests/auth.request.dart';
 import 'package:pwa/services/chat.service.dart';
 import 'package:pwa/services/auth.service.dart';
-import 'package:pwa/services/http.service.dart';
 import 'package:pwa/widgets/button.widget.dart';
 import 'package:pwa/models/peer_user.model.dart';
 import 'package:pwa/services/alert.service.dart';
@@ -26,18 +28,21 @@ import 'package:pwa/models/api_response.model.dart';
 
 class HomeViewModel extends GMapViewModel {
   bool? userSeen;
+  Timer? dbTimer;
+  int paymentId = 1;
   String? dvrMessage;
   String? lastStatus;
   Order? ongoingOrder;
   double rating = 5.0;
   int vehicleIndex = 0;
-  Timer? debounceTimer;
-  int paymentMethodId = 1;
   bool snackShown = true;
   bool showReport = false;
   bool isDisabled = false;
   bool isPreparing = false;
   bool blockCamera = false;
+  bool showAnalytics = false;
+  Map<String, dynamic>? user;
+  Map<String, dynamic>? order;
   VehicleType? selectedVehicle;
   Map<String, dynamic>? cHeaders;
   double driverPositionRotation = 0;
@@ -79,12 +84,27 @@ class HomeViewModel extends GMapViewModel {
     notifyListeners();
   }
 
+  calculateTotalAmount() {
+    subTotal = selectedVehicle?.total ?? 0;
+    if (paymentId == 8 && isBool(AuthService.currentUser?.isProvider)) {
+      discount = (5 / 100) * subTotal!;
+    } else {
+      discount = 0;
+    }
+    total = (subTotal ?? 0) - (discount ?? 0);
+    if (paymentId != 8 && isBool(AuthService.currentUser?.isProvider)) {
+      total = total! + (user?["markup_amount"] ?? 0);
+    }
+    notifyListeners();
+  }
+
   changeSelectedVehicle(VehicleType vehicleType) {
     if (vehicleTypes.isNotEmpty) {
       selectedVehicle = vehicleTypes.firstWhere(
         (vType) => vType.name == vehicleType.name,
       );
     }
+    calculateTotalAmount();
   }
 
   fetchVehicleTypesPricing() async {
@@ -109,6 +129,7 @@ class HomeViewModel extends GMapViewModel {
           orElse: () => vehicleTypes.first,
         ),
       );
+      calculateTotalAmount();
     }
     setBusyForObject(vehicleTypes, false);
   }
@@ -166,8 +187,6 @@ class HomeViewModel extends GMapViewModel {
           snackShown = true;
         }
       }
-    } else {
-      // Get.until((route) => route.isFirst);
     }
     notifyListeners();
     setBusyForObject(ongoingOrder, false);
@@ -271,7 +290,7 @@ class HomeViewModel extends GMapViewModel {
                       "Searching for vehicles",
                       style: TextStyle(
                         height: 1.05,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -303,7 +322,7 @@ class HomeViewModel extends GMapViewModel {
                         mainColor: Colors.red.shade100,
                         style: const TextStyle(
                           height: 1,
-                          fontSize: 15,
+                          fontSize: 14,
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
@@ -340,7 +359,7 @@ class HomeViewModel extends GMapViewModel {
             AlertService().showAppAlert(
               title: "Driver is Distant",
               content:
-                  "Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up",
+                  'Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up.\nThe new fare will be "₱${((availableDriver?.pickupChargeFee?.ceil() ?? 0) + total!).toStringAsFixed(0)}"',
               hideCancel: false,
               confirmText: "Accept",
               confirmColor: Colors.red,
@@ -393,45 +412,69 @@ class HomeViewModel extends GMapViewModel {
   }
 
   placeNewOrder() async {
-    dynamic params = {
-      "is_pautos": false,
-      "is_delivery": false,
-      "has_luggage": false,
-      "is_mov_reached": false,
-      "includes_ride_cover": false,
-      "includes_shower_cap": false,
-      "tip": 0.0,
-      "discount": 0.0,
-      "coupon_code": null,
-      "payment_method": null,
-      "total": selectedVehicle?.total,
-      "sub_total": selectedVehicle?.total,
-      "payment_method_id": paymentMethodId,
-      "vehicle_type_id": selectedVehicle?.id,
-      "vehicle_type": selectedVehicle?.encrypted,
-      "actual": {
-        "lat": initLatLng?.lat,
-        "lng": initLatLng?.lng,
-      },
-      "pickup": {
-        "lat": pickupAddress?.coordinates.latitude,
-        "lng": pickupAddress?.coordinates.longitude,
-        "address": pickupAddress?.addressLine,
-      },
-      "dropoff": {
-        "lat": dropoffAddress?.coordinates.latitude,
-        "lng": dropoffAddress?.coordinates.longitude,
-        "address": dropoffAddress?.addressLine,
-      },
-      // "driver_accept_latitude":
-      //     isBool(AppStrings.homeSettingsObject?["enable_prc"] ?? true)
-      //         ? availableDriver?.driver?.lat
-      //         : null,
-      // "driver_accept_longitude":
-      //     isBool(AppStrings.homeSettingsObject?["enable_prc"] ?? true)
-      //         ? availableDriver?.driver?.lng
-      //         : null,
-    };
+    dynamic params = isBool(AuthService.currentUser?.isProvider)
+        ? {
+            "tip": 0.0,
+            "total": total,
+            "is_pautos": false,
+            "is_delivery": false,
+            "has_luggage": false,
+            "discount": discount,
+            "sub_total": subTotal,
+            "payment_method": null,
+            "payment_method_id": 8,
+            "is_mov_reached": false,
+            "includes_ride_cover": false,
+            "includes_shower_cap": false,
+            "vehicle_type_id": selectedVehicle?.id,
+            "vehicle_type": selectedVehicle?.encrypted,
+            "coupon_code": paymentId != 8 ? null : "employee",
+            "actual": {
+              "lat": initLatLng?.lat,
+              "lng": initLatLng?.lng,
+            },
+            "pickup": {
+              "lat": pickupAddress?.coordinates.latitude,
+              "lng": pickupAddress?.coordinates.longitude,
+              "address": pickupAddress?.addressLine,
+            },
+            "dropoff": {
+              "lat": dropoffAddress?.coordinates.latitude,
+              "lng": dropoffAddress?.coordinates.longitude,
+              "address": dropoffAddress?.addressLine,
+            },
+          }
+        : {
+            "is_pautos": false,
+            "is_delivery": false,
+            "has_luggage": false,
+            "is_mov_reached": false,
+            "includes_ride_cover": false,
+            "includes_shower_cap": false,
+            "tip": 0.0,
+            "discount": 0.0,
+            "coupon_code": null,
+            "payment_method": null,
+            "payment_method_id": paymentId,
+            "total": selectedVehicle?.total,
+            "sub_total": selectedVehicle?.total,
+            "vehicle_type_id": selectedVehicle?.id,
+            "vehicle_type": selectedVehicle?.encrypted,
+            "actual": {
+              "lat": initLatLng?.lat,
+              "lng": initLatLng?.lng,
+            },
+            "pickup": {
+              "lat": pickupAddress?.coordinates.latitude,
+              "lng": pickupAddress?.coordinates.longitude,
+              "address": pickupAddress?.addressLine,
+            },
+            "dropoff": {
+              "lat": dropoffAddress?.coordinates.latitude,
+              "lng": dropoffAddress?.coordinates.longitude,
+              "address": dropoffAddress?.addressLine,
+            },
+          };
     AlertService().showLoading();
     try {
       ApiResponse apiResponse = await taxiRequest.placeNewOrderRequest(
@@ -543,7 +586,7 @@ class HomeViewModel extends GMapViewModel {
                   AlertService().showAppAlert(
                     title: "Driver is Distant",
                     content:
-                        "Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up",
+                        'Ka-TODA, the nearest driver is\n${availableDriver?.pickupKm?.toStringAsFixed(1) ?? 0} km away. An additional fare of\n₱${availableDriver?.pickupChargeFee?.ceil().toStringAsFixed(0)} will apply for picking you up.\nThe new fare will be "₱${((availableDriver?.pickupChargeFee?.ceil() ?? 0) + total!).toStringAsFixed(0)}"',
                     hideCancel: false,
                     confirmText: "Accept",
                     confirmColor: Colors.red,
@@ -722,10 +765,10 @@ class HomeViewModel extends GMapViewModel {
   }
 
   startHandlingOngoingOrder() async {
-    if (debounceTimer != null && debounceTimer!.isActive) {
-      debounceTimer?.cancel();
+    if (dbTimer != null && dbTimer!.isActive) {
+      dbTimer?.cancel();
     }
-    debounceTimer = Timer(
+    dbTimer = Timer(
       const Duration(milliseconds: 2500),
       () async {
         orderUpdateStream = fbStore
@@ -734,25 +777,31 @@ class HomeViewModel extends GMapViewModel {
             .snapshots()
             .listen(
           (event) async {
+            order = event.data();
             String orderSyncedAt = StorageService.prefs?.getString(
                   "orderSyncedAt",
                 ) ??
                 "Not Yet Synced";
-            if (event.data()?["headers"] == null) {
-              var headers = await HttpService().getHeaders();
-              try {
-                await fbStore
-                    .collection("orders")
-                    .doc("${ongoingOrder?.code}")
-                    .update(
-                  {
-                    "headers": headers,
-                  },
-                );
-              } catch (_) {}
-            } else {
-              cHeaders = event.data()?["headers"];
-              notifyListeners();
+            if (user != null &&
+                ongoingOrder?.discount == 0 &&
+                (user?["markup_amount"] ?? 0) != null &&
+                isBool(AuthService.currentUser?.isProvider) &&
+                event.data()?["markup_amount"] == null) {
+              fbStore.collection("orders").doc(ongoingOrder?.code).update(
+                {
+                  "markup_amount": user?["markup_amount"],
+                },
+              );
+            }
+            if (ongoingOrder?.discount == 0 &&
+                user?["markup_amount"] != null &&
+                isBool(AuthService.currentUser?.isProvider) &&
+                event.data()?["markup_amount"] == null) {
+              fbStore.collection("orders").doc(ongoingOrder?.code).update(
+                {
+                  "markup_amount": user?["markup_amount"],
+                },
+              );
             }
             try {
               if ((orderSyncedAt != "${event.data()?["syncedAt"]}" &&
@@ -788,7 +837,6 @@ class HomeViewModel extends GMapViewModel {
   loadUIByOngoingOrderStatus() async {
     if (ongoingOrder != null) {
       if (ongoingOrder?.driver == null) {
-        // Get.until((route) => route.isFirst);
         AlertService().showLoading();
         await Future.delayed(
           const Duration(seconds: 5),
@@ -1080,6 +1128,33 @@ class HomeViewModel extends GMapViewModel {
         .snapshots()
         .listen(
       (event) async {
+        user = event.data();
+        if (isBool(AuthService.currentUser?.isProvider) &&
+            user?["today"] !=
+                DateFormat("MMMM d, yyyy").format(DateTime.now())) {
+          fbStore
+              .collection("users")
+              .doc("${AuthService.currentUser?.id}")
+              .update(
+            {
+              "today": DateFormat("MMMM d, yyyy").format(DateTime.now()),
+              "today_amount": 0,
+            },
+          );
+        }
+        if (isBool(AuthService.currentUser?.isProvider) &&
+            user?["month"] != DateFormat("MMMM").format(DateTime.now())) {
+          fbStore
+              .collection("users")
+              .doc("${AuthService.currentUser?.id}")
+              .update(
+            {
+              "month": DateFormat("MMMM").format(DateTime.now()),
+              "month_amount": 0,
+            },
+          );
+        }
+        notifyListeners();
         String userSyncedAt = StorageService.prefs?.getString(
               "userSyncedAt",
             ) ??

@@ -85,7 +85,7 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
                 const SizedBox(height: 12),
                 const Text(
                   "Tap to close",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ],
             ),
@@ -150,7 +150,7 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
         widget.partnerName,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -253,7 +253,7 @@ class _PartnerDisplayWidgetState extends State<PartnerDisplayWidget> {
               child: Text(
                 "Set as Dropoff",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),

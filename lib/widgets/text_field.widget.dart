@@ -14,6 +14,7 @@ class TextFieldWidget extends StatefulWidget {
   final bool showSuffix;
   final String? prefixText;
   final IconData? prefixIcon;
+  final double fontSize;
   final double prefixIconSize;
   final IconData? suffixIcon;
   final double suffixIconSize;
@@ -45,6 +46,7 @@ class TextFieldWidget extends StatefulWidget {
     this.showSuffix = false,
     this.prefixText,
     this.prefixIcon,
+    this.fontSize = 14.0,
     this.prefixIconSize = 24.0,
     this.suffixIcon,
     this.suffixIconSize = 24.0,
@@ -145,7 +147,7 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
         readOnly: widget.readOnly,
         style: TextStyle(
           height: 1,
-          fontSize: 14,
+          fontSize: widget.fontSize,
           fontFamily: "Inter",
           fontWeight: FontWeight.w500,
           color: widget.readOnly ? Colors.grey : const Color(0xFF030744),
@@ -165,7 +167,7 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
               labelText: widget.labelText,
               hintStyle: TextStyle(
                 height: 1,
-                fontSize: 14,
+                fontSize: widget.fontSize,
                 fontFamily: "Inter",
                 fontWeight: FontWeight.w500,
                 overflow: TextOverflow.ellipsis,
@@ -175,7 +177,7 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
               ),
               labelStyle: TextStyle(
                 height: 1,
-                fontSize: 14,
+                fontSize: widget.fontSize,
                 fontFamily: "Inter",
                 fontWeight: FontWeight.w500,
                 color: widget.readOnly
@@ -197,7 +199,7 @@ class TextFieldWidgetState extends State<TextFieldWidget> {
                       widget.prefixText!,
                       style: TextStyle(
                         height: 1.05,
-                        fontSize: 14,
+                        fontSize: widget.fontSize,
                         fontFamily: "Inter",
                         fontWeight: FontWeight.w500,
                         color: widget.readOnly

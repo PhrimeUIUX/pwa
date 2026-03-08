@@ -119,7 +119,7 @@ class _SettingsViewState extends State<SettingsView> {
                           Text(
                             "Change Password",
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF030744),
                             ),
@@ -171,7 +171,7 @@ class _SettingsViewState extends State<SettingsView> {
                                 Text(
                                   "Delete Account",
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.red,
                                   ),
@@ -203,7 +203,7 @@ class _SettingsViewState extends State<SettingsView> {
                           Text(
                             "Logout",
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Colors.red,
                             ),

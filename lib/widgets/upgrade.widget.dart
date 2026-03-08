@@ -79,7 +79,7 @@ class UpgradeWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   height: 1.15,
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF030744).withOpacity(0.5),
                 ),
@@ -94,7 +94,7 @@ class UpgradeWidget extends StatelessWidget {
                           text: "Need help? ",
                           style: TextStyle(
                             height: 1.15,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF030744).withOpacity(0.5),
                           ),
@@ -103,7 +103,7 @@ class UpgradeWidget extends StatelessWidget {
                           text: "Contact",
                           style: const TextStyle(
                             height: 1.15,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF007BFF),
                           ),
@@ -118,7 +118,7 @@ class UpgradeWidget extends StatelessWidget {
                           text: " or ",
                           style: TextStyle(
                             height: 1.15,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF030744).withOpacity(0.5),
                           ),
@@ -127,7 +127,7 @@ class UpgradeWidget extends StatelessWidget {
                           text: "Message",
                           style: const TextStyle(
                             height: 1.15,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF007BFF),
                           ),
@@ -142,7 +142,7 @@ class UpgradeWidget extends StatelessWidget {
                           text: " us!",
                           style: TextStyle(
                             height: 1.15,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF030744).withOpacity(0.5),
                           ),

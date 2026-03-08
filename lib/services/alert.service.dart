@@ -122,7 +122,7 @@ class AlertService {
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
                                                     height: 1.05,
-                                                    fontSize: 15,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                     color: Color(0xFF030744),
                                                   ),
@@ -156,7 +156,7 @@ class AlertService {
                                                               style:
                                                                   const TextStyle(
                                                                 height: 1,
-                                                                fontSize: 15,
+                                                                fontSize: 14,
                                                                 color: Color(
                                                                   0xFF007BFF,
                                                                 ),
@@ -191,7 +191,7 @@ class AlertService {
                                                                 ),
                                                         style: const TextStyle(
                                                           height: 1,
-                                                          fontSize: 15,
+                                                          fontSize: 14,
                                                           color: Colors.white,
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -232,7 +232,7 @@ class AlertService {
                                                               style:
                                                                   const TextStyle(
                                                                 height: 1,
-                                                                fontSize: 15,
+                                                                fontSize: 14,
                                                                 color: Colors
                                                                     .white,
                                                                 fontWeight:
