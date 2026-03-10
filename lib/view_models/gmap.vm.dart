@@ -97,7 +97,7 @@ class GMapViewModel extends BaseViewModel {
     locUnavailable = false;
     _debounce?.cancel();
     _debounce = Timer(
-      const Duration(milliseconds: 2500),
+      const Duration(milliseconds: 4500),
       () async {
         if (!skipSelectedAddress) {
           selectedAddress.value = null;
