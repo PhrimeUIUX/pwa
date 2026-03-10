@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <script>
-      (function () {
-        const NEW_DOMAIN = "https://ppc-toda.com";
-        const target = NEW_DOMAIN + location.pathname + location.search + location.hash;
+    (function () {
+      const NEW_DOMAIN = "https://ppc-toda.com";
+      if (location.hostname !== "ppc-toda.com") {
+      const target = NEW_DOMAIN + location.pathname + location.search + location.hash;
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(function (regs) {
             regs.forEach(function (reg) {
@@ -20,8 +21,9 @@
           });
         }
         window.location.replace(target);
-      })();
-    </script>
+      }
+    })();
+  </script>
 
     <!-- Base & Charset -->
     <base href="/">
@@ -64,7 +66,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulbBRV3toC3XWR9TRVACFTmjgfcsD0TU&libraries=marker"></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style/indexstyle.css?v1.0.32+52"/>
+    <link rel="stylesheet" href="style/indexstyle.css?v1.0.31+51"/>
 
     <!-- Splash Screen Style -->
     <style>
