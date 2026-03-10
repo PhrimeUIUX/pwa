@@ -360,21 +360,17 @@ List<T>? parseList<T>(
 
 Future<gmaps.LatLng?> getMyLatLng() async {
   try {
-    final position = await geolocation
-        .getCurrentPosition(
-          enableHighAccuracy: true,
-        )
-        .timeout(
-          const Duration(seconds: 5),
-        );
+    final position = await geolocation.getCurrentPosition(
+      timeout: const Duration(seconds: 10),
+    );
     final lat = position.coords?.latitude ?? 9.7638;
     final lng = position.coords?.longitude ?? 118.7473;
     initLatLng = gmaps.LatLng(lat, lng);
-    print("Location fetched: $initLatLng");
+    debugPrint("Location fetched: $initLatLng");
     return initLatLng;
   } catch (e) {
     initLatLng = gmaps.LatLng(9.7638, 118.7473);
-    print("Failed to fetch location: $e, using fallback $initLatLng");
+    debugPrint("Failed to fetch location: $e, using fallback $initLatLng");
     return initLatLng;
   }
 }

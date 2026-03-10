@@ -769,7 +769,7 @@ class HomeViewModel extends GMapViewModel {
       dbTimer?.cancel();
     }
     dbTimer = Timer(
-      const Duration(milliseconds: 4500),
+      const Duration(milliseconds: 3000),
       () async {
         orderUpdateStream = fbStore
             .collection("orders")
