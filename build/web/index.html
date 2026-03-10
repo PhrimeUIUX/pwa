@@ -2,12 +2,26 @@
 <html lang="en">
 <head>
     <script>
-    if (window.location.hostname !== "ppc-toda.com") {
-      window.location.href = "https://ppc-toda.com";
-    }
-
+      (function () {
+        const NEW_DOMAIN = "https://ppc-toda.com";
+        const target = NEW_DOMAIN + location.pathname + location.search + location.hash;
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function (regs) {
+            regs.forEach(function (reg) {
+              reg.unregister();
+            });
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function (keys) {
+            keys.forEach(function (key) {
+              caches.delete(key);
+            });
+          });
+        }
+        window.location.replace(target);
+      })();
     </script>
-
 
     <!-- Base & Charset -->
     <base href="/">
@@ -50,7 +64,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulbBRV3toC3XWR9TRVACFTmjgfcsD0TU&libraries=marker"></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style/indexstyle.css?v1.0.31+51"/>
+    <link rel="stylesheet" href="style/indexstyle.css?v1.0.30+50"/>
 
     <!-- Splash Screen Style -->
     <style>
@@ -78,6 +92,8 @@
 
 
 
+
+
     </style>
 </head>
 
@@ -97,6 +113,8 @@
 
 
 
+
+
 </script>
 
 <!-- FCM Service Worker -->
@@ -110,6 +128,8 @@
         console.error("Service Worker registration failed:", err);
       });
   }
+
+
 
 
 
