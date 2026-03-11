@@ -14,12 +14,14 @@ import 'package:google_maps/google_maps.dart' as gmaps;
 class MapViewModel extends BaseViewModel {
   gmaps.Map? _map;
   Timer? _debounce;
+  bool _isResolvingCameraMove = false;
+  DateTime? _ignoreCameraMoveUntil;
   bool isHolding = false;
   bool isLoading = false;
   bool skipCamera = false;
   TaxiRequest taxiRequest = TaxiRequest();
   FocusNode searchFocusNode = FocusNode();
-  ValueNotifier<gmaps.LatLng>? lastCenter;
+  gmaps.LatLng? lastCenter;
   GeocoderService geocoderService = GeocoderService();
   TextEditingController searchTEC = TextEditingController();
   ValueNotifier<Address?> selectedAddress = ValueNotifier(null);
@@ -51,6 +53,7 @@ class MapViewModel extends BaseViewModel {
     required gmaps.Map map,
   }) async {
     _map = map;
+    lastCenter = map.center;
     debugPrint("Map set - MapViewModel");
     try {
       selectedAddress.value = isPickup
@@ -114,15 +117,19 @@ class MapViewModel extends BaseViewModel {
     bool skipSelectedAddress = false,
     required bool isPickup,
   }) async {
-    if (!skipSelectedAddress) {
-      selectedAddress.value = null;
-      notifyListeners();
+    if (target == null || _isResolvingCameraMove) {
+      isLoading = false;
+      return;
     }
     mapUnavailable = false;
     _debounce?.cancel();
     _debounce = Timer(
       const Duration(milliseconds: 3000),
       () async {
+        if (_isResolvingCameraMove) {
+          return;
+        }
+        _isResolvingCameraMove = true;
         if (!skipSelectedAddress) {
           selectedAddress.value = null;
           isLoading = true;
@@ -200,6 +207,7 @@ class MapViewModel extends BaseViewModel {
         }
 
         setBusyForObject(selectedAddress.value, false);
+        _isResolvingCameraMove = false;
       },
     );
   }
@@ -222,16 +230,18 @@ class MapViewModel extends BaseViewModel {
       }
       if (_map != null) {
         num currentZoom = _map!.zoom;
+        final nextCenter = gmaps.LatLng(
+          address.coordinates.latitude,
+          address.coordinates.longitude,
+        );
+        lastCenter = nextCenter;
         if (animate) {
-          _map!.panTo(gmaps.LatLng(
-            address.coordinates.latitude,
-            address.coordinates.longitude,
-          ));
-        } else {
-          _map!.center = gmaps.LatLng(
-            address.coordinates.latitude,
-            address.coordinates.longitude,
+          _ignoreCameraMoveUntil = DateTime.now().add(
+            const Duration(milliseconds: 800),
           );
+          _map!.panTo(nextCenter);
+        } else {
+          _map!.center = nextCenter;
         }
         _map!.zoom = currentZoom;
       }
@@ -244,5 +254,23 @@ class MapViewModel extends BaseViewModel {
 
   Future<List<Address>> fetchPlaces(String keyword) async {
     return await geocoderService.findAddressesFromQuery(keyword);
+  }
+
+  bool shouldProcessCameraMove(gmaps.LatLng center) {
+    final ignoreUntil = _ignoreCameraMoveUntil;
+    if (ignoreUntil != null && DateTime.now().isBefore(ignoreUntil)) {
+      lastCenter = center;
+      return false;
+    }
+    if (_sameLatLng(lastCenter, center)) {
+      return false;
+    }
+    lastCenter = center;
+    return true;
+  }
+
+  bool _sameLatLng(gmaps.LatLng? a, gmaps.LatLng? b) {
+    if (a == null || b == null) return false;
+    return a.lat == b.lat && a.lng == b.lng;
   }
 }

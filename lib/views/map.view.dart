@@ -255,15 +255,14 @@ class _MapViewState extends State<MapView> {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                     final a = vm.disposed;
-                                    if (center != vm.lastCenter?.value) {
-                                      vm.lastCenter?.value = center;
-                                      if (!a && !vm.skipCamera) {
-                                        vm.mapCameraMove(
-                                          center,
-                                          isPickup: widget.isPickup,
-                                        );
-                                        debugPrint("MapView - Map move");
-                                      }
+                                    if (!a &&
+                                        !vm.skipCamera &&
+                                        vm.shouldProcessCameraMove(center)) {
+                                      vm.mapCameraMove(
+                                        center,
+                                        isPickup: widget.isPickup,
+                                      );
+                                      debugPrint("MapView - Map move");
                                     }
                                   } catch (e) {
                                     debugPrint(
