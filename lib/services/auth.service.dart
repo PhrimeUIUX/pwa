@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:flutter/material.dart';
-import 'package:pwa/utils/functions.dart';
 import 'package:pwa/views/home.view.dart';
 import 'package:pwa/views/intro.view.dart';
 import 'package:pwa/constants/strings.dart';
 import 'package:pwa/models/user.model.dart';
+import 'package:pwa/services/push.service.dart';
 import 'package:pwa/services/storage.service.dart';
 
 class AuthService {
@@ -44,7 +44,7 @@ class AuthService {
     await subscribeToTopic("c_${currentUser?.id}");
     await subscribeToTopic("client_${currentUser?.id}");
     await subscribeToTopic("branch_${currentUser?.branchID}");
-    subscribeToServer();
+    await PushService.syncTokenWithServer();
     return currentUser;
   }
 
@@ -94,7 +94,7 @@ class AuthService {
     dropoffAddress = null;
     pickupAddress = null;
     currentUser = null;
-    subscribeToServer();
+    await PushService.syncTokenWithServer();
     if (!AuthService.inReviewMode()) {
       Navigator.pushAndRemoveUntil(
         Get.context!,

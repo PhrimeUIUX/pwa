@@ -1,9 +1,6 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
-
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html' as html;
 import 'package:get/get.dart';
 import 'package:pwa/utils/data.dart';
 import 'package:stacked/stacked.dart';
@@ -14,6 +11,7 @@ import 'package:pwa/views/home.view.dart';
 import 'package:pwa/constants/lotties.dart';
 import 'package:pwa/requests/auth.request.dart';
 import 'package:pwa/services/auth.service.dart';
+import 'package:pwa/services/push.service.dart';
 import 'package:pwa/requests/taxi.request.dart';
 import 'package:pwa/services/alert.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,9 +26,7 @@ class LoginViewModel extends BaseViewModel {
 
   initialise() async {
     try {
-      if (html.Notification.permission != "granted") {
-        await html.Notification.requestPermission();
-      }
+      await PushService.syncTokenWithServer(requestPermission: true);
     } catch (_) {}
   }
 
@@ -202,6 +198,7 @@ class LoginViewModel extends BaseViewModel {
       );
       await AuthService.getUserFromStorage();
       await AuthService.getTokenFromStorage();
+      await PushService.syncTokenWithServer(requestPermission: true);
       notifyListeners();
       try {
         Point earthCenterLocation = Point(

@@ -360,16 +360,25 @@ List<T>? parseList<T>(
 
 Future<gmaps.LatLng?> getMyLatLng() async {
   try {
+    final useFastTimeout = hasRealLocationFix && lastKnownRealLatLng != null;
     final position = await geolocation.getCurrentPosition(
-      timeout: const Duration(seconds: 10),
+      enableHighAccuracy: true,
+      timeout: useFastTimeout ? const Duration(seconds: 5) : null,
+      maximumAge: useFastTimeout ? const Duration(seconds: 30) : Duration.zero,
     );
-    final lat = position.coords?.latitude ?? 9.7638;
-    final lng = position.coords?.longitude ?? 118.7473;
-    initLatLng = gmaps.LatLng(lat, lng);
+    final lat = position.coords?.latitude;
+    final lng = position.coords?.longitude;
+    if (lat == null || lng == null) {
+      throw "Location coordinates are unavailable";
+    }
+    final nextLatLng = gmaps.LatLng(lat, lng);
+    initLatLng = nextLatLng;
+    lastKnownRealLatLng = nextLatLng;
+    hasRealLocationFix = true;
     debugPrint("Location fetched: $initLatLng");
     return initLatLng;
   } catch (e) {
-    initLatLng = gmaps.LatLng(9.7638, 118.7473);
+    initLatLng = lastKnownRealLatLng ?? defaultLatLng;
     debugPrint("Failed to fetch location: $e, using fallback $initLatLng");
     return initLatLng;
   }
@@ -549,11 +558,16 @@ Map<String, dynamic> parseJwt(String token) {
 }
 
 Future<void> subscribeToServer() async {
+  final token = fcmToken?.trim();
+  if (token == null || token.isEmpty || token == "null") {
+    debugPrint("Skipping FCM subscription: token unavailable");
+    return;
+  }
   if (AuthService.isLoggedIn()) {
     final topics = StorageService.prefs?.getStringList("topics") ?? [];
     try {
       ApiResponse apiResponse = await AuthRequest().fcmRequest(
-        token: "$fcmToken",
+        token: token,
         topics: topics,
       );
       if (apiResponse.allGood) {
@@ -569,7 +583,7 @@ Future<void> subscribeToServer() async {
     final topics = ["all"];
     try {
       ApiResponse apiResponse = await AuthRequest().fcmRequest(
-        token: "$fcmToken",
+        token: token,
         topics: topics,
       );
       if (apiResponse.allGood) {

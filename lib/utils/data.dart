@@ -45,7 +45,10 @@ AvailableDriver? availableDriver;
 List<VehicleType> availableVehicles = [];
 String useExt = "enableFatchByLocation";
 String itexmo = "enableParcelVendorByLocation";
-gmaps.LatLng? initLatLng = gmaps.LatLng(9.7638, 118.7473);
+final gmaps.LatLng defaultLatLng = gmaps.LatLng(9.7638, 118.7473);
+gmaps.LatLng? initLatLng = defaultLatLng;
+gmaps.LatLng? lastKnownRealLatLng;
+bool hasRealLocationFix = false;
 
 RegExp phoneRegex = RegExp(
   r"^9\d{9}$",

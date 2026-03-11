@@ -66,7 +66,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulbBRV3toC3XWR9TRVACFTmjgfcsD0TU&libraries=marker"></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style/indexstyle.css?v1.0.31+51"/>
+    <link rel="stylesheet" href="style/indexstyle.css?v1.0.30+50"/>
 
     <!-- Splash Screen Style -->
     <style>
@@ -104,17 +104,6 @@
   window.addEventListener("flutter-first-frame", function () {
     document.getElementById("splash").style.display = "none";
   });
-</script>
-
-<!-- FCM Service Worker -->
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/firebase-messaging-sw.js").then(function (registration) {
-      console.log("Service Worker registered with scope:", registration.scope);
-    }).catch(function (err) {
-      console.error("Service Worker registration failed:", err);
-    });
-  }
 </script>
 
 <!-- Flutter Bootstrap -->

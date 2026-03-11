@@ -132,6 +132,8 @@ class AppStrings {
   static const String homeSettings = 'homeSettings';
   static const String fixedTrips = 'fixedTrips';
   static const String vehicleTypes = 'vehicleTypes';
+  static const String lastPushToken = 'last_push_token';
+  static const String lastPushTopicSignature = 'last_push_topic_signature';
   static const String appStoreId = '1663633725';
 
   static dynamic appSettingsObject;
