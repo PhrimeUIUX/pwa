@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:pwa/constants/images.dart';
 import 'package:pwa/constants/lotties.dart';
+import 'package:pwa/utils/data.dart';
 import 'package:pwa/widgets/button.widget.dart';
 
 class AlertService {
@@ -276,6 +277,7 @@ class AlertService {
     bool dismissible = false,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
+    isLoadingDialogOpen = true;
     showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -333,10 +335,15 @@ class AlertService {
         );
       },
       barrierColor: bg ?? const Color(0xFF007BFF),
-    );
+    ).whenComplete(() {
+      isLoadingDialogOpen = false;
+    });
   }
 
   stopLoading() {
+    if (!isLoadingDialogOpen || Get.isDialogOpen != true) {
+      return;
+    }
     FocusManager.instance.primaryFocus?.unfocus();
     Get.back();
   }

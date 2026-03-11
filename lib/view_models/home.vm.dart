@@ -560,7 +560,9 @@ class HomeViewModel extends GMapViewModel {
               rebook: true,
             );
             ongoingOrder = null;
-            Get.until((route) => route.isFirst);
+            if (!isChatViewOpen) {
+              Get.until((route) => route.isFirst);
+            }
             if (apiResponse.allGood) {
               AlertService().showLoading();
               try {
@@ -638,7 +640,9 @@ class HomeViewModel extends GMapViewModel {
               throw apiResponse.message;
             }
           } catch (e) {
-            Get.until((route) => route.isFirst);
+            if (!isChatViewOpen) {
+              Get.until((route) => route.isFirst);
+            }
             ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(Get.context!).showSnackBar(
               SnackBar(
@@ -685,7 +689,9 @@ class HomeViewModel extends GMapViewModel {
                 reason: "initiated by passenger",
                 rebook: false,
               );
-              Get.until((route) => route.isFirst);
+              if (!isChatViewOpen) {
+                Get.until((route) => route.isFirst);
+              }
               if (apiResponse.allGood) {
                 cHeaders = null;
                 snackShown = true;
@@ -700,7 +706,9 @@ class HomeViewModel extends GMapViewModel {
                   title: "Booking Cancelled",
                   content: "Your booking has been cancelled",
                   confirmAction: () async {
-                    Get.until((route) => route.isFirst);
+                    if (!isChatViewOpen) {
+                      Get.until((route) => route.isFirst);
+                    }
                     if (pickupAddress != null &&
                             dropoffAddress != null &&
                             ongoingOrder == null ||
@@ -725,7 +733,9 @@ class HomeViewModel extends GMapViewModel {
                 }
               }
             } catch (e) {
-              Get.until((route) => route.isFirst);
+              if (!isChatViewOpen) {
+                Get.until((route) => route.isFirst);
+              }
               ScaffoldMessenger.of(Get.context!).clearSnackBars();
               ScaffoldMessenger.of(Get.context!).showSnackBar(
                 SnackBar(
@@ -768,6 +778,7 @@ class HomeViewModel extends GMapViewModel {
     if (dbTimer != null && dbTimer!.isActive) {
       dbTimer?.cancel();
     }
+    orderUpdateStream?.cancel();
     dbTimer = Timer(
       const Duration(milliseconds: 3000),
       () async {
@@ -951,7 +962,9 @@ class HomeViewModel extends GMapViewModel {
           clearGMapDetails();
           stopAllListeners();
           if (lastOrder?.reason != "rebook") {
-            Get.until((route) => route.isFirst);
+            if (!isChatViewOpen) {
+              Get.until((route) => route.isFirst);
+            }
             clearGMapDetails();
             AlertService().showAppAlert(
               dismissible: false,
@@ -963,7 +976,9 @@ class HomeViewModel extends GMapViewModel {
               content:
                   "Your booking has been ${lastOrder?.reason == "pass" ? "passed" : "cancelled"}",
               confirmAction: () async {
-                Get.until((route) => route.isFirst);
+                if (!isChatViewOpen) {
+                  Get.until((route) => route.isFirst);
+                }
                 if (pickupAddress != null &&
                         dropoffAddress != null &&
                         ongoingOrder == null ||

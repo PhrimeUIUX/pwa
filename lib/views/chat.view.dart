@@ -48,20 +48,27 @@ class _ChatViewState extends State<ChatView> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    _controller.addListener(_handleComposerChanged);
+    isChatViewOpen = true;
   }
 
   @override
   void dispose() {
+    isChatViewOpen = false;
+    _controller.removeListener(_handleComposerChanged);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _handleComposerChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     ChatViewModel chatViewModel = ChatViewModel();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {});
-    });
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
