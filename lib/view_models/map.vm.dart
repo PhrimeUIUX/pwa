@@ -144,8 +144,8 @@ class MapViewModel extends BaseViewModel {
           List<Address> addresses =
               await geocoderService.findAddressesFromCoordinates(
             Coordinates(
-              double.parse("${target?.lat ?? 9.7638}"),
-              double.parse("${target?.lng ?? 118.7473}"),
+              double.parse("${target.lat}"),
+              double.parse("${target.lng}"),
             ),
           );
           final Address address = Address(
@@ -161,8 +161,8 @@ class MapViewModel extends BaseViewModel {
             subThoroughfare: addresses.first.subThoroughfare,
             gMapPlaceId: addresses.first.gMapPlaceId,
             coordinates: Coordinates(
-              double.parse("${target?.lat ?? 9.7638}"),
-              double.parse("${target?.lng ?? 118.7473}"),
+              double.parse("${target.lat}"),
+              double.parse("${target.lng}"),
             ),
           );
           isLoading = false;
@@ -181,8 +181,8 @@ class MapViewModel extends BaseViewModel {
             ),
           );
           ApiResponse apiResponse = await taxiRequest.locationAvailableRequest(
-            double.parse("${target?.lat ?? 9.7638}"),
-            double.parse("${target?.lng ?? 118.7473}"),
+            double.parse("${target.lat}"),
+            double.parse("${target.lng}"),
           );
           if (!apiResponse.allGood) {
             mapUnavailable = true;

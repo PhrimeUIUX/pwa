@@ -127,8 +127,8 @@ class GMapViewModel extends BaseViewModel {
             List<Address> addresses =
                 await geocoderService.findAddressesFromCoordinates(
               Coordinates(
-                double.parse("${target.lat ?? 9.7638}"),
-                double.parse("${target.lng ?? 118.7473}"),
+                double.parse("${target.lat}"),
+                double.parse("${target.lng}"),
               ),
             );
             final Address address = Address(
@@ -144,8 +144,8 @@ class GMapViewModel extends BaseViewModel {
               subThoroughfare: addresses.first.subThoroughfare,
               gMapPlaceId: addresses.first.gMapPlaceId,
               coordinates: Coordinates(
-                double.parse("${target.lat ?? 9.7638}"),
-                double.parse("${target.lng ?? 118.7473}"),
+                double.parse("${target.lat}"),
+                double.parse("${target.lng}"),
               ),
             );
             isLoading = false;

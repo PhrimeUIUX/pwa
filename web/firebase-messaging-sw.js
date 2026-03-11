@@ -17,12 +17,21 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   console.log("Received background message: ", payload);
+  const targetUrl =
+      payload?.data?.url ||
+      payload?.data?.link ||
+      payload?.fcmOptions?.link ||
+      payload?.notification?.click_action ||
+      '/';
 
   self.registration.showNotification(
    payload.data["title"] ?? payload.notification?.title ?? '',
     {
       body: payload.data["body"] ?? payload.notification?.body ?? '',
       icon: "/icons/webiconsmall.png",
+      data: {
+        url: new URL(targetUrl, self.location.origin).href,
+      },
     }
   );
 });
@@ -30,12 +39,18 @@ messaging.onBackgroundMessage((payload) => {
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
 
-  const targetUrl = '/';
+  const targetUrl = event.notification?.data?.url || self.location.origin;
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(clientList) {
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(async function(clientList) {
       for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
+        if (!client.url.includes(self.location.origin)) {
+          continue;
+        }
+        if ('navigate' in client && client.url !== targetUrl) {
+          await client.navigate(targetUrl);
+        }
+        if ('focus' in client) {
           return client.focus();
         }
       }
