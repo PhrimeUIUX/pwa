@@ -89,13 +89,16 @@ class MapViewModel extends BaseViewModel {
 
   gmaps.Map? get map => _map;
 
-  zoomToCurrentLocation({double zoom = 16}) async {
-    await getMyLatLng();
-    if (_map != null) {
-      final target = initLatLng;
-      _map!.panTo(target!);
+  Future<gmaps.LatLng?> zoomToCurrentLocation({double zoom = 16}) async {
+    final target = await getMyLatLng();
+    if (_map != null && target != null) {
+      _ignoreCameraMoveUntil = DateTime.now().add(
+        const Duration(milliseconds: 800),
+      );
+      _map!.panTo(target);
       _map!.zoom = zoom;
     }
+    return target;
   }
 
   zoomIn() async {
@@ -116,6 +119,7 @@ class MapViewModel extends BaseViewModel {
     gmaps.LatLng? target, {
     bool skipSelectedAddress = false,
     required bool isPickup,
+    Duration debounceDuration = const Duration(milliseconds: 3000),
   }) async {
     if (target == null || _isResolvingCameraMove) {
       isLoading = false;
@@ -124,7 +128,7 @@ class MapViewModel extends BaseViewModel {
     mapUnavailable = false;
     _debounce?.cancel();
     _debounce = Timer(
-      const Duration(milliseconds: 3000),
+      debounceDuration,
       () async {
         if (_isResolvingCameraMove) {
           return;

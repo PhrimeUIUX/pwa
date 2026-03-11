@@ -390,15 +390,15 @@ class _MapViewState extends State<MapView> {
                                 child: _FloatingButton(
                                   icon: Icons.my_location_outlined,
                                   onTap: () async {
-                                    await vm.zoomToCurrentLocation();
-                                    if (vm.selectedAddress.value == null) {
-                                      if (!vm.disposed) {
-                                        vm.mapCameraMove(
-                                          vm.map?.center,
-                                          isPickup: widget.isPickup,
-                                        );
-                                        debugPrint("MapView - Map move");
-                                      }
+                                    final target =
+                                        await vm.zoomToCurrentLocation();
+                                    if (!vm.disposed && target != null) {
+                                      vm.mapCameraMove(
+                                        target,
+                                        isPickup: widget.isPickup,
+                                        debounceDuration: Duration.zero,
+                                      );
+                                      debugPrint("MapView - Map move");
                                     }
                                   },
                                 ),

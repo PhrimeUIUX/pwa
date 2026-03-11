@@ -518,31 +518,13 @@ class _HomeViewState extends State<HomeView> {
                                     icon: Icons.my_location_outlined,
                                     onTap: () async {
                                       final a = vm.disposed;
-                                      final b = vm.markers;
-                                      final c = vm.selectedAddress.value;
-                                      if (b.isEmpty) {
-                                        vm.zoomToCurrentLocation();
-                                      } else {
-                                        if (vm.ongoingOrder == null) {
-                                          vm.drawDropPolyLines(
-                                            "pickup-dropoff",
-                                            vm.ongoingOrder?.taxiOrder
-                                                    ?.pickupLatLng ??
-                                                pickupAddress!.latLng,
-                                            vm.ongoingOrder?.taxiOrder
-                                                    ?.dropoffLatLng ??
-                                                dropoffAddress!.latLng,
-                                            vm.ongoingOrder?.driverLatLng,
-                                          );
-                                        } else {
-                                          vm.lastStatus = null;
-                                          await vm.getOngoingOrder();
-                                        }
-                                      }
-                                      if (!a && b.isEmpty && c == null) {
+                                      final target =
+                                          await vm.zoomToCurrentLocation();
+                                      if (!a && target != null) {
                                         vm.mapCameraMove(
                                           "myLocation",
-                                          vm.map?.center,
+                                          target,
+                                          debounceDuration: Duration.zero,
                                         );
                                       }
                                     },
