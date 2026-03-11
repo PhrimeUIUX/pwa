@@ -17,6 +17,8 @@ import 'package:google_maps/google_maps.dart' as gmaps;
 class GMapViewModel extends BaseViewModel {
   gmaps.Map? _map;
   Timer? _debounce;
+  bool _isResolvingCameraMove = false;
+  DateTime? _ignoreCameraMoveUntil;
   double? total = 0.0;
   double? subTotal = 0.0;
   double? discount = 0.0;
@@ -25,7 +27,7 @@ class GMapViewModel extends BaseViewModel {
   List<WebMarker> markers = [];
   List<gmaps.Polyline>? polylines = [];
   TaxiRequest taxiRequest = TaxiRequest();
-  ValueNotifier<gmaps.LatLng>? lastCenter;
+  gmaps.LatLng? lastCenter;
   GeocoderService geocoderService = GeocoderService();
   ValueNotifier<Address?> selectedAddress = ValueNotifier(null);
 
@@ -41,6 +43,7 @@ class GMapViewModel extends BaseViewModel {
 
   setMap(gmaps.Map map) {
     _map = map;
+    lastCenter = map.center;
     isInitializing = true;
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
@@ -89,7 +92,13 @@ class GMapViewModel extends BaseViewModel {
     gmaps.LatLng? target, {
     bool skipSelectedAddress = false,
   }) async {
+    if (target == null || _isResolvingCameraMove) {
+      isLoading = false;
+      isInitializing = false;
+      return;
+    }
     debugPrint("Map move - $function");
+    final previousAddress = selectedAddress.value;
     if (!skipSelectedAddress) {
       selectedAddress.value = null;
       notifyListeners();
@@ -99,95 +108,102 @@ class GMapViewModel extends BaseViewModel {
     _debounce = Timer(
       const Duration(milliseconds: 3000),
       () async {
-        if (!skipSelectedAddress) {
-          selectedAddress.value = null;
-          isLoading = true;
-          notifyListeners();
+        if (_isResolvingCameraMove) {
+          return;
         }
-        setBusyForObject(selectedAddress, true);
+        _isResolvingCameraMove = true;
         try {
-          List<Address> addresses =
-              await geocoderService.findAddressesFromCoordinates(
-            Coordinates(
-              double.parse("${target?.lat ?? 9.7638}"),
-              double.parse("${target?.lng ?? 118.7473}"),
-            ),
-          );
-          final Address address = Address(
-            addressLine: addresses.first.addressLine,
-            countryName: addresses.first.countryName,
-            countryCode: addresses.first.countryCode,
-            featureName: addresses.first.featureName,
-            postalCode: addresses.first.postalCode,
-            adminArea: addresses.first.adminArea,
-            subAdminArea: addresses.first.subAdminArea,
-            subLocality: addresses.first.subLocality,
-            thoroughfare: addresses.first.thoroughfare,
-            subThoroughfare: addresses.first.subThoroughfare,
-            gMapPlaceId: addresses.first.gMapPlaceId,
-            coordinates: Coordinates(
-              double.parse("${target?.lat ?? 9.7638}"),
-              double.parse("${target?.lng ?? 118.7473}"),
-            ),
-          );
-          isLoading = false;
-          isInitializing = false;
-          await addressSelected(address, animate: true);
-          notifyListeners();
-        } catch (e) {
-          clearGMapDetails();
-          isLoading = false;
-          isInitializing = false;
-          selectedAddress.value = Address(
-            coordinates: Coordinates(
-              double.parse("${initLatLng?.lat ?? 9.7638}"),
-              double.parse("${initLatLng?.lng ?? 118.7473}"),
-            ),
-          );
-          ApiResponse apiResponse = await taxiRequest.locationAvailableRequest(
-            double.parse("${target?.lat ?? 9.7638}"),
-            double.parse("${target?.lng ?? 118.7473}"),
-          );
-          if (!apiResponse.allGood) {
-            locUnavailable = true;
+          if (!skipSelectedAddress) {
+            selectedAddress.value = null;
+            isLoading = true;
+            notifyListeners();
           }
-          ScaffoldMessenger.of(Get.context!).clearSnackBars();
-          ScaffoldMessenger.of(
-            Get.context!,
-          ).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(
-                apiResponse.message.contains("service")
-                    ? "Please try another location"
-                    : e.toString().toLowerCase().contains("dio")
-                        ? "There was an error while processing"
-                            " your request. Please try again later"
-                        : e.toString().toLowerCase().contains("bad")
-                            ? "There was a problem with your location "
-                                "detection or your internet connection"
-                            : e.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
+          setBusyForObject(selectedAddress, true);
+          try {
+            List<Address> addresses =
+                await geocoderService.findAddressesFromCoordinates(
+              Coordinates(
+                double.parse("${target.lat ?? 9.7638}"),
+                double.parse("${target.lng ?? 118.7473}"),
+              ),
+            );
+            final Address address = Address(
+              addressLine: addresses.first.addressLine,
+              countryName: addresses.first.countryName,
+              countryCode: addresses.first.countryCode,
+              featureName: addresses.first.featureName,
+              postalCode: addresses.first.postalCode,
+              adminArea: addresses.first.adminArea,
+              subAdminArea: addresses.first.subAdminArea,
+              subLocality: addresses.first.subLocality,
+              thoroughfare: addresses.first.thoroughfare,
+              subThoroughfare: addresses.first.subThoroughfare,
+              gMapPlaceId: addresses.first.gMapPlaceId,
+              coordinates: Coordinates(
+                double.parse("${target.lat ?? 9.7638}"),
+                double.parse("${target.lng ?? 118.7473}"),
+              ),
+            );
+            isLoading = false;
+            isInitializing = false;
+            await addressSelected(address, animate: true);
+            notifyListeners();
+          } catch (e) {
+            isLoading = false;
+            isInitializing = false;
+            selectedAddress.value = previousAddress;
+            ApiResponse? apiResponse;
+            try {
+              apiResponse = await taxiRequest.locationAvailableRequest(
+                double.parse("${target.lat}"),
+                double.parse("${target.lng}"),
+              );
+              if (!apiResponse.allGood) {
+                locUnavailable = true;
+              }
+            } catch (_) {
+              apiResponse = null;
+            }
+            ScaffoldMessenger.of(Get.context!).clearSnackBars();
+            ScaffoldMessenger.of(
+              Get.context!,
+            ).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(
+                  (apiResponse?.message.contains("service") ?? false)
+                      ? "Please try another location"
+                      : e.toString().toLowerCase().contains("dio")
+                          ? "There was an error while processing"
+                              " your request. Please try again later"
+                          : e.toString().toLowerCase().contains("bad")
+                              ? "There was a problem with your location "
+                                  "detection or your internet connection"
+                              : e.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-          );
-          notifyListeners();
-        }
-        if (gVehicleTypes.isEmpty) {
-          try {
-            gVehicleTypes = await taxiRequest.vehicleTypesRequest();
-            debugPrint(
-              "gmap vehicleTypesRequest success",
             );
-          } catch (e) {
-            debugPrint(
-              "gmap vehicleTypesRequest error 1: $e",
-            );
+            notifyListeners();
           }
+          if (gVehicleTypes.isEmpty) {
+            try {
+              gVehicleTypes = await taxiRequest.vehicleTypesRequest();
+              debugPrint(
+                "gmap vehicleTypesRequest success",
+              );
+            } catch (e) {
+              debugPrint(
+                "gmap vehicleTypesRequest error 1: $e",
+              );
+            }
+          }
+        } finally {
+          setBusyForObject(selectedAddress, false);
+          _isResolvingCameraMove = false;
         }
-        setBusyForObject(selectedAddress, false);
       },
     );
   }
@@ -205,18 +221,18 @@ class GMapViewModel extends BaseViewModel {
       pickupAddress = address;
       if (_map != null) {
         num currentZoom = _map!.zoom;
+        final nextCenter = gmaps.LatLng(
+          address.coordinates.latitude,
+          address.coordinates.longitude,
+        );
+        lastCenter = nextCenter;
         if (animate) {
-          _map!.panTo(
-            gmaps.LatLng(
-              address.coordinates.latitude,
-              address.coordinates.longitude,
-            ),
+          _ignoreCameraMoveUntil = DateTime.now().add(
+            const Duration(milliseconds: 800),
           );
+          _map!.panTo(nextCenter);
         } else {
-          _map!.center = gmaps.LatLng(
-            address.coordinates.latitude,
-            address.coordinates.longitude,
-          );
+          _map!.center = nextCenter;
         }
         _map!.zoom = currentZoom;
       }
@@ -449,6 +465,24 @@ class GMapViewModel extends BaseViewModel {
     } else {
       existing.marker.position = position;
     }
+  }
+
+  bool shouldProcessCameraMove(gmaps.LatLng center) {
+    final ignoreUntil = _ignoreCameraMoveUntil;
+    if (ignoreUntil != null && DateTime.now().isBefore(ignoreUntil)) {
+      lastCenter = center;
+      return false;
+    }
+    if (_sameLatLng(lastCenter, center)) {
+      return false;
+    }
+    lastCenter = center;
+    return true;
+  }
+
+  bool _sameLatLng(gmaps.LatLng? a, gmaps.LatLng? b) {
+    if (a == null || b == null) return false;
+    return a.lat == b.lat && a.lng == b.lng;
   }
 }
 

@@ -46,6 +46,13 @@ class _HomeViewState extends State<HomeView> {
   ValueNotifier<int> itemsIndex = ValueNotifier(0);
   final HomeViewModel homeViewModel = HomeViewModel();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final Future<gmaps.LatLng?> _initialCenterFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialCenterFuture = getMyLatLng();
+  }
 
   _navigateWithoutTransition(Widget page) {
     Navigator.push(
@@ -356,7 +363,7 @@ class _HomeViewState extends State<HomeView> {
           },
           backgroundColor: Colors.white,
           body: FutureBuilder<gmaps.LatLng?>(
-            future: getMyLatLng(),
+            future: _initialCenterFuture,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(
@@ -450,15 +457,15 @@ class _HomeViewState extends State<HomeView> {
                                       final a = vm.disposed;
                                       final b = vm.markers;
                                       if (vm.ongoingOrder == null) {
-                                        if (center != vm.lastCenter?.value) {
-                                          if (!vm.blockCamera) {
-                                            vm.lastCenter?.value = center;
-                                            if (!a && b.isEmpty) {
-                                              vm.mapCameraMove(
-                                                "onCameraMove",
-                                                center,
-                                              );
-                                            }
+                                        if (!vm.blockCamera &&
+                                            vm.shouldProcessCameraMove(
+                                              center,
+                                            )) {
+                                          if (!a && b.isEmpty) {
+                                            vm.mapCameraMove(
+                                              "onCameraMove",
+                                              center,
+                                            );
                                           }
                                         }
                                       }
