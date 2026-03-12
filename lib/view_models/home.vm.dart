@@ -109,34 +109,46 @@ class HomeViewModel extends GMapViewModel {
 
   fetchVehicleTypesPricing() async {
     setBusyForObject(vehicleTypes, true);
-    ApiResponse apiResponse = await taxiRequest.locationAvailableRequest(
-      double.parse("${pickupAddress?.latLng.lat}"),
-      double.parse("${pickupAddress?.latLng.lng}"),
-    );
-    if (!apiResponse.allGood && !AuthService.inReviewMode()) {
-      locUnavailable = true;
-      notifyListeners();
-    } else {
-      locUnavailable = false;
-      notifyListeners();
-      vehicleTypes = await taxiRequest.vehicleTypesPricingRequest(
-        pickupAddress!,
-        dropoffAddress!,
+    try {
+      ApiResponse apiResponse = await taxiRequest.locationAvailableRequest(
+        double.parse("${pickupAddress?.latLng.lat}"),
+        double.parse("${pickupAddress?.latLng.lng}"),
       );
-      await changeSelectedVehicle(
-        vehicleTypes.firstWhere(
-          (vehicleType) => vehicleType.slug == "tricycle",
-          orElse: () => vehicleTypes.first,
-        ),
-      );
-      calculateTotalAmount();
+      if (!apiResponse.allGood && !AuthService.inReviewMode()) {
+        locUnavailable = true;
+        notifyListeners();
+      } else {
+        locUnavailable = false;
+        notifyListeners();
+        vehicleTypes = await taxiRequest.vehicleTypesPricingRequest(
+          pickupAddress!,
+          dropoffAddress!,
+        );
+        if (vehicleTypes.isEmpty) {
+          selectedVehicle = null;
+          total = 0;
+          subTotal = 0;
+          discount = 0;
+          notifyListeners();
+          return;
+        }
+        await changeSelectedVehicle(
+          vehicleTypes.firstWhere(
+            (vehicleType) => vehicleType.slug == "tricycle",
+            orElse: () => vehicleTypes.first,
+          ),
+        );
+        calculateTotalAmount();
+      }
+    } finally {
+      setBusyForObject(vehicleTypes, false);
     }
-    setBusyForObject(vehicleTypes, false);
   }
 
   getOngoingOrder({
     bool refresh = false,
     bool showSnack = false,
+    bool forceStop = false,
   }) async {
     setBusyForObject(ongoingOrder, true);
     if (refresh) {
@@ -153,7 +165,7 @@ class HomeViewModel extends GMapViewModel {
           notifyListeners();
         }
         await startHandlingOngoingOrder();
-        await loadUIByOngoingOrderStatus();
+        await loadUIByOngoingOrderStatus(forceStop: forceStop);
         if (rebookSecs == 0 && bookingId != ongoingOrder?.id) {
           rebookSecs = 40;
           startRebookTimer();
@@ -845,7 +857,7 @@ class HomeViewModel extends GMapViewModel {
     );
   }
 
-  loadUIByOngoingOrderStatus() async {
+  loadUIByOngoingOrderStatus({bool forceStop = false}) async {
     if (ongoingOrder != null) {
       if (ongoingOrder?.driver == null) {
         AlertService().showLoading();
@@ -853,7 +865,7 @@ class HomeViewModel extends GMapViewModel {
           const Duration(seconds: 5),
         );
         await getOngoingOrder(showSnack: true);
-        AlertService().stopLoading();
+        AlertService().stopLoading(forceStop: forceStop);
       } else {
         pickupAddress = Address(
           addressLine: ongoingOrder?.taxiOrder?.pickupAddress,

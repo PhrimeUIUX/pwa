@@ -557,7 +557,9 @@ class _HomeViewState extends State<HomeView> {
                                           } else {
                                             AlertService().showLoading();
                                             vm.lastStatus = null;
-                                            await vm.getOngoingOrder();
+                                            await vm.getOngoingOrder(
+                                              forceStop: true,
+                                            );
                                             if (vm.ongoingOrder == null) {
                                               await LoadViewModel()
                                                   .getLoadBalance();
@@ -588,7 +590,9 @@ class _HomeViewState extends State<HomeView> {
                                                 });
                                               }
                                             }
-                                            AlertService().stopLoading();
+                                            AlertService().stopLoading(
+                                              forceStop: true,
+                                            );
                                           }
                                         },
                                       ),
@@ -723,7 +727,10 @@ class _HomeViewState extends State<HomeView> {
                                         right: 16,
                                         child: Center(
                                           child: Container(
-                                            width: (MediaQuery.of(context).size.width - 32)
+                                            width: (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    32)
                                                 .clamp(0, 800),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
@@ -762,7 +769,8 @@ class _HomeViewState extends State<HomeView> {
                                                                   8,
                                                                 ),
                                                               ),
-                                                              border: Border.all(
+                                                              border:
+                                                                  Border.all(
                                                                 color:
                                                                     const Color(
                                                                   0xFF030744,
@@ -805,8 +813,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             15,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -825,8 +832,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             11,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -854,7 +860,8 @@ class _HomeViewState extends State<HomeView> {
                                                                   8,
                                                                 ),
                                                               ),
-                                                              border: Border.all(
+                                                              border:
+                                                                  Border.all(
                                                                 color:
                                                                     const Color(
                                                                   0xFF030744,
@@ -897,8 +904,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             15,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -922,8 +928,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             11,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -953,7 +958,8 @@ class _HomeViewState extends State<HomeView> {
                                                                   8,
                                                                 ),
                                                               ),
-                                                              border: Border.all(
+                                                              border:
+                                                                  Border.all(
                                                                 color:
                                                                     const Color(
                                                                   0xFF030744,
@@ -966,7 +972,8 @@ class _HomeViewState extends State<HomeView> {
                                                                       .center,
                                                               children: [
                                                                 const Icon(
-                                                                  Icons.list_alt,
+                                                                  Icons
+                                                                      .list_alt,
                                                                   size: 32,
                                                                   color: Color(
                                                                     0xFF030744,
@@ -995,8 +1002,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             15,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -1015,8 +1021,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             11,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -1044,7 +1049,8 @@ class _HomeViewState extends State<HomeView> {
                                                                   8,
                                                                 ),
                                                               ),
-                                                              border: Border.all(
+                                                              border:
+                                                                  Border.all(
                                                                 color:
                                                                     const Color(
                                                                   0xFF030744,
@@ -1087,8 +1093,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             15,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,
@@ -1107,8 +1112,7 @@ class _HomeViewState extends State<HomeView> {
                                                                         fontSize:
                                                                             11,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
+                                                                            FontWeight.w500,
                                                                         color:
                                                                             Color(
                                                                           0xFF030744,

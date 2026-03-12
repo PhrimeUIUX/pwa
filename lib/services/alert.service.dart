@@ -340,9 +340,11 @@ class AlertService {
     });
   }
 
-  stopLoading() {
-    if (!isLoadingDialogOpen || Get.isDialogOpen != true) {
-      return;
+  stopLoading({bool forceStop = false}) {
+    if (!forceStop) {
+      if (!isLoadingDialogOpen || Get.isDialogOpen != true) {
+        return;
+      }
     }
     FocusManager.instance.primaryFocus?.unfocus();
     Get.back();
