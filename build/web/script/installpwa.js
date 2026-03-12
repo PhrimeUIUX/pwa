@@ -1,41 +1,102 @@
-let deferredPrompt;
+let deferredPrompt = null;
 const installBtn = document.getElementById("installPwa");
+const manifestLink = document.querySelector('link[rel="manifest"]');
+let isOpenMode = false;
+let manifestUrl = null;
+let appStartUrl = "/";
+let installProblemMessage = "Install is not available yet. Open this page in Chrome and use the browser menu to install.";
 
-// Handle install prompt
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  
-  installBtn.style.display = "block";
-  installBtn.textContent = "Install";
-  
+initializeInstallState();
+
+if (!installBtn) {
+  console.warn("Install button with id 'installPwa' was not found.");
+} else {
   installBtn.onclick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`User response: ${outcome}`);
-      deferredPrompt = null;
-    }
-  };
-});
+    if (isOpenMode) {
+      const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
 
-// Check if app is installed (cross-platform)
-async function checkIfInstalled() {
-  // Chrome/Android: check installed related apps
-  if (navigator.getInstalledRelatedApps) {
-    const relatedApps = await navigator.getInstalledRelatedApps();
-    const found = relatedApps.some(
-      (app) =>
-      app.platform === "webapp" &&
-      app.url.includes("/build/web/manifest.json")
-    );
-    if (found) {
-      setOpenApp();
+      if (isStandalone) {
+        alert("The app is already installed. You can open it from your home screen or app launcher.");
+        return;
+      }
+
+      window.location.href = appStartUrl;
       return;
     }
+
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      return;
+    }
+
+    // Fallback for browsers that don't fire beforeinstallprompt (notably iOS Safari).
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+      alert("To install: tap Share, then 'Add to Home Screen'.");
+      return;
+    }
+
+    alert(installProblemMessage);
+  };
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    installBtn.textContent = "Install";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredPrompt = null;
+    setOpenApp();
+  });
+
+  checkIfInstalled();
+  setInterval(checkIfInstalled, 5000);
+}
+
+async function initializeInstallState() {
+  if (!manifestLink) {
+    installProblemMessage = "Install is unavailable because the app manifest could not be found on this page.";
+    return;
   }
 
-  // Fallback: detect if running as standalone
+  try {
+    manifestUrl = new URL(manifestLink.getAttribute("href"), window.location.href);
+    const response = await fetch(manifestUrl.href, { cache: "no-cache" });
+    if (!response.ok) {
+      installProblemMessage = "Install is unavailable because the app manifest could not be loaded.";
+      return;
+    }
+
+    const manifest = await response.json();
+    if (manifest.start_url) {
+      appStartUrl = new URL(manifest.start_url, manifestUrl.href).href;
+    }
+  } catch (error) {
+    installProblemMessage = "Install is unavailable because the app configuration could not be read.";
+    console.debug("Manifest bootstrap failed:", error);
+  }
+}
+
+async function checkIfInstalled() {
+  try {
+    if (navigator.getInstalledRelatedApps && manifestUrl) {
+      const relatedApps = await navigator.getInstalledRelatedApps();
+      const found = relatedApps.some(
+        (app) => app.platform === "webapp" && app.url === manifestUrl.href
+      );
+      if (found) {
+        setOpenApp();
+        return;
+      }
+    }
+  } catch (error) {
+    console.debug("getInstalledRelatedApps check failed:", error);
+  }
+
   if (
     window.matchMedia("(display-mode: standalone)").matches ||
     window.navigator.standalone === true
@@ -44,20 +105,10 @@ async function checkIfInstalled() {
   }
 }
 
-// Change button to Open App
 function setOpenApp() {
-  installBtn.style.display = "block";
+  isOpenMode = true;
+  installBtn.style.display = "flex";
   installBtn.style.backgroundColor = "#1A73E8";
   installBtn.style.color = "#ffffff";
   installBtn.textContent = "Open App";
-  installBtn.onclick = () => {
-    // Open your PWA's start_url
-    window.location.href = "https://ppc-toda.com/build/web/index.html";
-  };
 }
-
-// Run check every 5s
-setInterval(checkIfInstalled, 100);
-
-// Also check immediately on page load
-checkIfInstalled();
