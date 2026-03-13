@@ -360,7 +360,7 @@ class HomeViewModel extends GMapViewModel {
         } catch (_) {
           availableDriver = null;
         }
-        AlertService().stopLoading();
+        AlertService().stopLoading(forceStop: true);
         if (availableDriver?.driver != null &&
             availableDriver!.kmDistance != 0) {
           if ((availableDriver?.pickupKm ?? 0.0) <
@@ -492,7 +492,7 @@ class HomeViewModel extends GMapViewModel {
       ApiResponse apiResponse = await taxiRequest.placeNewOrderRequest(
         params: params,
       );
-      AlertService().stopLoading();
+      AlertService().stopLoading(forceStop: true);
       if (apiResponse.allGood) {
         cHeaders = null;
         notifyListeners();
@@ -514,7 +514,7 @@ class HomeViewModel extends GMapViewModel {
         );
       }
     } catch (e) {
-      AlertService().stopLoading();
+      AlertService().stopLoading(forceStop: true);
       ScaffoldMessenger.of(Get.context!).clearSnackBars();
       ScaffoldMessenger.of(
         Get.context!,
@@ -589,7 +589,7 @@ class HomeViewModel extends GMapViewModel {
               } catch (_) {
                 availableDriver = null;
               }
-              AlertService().stopLoading();
+              AlertService().stopLoading(forceStop: true);
               if (availableDriver?.driver != null &&
                   availableDriver!.kmDistance != 0) {
                 if ((availableDriver?.pickupKm ?? 0.0) <
@@ -1063,7 +1063,7 @@ class HomeViewModel extends GMapViewModel {
               message: reviewTEC.text,
             );
             reviewTEC.clear();
-            AlertService().stopLoading();
+            AlertService().stopLoading(forceStop: true);
             if (apiResponse.allGood) {
               AlertService().showAppAlert(
                 asset: AppLotties.success,
@@ -1089,7 +1089,7 @@ class HomeViewModel extends GMapViewModel {
           } catch (e) {
             showReport = true;
             notifyListeners();
-            AlertService().stopLoading();
+            AlertService().stopLoading(forceStop: true);
             ScaffoldMessenger.of(Get.context!).clearSnackBars();
             ScaffoldMessenger.of(
               Get.context!,
